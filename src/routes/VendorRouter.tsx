@@ -9,6 +9,8 @@ import VendorLayout from "@/components/layouts/VendorLayout";
 import DashboardPage from "@/pages/admin/DashboardPage";
 import NotFoundPage from "@/components/NotFound";
 import AddGuideForm from "@/components/vendor/addGuide/AddGuideForm";
+import VendorProfilePage from "@/pages/vendor/VendorProfilePage";
+import { VendorPasswordChangePage } from "@/pages/vendor/VendorPasswordChange";
 
 const VendorRouter = () => {
   return (
@@ -20,6 +22,8 @@ const VendorRouter = () => {
         <Route path="/locked" element={ <AuthVendorRoute allowedRoles={["vendor"]} element={<VendorLockedPage />} />} />
        <Route path="/" element={<VendorLayout/>}>
        <Route path="dashboard" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<DashboardPage />}/>}/>
+       <Route path="profile" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorProfilePage/>}/>}/>
+       <Route path="change-password" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorPasswordChangePage/>}/>}/>
        <Route path="guide" element={<AddGuideForm/>}/>
        </Route>
         <Route path="*" element={<NotFoundPage />} /> 

@@ -31,8 +31,8 @@ export const VendorTable = ({ vendors, page, limit, isUpdating, setUserToBlock, 
         <thead>
           <tr className="bg-gray-50/80 border-b border-gray-200">
             <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">#</th>
-            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Agency Details</th>
-            <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Contact</th>
+            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700 ">Agency Details</th>
+            <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Contact</th>
             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700 hidden md:table-cell">Profile</th>
             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Verification</th>
             <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Status</th>

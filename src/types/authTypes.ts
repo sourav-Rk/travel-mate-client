@@ -42,7 +42,13 @@ export interface SignupFormValues {
 
 export interface ResetFormType{
     password : string;
+    confirmPassword ?:string;
     token : string;
+}
+
+export interface PasswordChangeFormType{
+    currentPassword : string;
+    newPassword : string;
 }
 
 

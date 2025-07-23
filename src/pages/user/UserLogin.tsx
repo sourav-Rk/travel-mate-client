@@ -1,11 +1,37 @@
-"use client"
+"use client";
 
-import { Plane, MapPin, Camera, Mountain, Compass, Globe } from "lucide-react"
-import LoginHero from "@/components/common/LoginHero"
-import LoginForm from "@/components/auth/Login"
-
+import { Plane, MapPin, Camera, Mountain, Compass, Globe } from "lucide-react";
+import LoginHero from "@/components/common/LoginHero";
+import LoginForm from "@/components/auth/Login";
+import GoogleAuth from "@/components/auth/GoogleAuth";
+import { useGoogleMutation } from "@/hooks/auth/useGoogle";
+import type { CredentialResponse } from "@react-oauth/google";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { clientLogin } from "@/store/slices/clientSlice";
 
 export default function UserLogin() {
+  const dispatch = useDispatch();
+  const { mutate: googleLogin } = useGoogleMutation();
+
+  const google = (credentialResponse: CredentialResponse) => {
+    googleLogin(
+      {
+        credential: credentialResponse.credential,
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        role: "client",
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(data.message);
+          dispatch(clientLogin(data.user));
+        },
+        onError: (error: any) => {
+          toast.error(error.response.data.message);
+        },
+      }
+    );
+  };
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       {/* Animated Background Elements */}
@@ -17,25 +43,50 @@ export default function UserLogin() {
 
       {/* Floating Travel Icons */}
       <div className="absolute inset-0 pointer-events-none">
-        <Plane className="absolute top-20 left-20 w-8 h-8 text-blue-400/30 animate-bounce delay-300 opacity-0 animate-float-in" style={{animationDelay: '0.5s'}} />
-        <MapPin className="absolute top-40 right-32 w-6 h-6 text-teal-400/30 animate-bounce delay-700 opacity-0 animate-float-in" style={{animationDelay: '0.7s'}} />
-        <Camera className="absolute bottom-40 left-32 w-7 h-7 text-purple-400/30 animate-bounce delay-1000 opacity-0 animate-float-in" style={{animationDelay: '0.9s'}} />
-        <Mountain className="absolute bottom-20 right-20 w-8 h-8 text-green-400/30 animate-bounce delay-500 opacity-0 animate-float-in" style={{animationDelay: '1.1s'}} />
-        <Compass className="absolute top-1/3 left-1/4 w-6 h-6 text-orange-400/30 animate-bounce delay-800 opacity-0 animate-float-in" style={{animationDelay: '1.3s'}} />
-        <Globe className="absolute bottom-1/3 right-1/4 w-7 h-7 text-indigo-400/30 animate-bounce delay-200 opacity-0 animate-float-in" style={{animationDelay: '1.5s'}} />
+        <Plane
+          className="absolute top-20 left-20 w-8 h-8 text-blue-400/30 animate-bounce delay-300 opacity-0 animate-float-in"
+          style={{ animationDelay: "0.5s" }}
+        />
+        <MapPin
+          className="absolute top-40 right-32 w-6 h-6 text-teal-400/30 animate-bounce delay-700 opacity-0 animate-float-in"
+          style={{ animationDelay: "0.7s" }}
+        />
+        <Camera
+          className="absolute bottom-40 left-32 w-7 h-7 text-purple-400/30 animate-bounce delay-1000 opacity-0 animate-float-in"
+          style={{ animationDelay: "0.9s" }}
+        />
+        <Mountain
+          className="absolute bottom-20 right-20 w-8 h-8 text-green-400/30 animate-bounce delay-500 opacity-0 animate-float-in"
+          style={{ animationDelay: "1.1s" }}
+        />
+        <Compass
+          className="absolute top-1/3 left-1/4 w-6 h-6 text-orange-400/30 animate-bounce delay-800 opacity-0 animate-float-in"
+          style={{ animationDelay: "1.3s" }}
+        />
+        <Globe
+          className="absolute bottom-1/3 right-1/4 w-7 h-7 text-indigo-400/30 animate-bounce delay-200 opacity-0 animate-float-in"
+          style={{ animationDelay: "1.5s" }}
+        />
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
           <div className="opacity-0 animate-slide-in-left">
-            <LoginHero userType="client"/>
+            <LoginHero userType="client" />
           </div>
           <div className="opacity-0 animate-slide-in-right">
-            <LoginForm
-              userType="client"
-            />
+            <LoginForm userType="client" />
+
+            <span className="px-2  text-muted-foreground">
+              Or continue with
+            </span>
+
+            <GoogleAuth handleGoogleSuccess={google} />
           </div>
+        </div>
+        <div className="mt-6">
+          <div className="mt-6"></div>
         </div>
       </div>
 
@@ -96,5 +147,5 @@ export default function UserLogin() {
         }
       `}</style>
     </div>
-  )
+  );
 }

@@ -55,18 +55,21 @@ export const getUserDetails = async ({
 export const updateVendorStatus = async ({
   vendorId,
   status,
+  reason
 }: {
   vendorId: string;
   status: string;
+  reason ?: string
 }) => {
   try {
     const response = await adminAxiosInstance.patch(
       "/_ad/admin/vendor-status",
-      {},
+      {vendorId,status,reason},
       {
         params: {
           vendorId,
           status,
+          reason
         },
       }
     );
@@ -97,3 +100,13 @@ export const updateUserStatus = async (data: {
     return error?.response?.data.message || error;
   }
 };
+
+//view the vendor docuements
+export const getVendorKycUrlsForAdmin = async(data : string[]) : Promise<string[]> =>{
+  try{
+    const response = await adminAxiosInstance.post("/_ad/admin/signed-url",{data});
+    return response.data.urls;
+  }catch(error : any){
+    return error?.response?.data.message || error;
+  }
+}

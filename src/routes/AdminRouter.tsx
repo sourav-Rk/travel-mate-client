@@ -1,4 +1,5 @@
-import VendorView from "@/components/admin/VendorView"
+
+import VendorView from "@/components/admin/vendor view/VendorView"
 import AdminLayout from "@/components/layouts/AdminLayout"
 import NotFoundPage from "@/components/NotFound"
 import AdminLogin from "@/pages/admin/AdminLogin"

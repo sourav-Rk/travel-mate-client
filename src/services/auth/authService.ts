@@ -3,7 +3,7 @@ import { authAxiosInstance } from "@/api/auth.axios";
 import { clientAxiosInstance } from "@/api/client.axios";
 import { guideAxiosInstance } from "@/api/guide.axios";
 import { vendorAxiosInstance } from "@/api/vendor.axios";
-import type { OtpVerifyType, ResendOtptType } from "@/types/authTypes";
+import type { OtpVerifyType, ResendOtptType, ResetFormType } from "@/types/authTypes";
 import type { UserDto } from "@/types/User";
 import type { UserRole } from "@/types/UserRole";
 
@@ -85,6 +85,19 @@ export const loginApi = async (data: LoginType): Promise<AuthResponse> => {
   }
 };
 
+//------forgot password send email api-------------
+export const forgotPasswordSendMail = async(email : string) =>{
+  const response = await authAxiosInstance.post('/forgot-password/mail',{email});
+  return response.data;
+}
+
+
+//------forgot password reset api----------------
+export const forgotPasswordReset = async(data : ResetFormType) =>{
+        const response = await authAxiosInstance.post("/forgot-password/reset",data);
+        return response.data;
+}
+
 //logout api
 export const logoutClient = async (): Promise<AxiosResponse> => {
   try {
@@ -94,6 +107,7 @@ export const logoutClient = async (): Promise<AxiosResponse> => {
     return error?.response?.data.message || error;
   }
 };
+
 
 export const logoutAdmin = async (): Promise<AxiosResponse> => {
   try {

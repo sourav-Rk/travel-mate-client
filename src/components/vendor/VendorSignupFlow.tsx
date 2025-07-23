@@ -77,7 +77,7 @@ export default function VendorSignupFlow() {
         pan : data.pan,
         gstin : data.gstin,
         registrationNumber : data.registrationNumber,
-        documents : urls.map((img) => img.url),
+        documents : urls.map((img) => img.public_id),
       }
 
       const statusPayload : StatusPayload = {

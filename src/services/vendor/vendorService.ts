@@ -1,10 +1,50 @@
 import { vendorAxiosInstance } from "@/api/vendor.axios";
 import type { AddressType } from "@/types/addressType";
 import type { KYCRequestPayload } from "@/types/kycType";
-import type { StatusPayload } from "@/types/authTypes";
+import type { PasswordChangeFormType, StatusPayload } from "@/types/authTypes";
 import type { AxiosResponse } from "../auth/authService";
 import type { UserDto } from "@/types/User";
 
+
+
+export interface Vendor {
+ _id: string
+  firstName: string
+  lastName : string
+  email: string
+  phone: string
+  agencyName: string
+  description: string
+  profileImage: string
+  status: "pending" | "verified" | "rejected" |"reviewing"
+  address: {
+    street: string
+    city: string
+    state: string
+    pincode: string
+    country: string
+  }
+  kycDetails: {
+    pan: string
+    gstin: string
+    registrationNumber: string
+    documents: string[]
+  }
+}
+
+
+
+//---------vendor details api---------
+export const getVendorProfile = async () =>{
+  try{
+    const response = await vendorAxiosInstance.get("/_ve/vendor/details");
+    return response.data;
+  }catch(error : any){
+     return error?.response?.data.message || error;
+  }
+}
+
+//--------vendor details api call for status--------------
 export const getVendorDetails = async () => {
   try {
     const response = await vendorAxiosInstance.get("/_ve/vendor/profile");
@@ -47,6 +87,12 @@ export const addGuide = async (data: UserDto) => {
   }
 };
 
+//------------udpate password api------------
+export const updateVendorPassword = async(data : PasswordChangeFormType) =>{
+  const response = await vendorAxiosInstance.put("/_ve/vendor/update-password",data);
+  return response.data;
+}
+
 //-------update vendor status api------------
 export const updateVendorStatus = async (
   data: StatusPayload
@@ -61,6 +107,17 @@ export const updateVendorStatus = async (
     return error?.response?.data.message || error;
   }
 };
+
+
+//view the vendor docuements
+export const getVendorKycUrls = async(data : string[]) : Promise<string[]> =>{
+  try{
+    const response = await vendorAxiosInstance.post("/_ve/vendor/signed-url",{data});
+    return response.data.urls;
+  }catch(error : any){
+    return error?.response?.data.message || error;
+  }
+}
 
 //--------- upload images -------------
 

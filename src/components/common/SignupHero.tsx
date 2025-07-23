@@ -1,10 +1,13 @@
 "use client";
 
+import { useNavigate } from "react-router-dom";
+
 export default function SignupHero() {
+  const navigate = useNavigate();
   return (
     <div className="hidden lg:block space-y-6">
       <div className="space-y-4">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 bg-clip-text text-transparent">
+        <h1 onClick={() => navigate("/")} className="cursor-pointer text-5xl font-bold bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 bg-clip-text text-transparent">
           Travel Mate
         </h1>
         <p className="text-xl text-gray-600 leading-relaxed">
