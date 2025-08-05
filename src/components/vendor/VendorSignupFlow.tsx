@@ -61,7 +61,6 @@ export default function VendorSignupFlow() {
   }
 
   const handleRegistrationComplete = async (data: KYCData) => {
-    console.log("triggerd");
     if(!addressData) return;
     setKYCData(data);
     setIsUpdating(true);

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useGetSignedUrlsMutation } from "@/hooks/common/useSignedUrls";
@@ -8,9 +7,9 @@ import {
   User,
   Mail,
   Phone,
+  Edit3,
   Building2,
   FileText,
-  Edit3,
   KeyRound,
   CheckCircle,
   Clock,
@@ -50,8 +49,10 @@ export function VendorProfile() {
       setVendor(data.vendor);
 
       if(data?.vendor?.kycDetails.documents?.length > 0){
-        await getUrls(data?.vendor?.kycDetails?.documents)
+         getUrls(data?.vendor?.kycDetails?.documents)
       }
+
+
     };
     fetchUrlsAndSetVendor()
   }, [data]);
@@ -74,6 +75,25 @@ export function VendorProfile() {
       });
 
   };
+
+  
+const getProfileImageUrl = async (key: string) => {
+  if (!key) return;
+  console.log("fetching profile image signed url", key);
+
+  getSignedUrls([key], {
+    onSuccess: (data) => {
+      if (data && data.length > 0) {
+        setVendor((prev) =>
+          prev ? { ...prev, profileImage: data[0] } : prev
+        );
+      }
+    },
+    onError: (err) => {
+      console.error("error fetching profile image url", err);
+    },
+  });
+};
 
   // Calculate profile completion
   const calculateCompletion = () => {
@@ -112,9 +132,9 @@ export function VendorProfile() {
   const completionPercentage = calculateCompletion()
   const isProfileComplete = completionPercentage === 100
 
-  // const handleEditProfile = () => {
-  //   navigate("/vendor/profile/edit")
-  // }
+  const handleEditProfile = () => {
+    navigate("/vendor/profile/edit")
+  }
 
   const handleResetPassword = () => {
      navigate("/vendor/change-password")
@@ -266,18 +286,25 @@ export function VendorProfile() {
             <CardHeader className="pb-6">
               <div className="flex flex-col lg:flex-row items-center gap-6">
                 {/* Profile Image */}
-                <div className="relative">
-                  <Avatar className="h-24 w-24 md:h-32 md:w-32 ring-4 ring-white shadow-lg">
-                    <AvatarImage src={vendor?.profileImage || "/placeholder.svg"} alt="Vendor Profile" />
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-xl md:text-2xl font-bold">
-                      {vendor?.firstName[0]}
-                      {vendor?.lastName[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="absolute -bottom-2 -right-2 bg-slate-100 rounded-full p-2 shadow-md">
-                    <Camera className="h-4 w-4 text-slate-600" />
-                  </div>
-                </div>
+               <div className="relative">
+              <div className="h-24 w-24 md:h-32 md:w-32 ring-4 ring-white shadow-lg rounded-full overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                {vendor?.profileImage ? (
+                  <img 
+                    src={vendor.profileImage} 
+                    alt="Vendor Profile" 
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <span className="text-white text-xl md:text-2xl font-bold">
+                    {vendor?.firstName?.[0]}
+                    {vendor?.lastName?.[0]}
+                  </span>
+                )}
+              </div>
+              <div className="absolute -bottom-2 -right-2 bg-slate-100 rounded-full p-2 shadow-md">
+                {/* <Camera className="h-4 w-4 text-slate-600" /> */}
+              </div>
+            </div>
 
                 {/* Basic Info */}
                 <div className="text-center lg:text-left flex-1">
@@ -496,14 +523,14 @@ export function VendorProfile() {
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                {/* <Button
+                <Button
                   onClick={handleEditProfile}
                   className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
                   size="lg"
                 >
                   <Edit3 className="h-4 w-4 mr-2" />
                   Edit Profile
-                </Button> */}
+                </Button>
                 <Button
                   onClick={handleResetPassword}
                   variant="outline"

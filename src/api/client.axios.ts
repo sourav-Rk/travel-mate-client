@@ -46,7 +46,7 @@ clientAxiosInstance.interceptors.response.use(
     ) {
       localStorage.removeItem("clientSession");
       window.location.href = "/";
-      toast.error("Please login again");
+      toast.error(error.response.data.message);
       return Promise.reject(error);
     }
     return Promise.reject(error);

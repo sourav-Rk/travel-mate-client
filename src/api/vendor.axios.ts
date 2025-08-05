@@ -42,7 +42,7 @@ vendorAxiosInstance.interceptors.response.use(
         error.response.data.message === "Token is blacklisted") ||
       (error.response.status === 403 &&
         error.response.data.message ===
-          "Access denied: Your account has been blocked" &&
+          "Your account has been blocked." &&
         !originalRequest._retry)
     ) {
       localStorage.removeItem("vendorSession");

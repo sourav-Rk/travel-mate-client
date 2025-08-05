@@ -7,7 +7,7 @@ import LoginForm from "@/components/auth/Login"
 
 export default function AdminLogin() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#141E30] to-[#243B55] flex items-center justify-center">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden animate-fade-in">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse"></div>

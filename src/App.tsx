@@ -1,5 +1,4 @@
 import { Toaster } from "react-hot-toast";
-import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import UnauthorizedPage from "./components/UnAuthorizedPage";
 import ClientRouter from "./routes/ClientRouter";

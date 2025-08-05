@@ -3,7 +3,7 @@ import type { AddressType } from "@/types/addressType";
 import type { KYCRequestPayload } from "@/types/kycType";
 import type { PasswordChangeFormType, StatusPayload } from "@/types/authTypes";
 import type { AxiosResponse } from "../auth/authService";
-import type { UserDto } from "@/types/User";
+import type { IVendor, UserDto } from "@/types/User";
 
 
 
@@ -32,7 +32,17 @@ export interface Vendor {
   }
 }
 
+//---------change email otp send-------------
+export const vendorSendEmailOtp = async (email : string) : Promise<AxiosResponse> =>{
+    const response = await vendorAxiosInstance.post("/_ve/vendor/change-email",{email});
+    return response.data
+}
 
+//--------resend otp----------
+export const vendorResendOtp = async (email : string) : Promise<AxiosResponse> =>{
+  const response = await vendorAxiosInstance.post("/_ve/vendor/resent-otp",{email});
+  return response.data
+}
 
 //---------vendor details api---------
 export const getVendorProfile = async () =>{
@@ -54,6 +64,12 @@ export const getVendorDetails = async () => {
   }
 };
 
+//----------update vendor details api-----------
+export const updateVendorDetails = async (data : Partial<IVendor>) =>{
+   const response = await vendorAxiosInstance.put("/_ve/vendor/details",data);
+   return response.data;
+}
+
 //--------add adress api------------
 export const addVendorAddress = async (address: AddressType) => {
   try {
@@ -66,6 +82,12 @@ export const addVendorAddress = async (address: AddressType) => {
     return error?.response.data.message || error;
   }
 };
+
+//-------update address api---------------
+export const updateVendorAddress = async (address : AddressType) =>{
+    const response = await vendorAxiosInstance.put("/_ve/vendor/address",address);
+    return response.data;
+}
 
 //----------add kyc api----------------
 export const addVendorKyc = async (kyc: KYCRequestPayload) => {

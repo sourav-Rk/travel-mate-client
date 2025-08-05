@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff,  Plane, Shield, Store, MapPin } from "lucide-react";
+import { Eye, EyeOff, Plane, Shield, Store, MapPin } from "lucide-react";
 import toast from "react-hot-toast";
 import { loginSchema } from "@/utils/login.validator";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,6 @@ export default function LoginForm({ userType }: LoginProps) {
   const dispatch = useDispatch();
   const { mutate: login } = useLoginMutation();
 
-  // Conditional styling based on userType
   const getThemeConfig = () => {
     switch (userType) {
       case "client":
@@ -42,7 +41,7 @@ export default function LoginForm({ userType }: LoginProps) {
           icon: Plane,
           cardBg: "bg-gradient-to-br from-blue-50/90 to-teal-50/90",
           iconBg: "bg-gradient-to-br from-blue-500 to-teal-500",
-          accent: "text-blue-600 hover:text-blue-800"
+          accent: "text-blue-600 hover:text-blue-800",
         };
       case "vendor":
         return {
@@ -51,17 +50,18 @@ export default function LoginForm({ userType }: LoginProps) {
           icon: Store,
           cardBg: "bg-gradient-to-br from-purple-50/90 to-pink-50/90",
           iconBg: "bg-gradient-to-br from-purple-500 to-pink-500",
-          accent: "text-purple-600 hover:text-purple-800"
+          accent: "text-purple-600 hover:text-purple-800",
         };
-      case "admin":
-        return {
-          gradient: "from-red-500 to-orange-500",
-          hoverGradient: "from-red-600 to-orange-600",
-          icon: Shield,
-          cardBg: "bg-gradient-to-br from-red-50/90 to-orange-50/90",
-          iconBg: "bg-gradient-to-br from-red-500 to-orange-500",
-          accent: "text-red-600 hover:text-red-800"
-        };
+case "admin":
+  return {
+    gradient: "from-[#FFD700] to-[#F5C518]", // Gold gradient
+    hoverGradient: "from-[#F5C518] to-[#FFD700]",
+    icon: Shield,
+    cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90", // Midnight Blue background
+    iconBg: "bg-gradient-to-br from-[#FFD700] to-[#F5C518]",
+    descriptionTextColor : "text-white",
+    accent: "text-yellow-400 hover:text-yellow-500",
+  };
       case "guide":
         return {
           gradient: "from-green-500 to-emerald-500",
@@ -69,7 +69,7 @@ export default function LoginForm({ userType }: LoginProps) {
           icon: MapPin,
           cardBg: "bg-gradient-to-br from-green-50/90 to-emerald-50/90",
           iconBg: "bg-gradient-to-br from-green-500 to-emerald-500",
-          accent: "text-green-600 hover:text-green-800"
+          accent: "text-green-600 hover:text-green-800",
         };
       default:
         return {
@@ -78,7 +78,7 @@ export default function LoginForm({ userType }: LoginProps) {
           icon: Plane,
           cardBg: "bg-gradient-to-br from-blue-50/90 to-teal-50/90",
           iconBg: "bg-gradient-to-br from-blue-500 to-teal-500",
-          accent: "text-blue-600 hover:text-blue-800"
+          accent: "text-blue-600 hover:text-blue-800",
         };
     }
   };
@@ -109,10 +109,6 @@ export default function LoginForm({ userType }: LoginProps) {
     navigate("/forgot-password/sendmail");
   };
 
-  // const handleGoogleAuth = () => {
-  //   toast.success("Google authentication initiated");
-  // };
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -130,13 +126,18 @@ export default function LoginForm({ userType }: LoginProps) {
   return (
     <Card className={`backdrop-blur-sm ${theme.cardBg} border-0 shadow-2xl transition-all duration-300`}>
       <CardHeader className="text-center space-y-2">
-        <div className={`mx-auto w-16 h-16 ${theme.iconBg} rounded-full flex items-center justify-center mb-4 shadow-lg`}>
-          <IconComponent className="w-8 h-8 text-white" />
+        {/* TravelMate Logo */}
+        <div className="flex justify-center">
+          <img src="/Travel_Mate_Logo.png" className="w-25 h-auto" alt="TravelMate Logo" />
         </div>
+
+        {/* Role-specific Icon */}
+        
+
         <CardTitle className="text-2xl font-bold text-gray-800">
           Welcome Back
         </CardTitle>
-        <CardDescription className="text-gray-600">
+        <CardDescription className={theme.descriptionTextColor}>
           Sign in to continue your journey with Travel Mate as {userType}
         </CardDescription>
       </CardHeader>
@@ -207,33 +208,20 @@ export default function LoginForm({ userType }: LoginProps) {
 
         <Separator className="my-6" />
 
-        {/* {userType === "client" && (
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full border-gray-300 hover:bg-gray-50 bg-transparent transition-all duration-200"
-            onClick={handleGoogleAuth}
-          >
-            <Mail className="w-4 h-4 mr-2" />
-            Continue with Google
-          </Button>
-        )} */}
-
-        {userType === "client" ||
-          (userType === "vendor" && (
-            <div className="text-center pt-4">
-              <p className="text-sm text-gray-600">
-                Don&apos;t have an account?{" "}
-                <button
-                  type="button"
-                  className={`${theme.accent} hover:underline font-medium cursor-pointer transition-colors`}
-                  onClick={() => navigate("/signup")}
-                >
-                  Sign up
-                </button>
-              </p>
-            </div>
-          ))}
+        {(userType === "client" || userType === "vendor") && (
+          <div className="text-center pt-4">
+            <p className="text-sm text-gray-600">
+              Don&apos;t have an account?{" "}
+              <button
+                type="button"
+                className={`${theme.accent} hover:underline font-medium cursor-pointer transition-colors`}
+                onClick={() => navigate("/signup")}
+              >
+                Sign up
+              </button>
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

@@ -11,6 +11,7 @@ import NotFoundPage from "@/components/NotFound";
 import AddGuideForm from "@/components/vendor/addGuide/AddGuideForm";
 import VendorProfilePage from "@/pages/vendor/VendorProfilePage";
 import { VendorPasswordChangePage } from "@/pages/vendor/VendorPasswordChange";
+import VendorProfileEditPage from "@/pages/vendor/VendorProfileEditPage";
 
 const VendorRouter = () => {
   return (
@@ -23,6 +24,7 @@ const VendorRouter = () => {
        <Route path="/" element={<VendorLayout/>}>
        <Route path="dashboard" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<DashboardPage />}/>}/>
        <Route path="profile" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorProfilePage/>}/>}/>
+       <Route path="profile/edit" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorProfileEditPage/>}/>}/>
        <Route path="change-password" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorPasswordChangePage/>}/>}/>
        <Route path="guide" element={<AddGuideForm/>}/>
        </Route>
