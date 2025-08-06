@@ -54,14 +54,16 @@ export default function LoginForm({ userType }: LoginProps) {
         };
 case "admin":
   return {
-    gradient: "from-[#FFD700] to-[#F5C518]", // Gold gradient
+    gradient: "from-[#FFD700] to-[#F5C518]",
     hoverGradient: "from-[#F5C518] to-[#FFD700]",
     icon: Shield,
-    cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90", // Midnight Blue background
+    cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90",
     iconBg: "bg-gradient-to-br from-[#FFD700] to-[#F5C518]",
-    descriptionTextColor : "text-white",
+    descriptionTextColor: "text-white",
+    inputTextColor: "text-white",
     accent: "text-yellow-400 hover:text-yellow-500",
   };
+
       case "guide":
         return {
           gradient: "from-green-500 to-emerald-500",
@@ -84,7 +86,7 @@ case "admin":
   };
 
   const theme = getThemeConfig();
-  const IconComponent = theme.icon;
+
 
   const handleSubmit = (values: LoginType) => {
     const payloadWithRole = { ...values, role: userType };
@@ -152,7 +154,7 @@ case "admin":
               placeholder="Enter your email"
               {...formik.getFieldProps("email")}
               required
-              className="transition-all duration-200 focus:ring-2 focus:ring-opacity-50"
+              className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${theme.inputTextColor || ""}`}
             />
             {formik.errors.email && formik.touched.email && (
               <p className="text-sm text-red-500">{formik.errors.email}</p>
@@ -168,7 +170,7 @@ case "admin":
                 placeholder="Enter your password"
                 {...formik.getFieldProps("password")}
                 required
-                className="transition-all duration-200 focus:ring-2 focus:ring-opacity-50"
+                className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${theme.inputTextColor || ""}`}
               />
               <button
                 type="button"
