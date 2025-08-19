@@ -1,31 +1,44 @@
-"use client"
+"use client";
 
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import type { FormikProps } from "formik"
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import type { FormikProps } from "formik";
 
 interface ProfessionalInfoStepProps {
-  formik: FormikProps<any>
+  formik: FormikProps<any>;
 }
 
 export function ProfessionalInfoStep({ formik }: ProfessionalInfoStepProps) {
   return (
     <div className="grid gap-6">
       <div className="space-y-2">
-        <Label htmlFor="yearOfExperience" className="text-sm font-medium text-gray-700">
+        <Label
+          htmlFor="yearOfExperience"
+          className="text-sm font-medium text-gray-700"
+        >
           Years of Experience
         </Label>
         <Select
           value={formik.values.yearOfExperience}
           onValueChange={(value) => {
-            formik.setFieldValue("yearOfExperience", value)
-            formik.setFieldTouched("yearOfExperience", true, false)
+            formik.setFieldValue("yearOfExperience", value);
+            formik.setFieldTouched("yearOfExperience", true, false);
           }}
         >
           <SelectTrigger
             id="yearOfExperience"
-            className={formik.touched.yearOfExperience && formik.errors.yearOfExperience ? "border-red-500" : ""}
+            className={
+              formik.touched.yearOfExperience && formik.errors.yearOfExperience
+                ? "border-red-500"
+                : ""
+            }
           >
             <SelectValue placeholder="Select years of experience" />
           </SelectTrigger>
@@ -37,12 +50,18 @@ export function ProfessionalInfoStep({ formik }: ProfessionalInfoStepProps) {
             <SelectItem value="10+">10+ Years</SelectItem>
           </SelectContent>
         </Select>
-        {formik.touched.yearOfExperience && formik.errors.yearOfExperience && (
-          <p className="text-red-500 text-xs mt-1">{formik?.errors.yearOfExperience}</p>
-        )}
+        {formik.touched.yearOfExperience &&
+          typeof formik.errors.yearOfExperience === "string" && (
+            <p className="text-red-500 text-xs mt-1">
+              {formik.errors.yearOfExperience}
+            </p>
+          )}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="languageSpoken" className="text-sm font-medium text-gray-700">
+        <Label
+          htmlFor="languageSpoken"
+          className="text-sm font-medium text-gray-700"
+        >
           Languages Spoken (comma-separated)
         </Label>
         <Input
@@ -56,19 +75,26 @@ export function ProfessionalInfoStep({ formik }: ProfessionalInfoStepProps) {
               e.target.value
                 .split(",")
                 .map((lang: string) => lang.trim())
-                .filter(Boolean),
-            )
+                .filter(Boolean)
+            );
           }}
           onBlur={formik.handleBlur}
-          className={formik.touched.languageSpoken && formik.errors.languageSpoken ? "border-red-500" : ""}
+          className={
+            formik.touched.languageSpoken && formik.errors.languageSpoken
+              ? "border-red-500"
+              : ""
+          }
         />
         <p className="text-sm text-muted-foreground">
           Enter languages separated by commas (e.g., English, Spanish, French).
         </p>
-        {formik.touched.languageSpoken && formik.errors.languageSpoken && (
-          <p className="text-red-500 text-xs mt-1">{formik.errors.languageSpoken}</p>
-        )}
+        {formik.touched.languageSpoken &&
+          typeof formik.errors.languageSpoken === "string" && (
+            <p className="text-red-500 text-xs mt-1">
+              {formik.errors.languageSpoken}
+            </p>
+          )}
       </div>
     </div>
-  )
+  );
 }

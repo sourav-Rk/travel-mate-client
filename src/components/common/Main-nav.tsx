@@ -96,7 +96,7 @@ export default function MainNav() {
             variant="ghost"
             className="text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            <Link to="/guide">Guide Login</Link>
+            <Link to="/guide/login">Guide Login</Link>
           </Button>
         </motion.div>
       </div>

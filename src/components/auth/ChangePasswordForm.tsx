@@ -1,5 +1,4 @@
 "use client"
-
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -23,31 +22,34 @@ const passwordSchema = Yup.object().shape({
   confirmNewPassword: Yup.string()
     .oneOf([Yup.ref("newPassword")], "Passwords must match")
     .required("Confirm new password is required"),
-});
+})
 
-type Props = {role : "client" | "vendor";}
+type Props = {
+  role: "client" | "vendor" | "guide";
+}
 
-export function ChangePasswordForm({role} : Props) {
-  const navigate = useNavigate();
-  
-  const {mutate : updatePassword,isPending} = useChangePasswordMutation(role);
+export function ChangePasswordForm({ role }: Props) {
+  const navigate = useNavigate()
+  const { mutate: updatePassword, isPending } = useChangePasswordMutation(role)
 
   const formik = useFormik({
     initialValues: { currentPassword: "", newPassword: "", confirmNewPassword: "" },
     validationSchema: passwordSchema,
     onSubmit: async (values) => {
-      updatePassword({currentPassword : values.currentPassword,newPassword : values.newPassword},{
-        onSuccess :(data) =>{
-          toast.success(data.message);
-          navigate(-1);
+      updatePassword(
+        { currentPassword: values.currentPassword, newPassword: values.newPassword },
+        {
+          onSuccess: (data) => {
+            toast.success(data.message)
+            navigate(-1)
+          },
+          onError: (error: any) => {
+            toast.error(error?.response?.data.message || "Failed to update the password")
+          },
         },
-        onError :(error : any) => {
-          toast.error(error?.response?.data.message || "Failed to update the password")
-        }
-      })
+      )
     },
   })
-
 
   const getPasswordStrength = (password: string) => {
     let strength = 0
@@ -59,26 +61,22 @@ export function ChangePasswordForm({role} : Props) {
     return strength
   }
 
-  const renderPasswordField = (
-    name: keyof typeof formik.values,
-    label: string,
-    placeholder: string,
-  ) => (
+  const renderPasswordField = (name: keyof typeof formik.values, label: string, placeholder: string) => (
     <div className="space-y-2">
-      <Label htmlFor={name} className="text-sm font-medium text-slate-700">
+      <Label htmlFor={name} className="text-sm font-medium text-gray-700">
         {label} *
       </Label>
       <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <Input
           id={name}
           name={name}
-          type= "password"
+          type="password"
           placeholder={placeholder}
           value={formik.values[name]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className={`pl-10 pr-12 bg-white border-slate-300 focus:border-blue-500 focus:ring-blue-500 ${
+          className={`pl-10 pr-12 bg-white border-gray-300 focus-visible:border-cyan-500 focus-visible:ring-cyan-500/50 ${
             formik.touched[name] && formik.errors[name] ? "border-red-500" : ""
           }`}
           disabled={isPending}
@@ -94,57 +92,74 @@ export function ChangePasswordForm({role} : Props) {
   )
 
   const passwordStrength = getPasswordStrength(formik.values.newPassword)
-  const strengthColors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"]
+  const strengthColors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-cyan-500", "bg-teal-500"] // Updated colors
   const strengthLabels = ["Very Weak", "Weak", "Fair", "Good", "Strong"]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 sm:p-6 lg:p-8">
-      <div className="mx-auto max-w-md sm:max-w-lg lg:max-w-2xl space-y-6">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6">
+      {" "}
+      {/* Changed background to solid gray-50 */}
+      <div className="mx-auto max-w-lg space-y-6">
+        {" "}
+        {/* Adjusted max-width for sidebar fit */}
         {/* Header */}
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="hover:bg-white/50">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+            className="text-gray-600 hover:bg-gray-100 hover:text-gray-700"
+          >
+            {" "}
+            {/* Adjusted button style */}
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div className="flex-1">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold text-cyan-700">
+              {" "}
+              {/* Changed to solid cyan-700 */}
               Change Password
             </h1>
-            <p className="text-slate-600 text-sm sm:text-base">Update your account password for better security</p>
+            <p className="text-gray-600 text-sm sm:text-base">Update your account password for better security</p>
           </div>
         </div>
-
         {/* Main Form Card */}
-        <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-          <CardHeader className="text-center space-y-2 pb-6">
-            <div className="mx-auto bg-blue-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-2">
-              <Shield className="h-6 w-6 text-blue-600" />
+        <Card className="border border-gray-100 shadow-xl w-2xl bg-white/90 backdrop-blur-sm rounded-xl">
+          {" "}
+          {/* Added border and rounded-xl */}
+          <CardHeader className="text-center space-y-2 pb-6 pt-8">
+            {" "}
+            {/* Adjusted padding */}
+            <div className="mx-auto bg-cyan-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-2">
+              {" "}
+              {/* Changed to cyan-100 */}
+              <Shield className="h-6 w-6 text-cyan-700" /> {/* Changed to cyan-700 */}
             </div>
-            <CardTitle className="text-xl sm:text-2xl font-bold text-slate-900">Security Settings</CardTitle>
-            <p className="text-slate-600 text-sm sm:text-base">
+            <CardTitle className="text-xl sm:text-2xl font-bold text-cyan-800">Security Settings</CardTitle>{" "}
+            {/* Changed to cyan-800 */}
+            <p className="text-gray-600 text-sm sm:text-base">
               Enter your current password and choose a new secure password
             </p>
           </CardHeader>
-
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 p-6 sm:p-8">
+            {" "}
+            {/* Adjusted padding */}
             <form onSubmit={formik.handleSubmit} className="space-y-6">
               {/* Current Password */}
               {renderPasswordField("currentPassword", "Current Password", "Enter your current password")}
-
               {/* Divider */}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200" />
+                  <div className="w-full border-t border-gray-200" /> {/* Changed to gray-200 */}
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-slate-500">New Password</span>
+                  <span className="px-2 bg-white text-gray-500">New Password</span> {/* Changed to gray-500 */}
                 </div>
               </div>
-
               {/* New Password */}
               <div className="space-y-2">
                 {renderPasswordField("newPassword", "New Password", "Enter your new password")}
-
                 {/* Password Strength Indicator */}
                 {formik.values.newPassword && (
                   <div className="space-y-2">
@@ -153,27 +168,23 @@ export function ChangePasswordForm({role} : Props) {
                         <div
                           key={level}
                           className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${
-                            level <= passwordStrength ? strengthColors[passwordStrength - 1] : "bg-slate-200"
+                            level <= passwordStrength ? strengthColors[passwordStrength - 1] : "bg-gray-200" // Changed to gray-200
                           }`}
                         />
                       ))}
                     </div>
-                    <p className="text-xs text-slate-600">
+                    <p className="text-xs text-gray-600">
+                      {" "}
+                      {/* Changed to gray-600 */}
                       Strength:{" "}
                       <span className="font-medium">{strengthLabels[passwordStrength - 1] || "Very Weak"}</span>
                     </p>
                   </div>
                 )}
               </div>
-
               {/* Confirm New Password */}
               <div className="space-y-2">
-                {renderPasswordField(
-                  "confirmNewPassword",
-                  "Confirm New Password",
-                  "Confirm your new password",
-                )}
-
+                {renderPasswordField("confirmNewPassword", "Confirm New Password", "Confirm your new password")}
                 {/* Match Indicator */}
                 {formik.values.confirmNewPassword &&
                   formik.values.newPassword === formik.values.confirmNewPassword &&
@@ -184,13 +195,12 @@ export function ChangePasswordForm({role} : Props) {
                     </div>
                   )}
               </div>
-
               {/* Submit Button */}
               <div className="pt-4">
                 <Button
                   type="submit"
                   disabled={isPending || !formik.isValid || !formik.dirty}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="w-full bg-[#2CA4BC] hover:bg-cyan-700 text-white shadow-lg hover:shadow-xl transition-all duration-200" // Changed to solid color
                   size="lg"
                 >
                   {isPending ? (
@@ -207,10 +217,12 @@ export function ChangePasswordForm({role} : Props) {
                 </Button>
               </div>
             </form>
-
             {/* Footer */}
-            <div className="text-center border-t border-slate-200 pt-4">
-              <p className="text-sm text-slate-500">Make sure your new password is strong and unique</p>
+            <div className="text-center border-t border-gray-200 pt-4">
+              {" "}
+              {/* Changed to gray-200 */}
+              <p className="text-sm text-gray-500">Make sure your new password is strong and unique</p>{" "}
+              {/* Changed to gray-500 */}
             </div>
           </CardContent>
         </Card>

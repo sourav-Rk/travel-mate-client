@@ -43,36 +43,36 @@ export default function LoginForm({ userType }: LoginProps) {
           iconBg: "bg-gradient-to-br from-blue-500 to-teal-500",
           accent: "text-blue-600 hover:text-blue-800",
         };
-      case "vendor":
+       case "vendor":
         return {
-          gradient: "from-purple-500 to-pink-500",
-          hoverGradient: "from-purple-600 to-pink-600",
+          gradient: "bg-[#2CA4BC]", 
+          hoverGradient: "bg-cyan-700", 
           icon: Store,
-          cardBg: "bg-gradient-to-br from-purple-50/90 to-pink-50/90",
-          iconBg: "bg-gradient-to-br from-purple-500 to-pink-500",
-          accent: "text-purple-600 hover:text-purple-800",
-        };
-case "admin":
-  return {
-    gradient: "from-[#FFD700] to-[#F5C518]",
-    hoverGradient: "from-[#F5C518] to-[#FFD700]",
-    icon: Shield,
-    cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90",
-    iconBg: "bg-gradient-to-br from-[#FFD700] to-[#F5C518]",
-    descriptionTextColor: "text-white",
-    inputTextColor: "text-white",
-    accent: "text-yellow-400 hover:text-yellow-500",
-  };
-
-      case "guide":
+          cardBg: "bg-white/90",
+          iconBg: "bg-[#2CA4BC]",
+          accent: "text-cyan-700 hover:text-cyan-800",
+        }
+      case "admin":
         return {
-          gradient: "from-green-500 to-emerald-500",
-          hoverGradient: "from-green-600 to-emerald-600",
-          icon: MapPin,
-          cardBg: "bg-gradient-to-br from-green-50/90 to-emerald-50/90",
-          iconBg: "bg-gradient-to-br from-green-500 to-emerald-500",
-          accent: "text-green-600 hover:text-green-800",
+          gradient: "from-[#FFD700] to-[#F5C518]",
+          hoverGradient: "from-[#F5C518] to-[#FFD700]",
+          icon: Shield,
+          cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90",
+          iconBg: "bg-gradient-to-br from-[#FFD700] to-[#F5C518]",
+          descriptionTextColor: "text-white",
+          inputTextColor: "text-white",
+          accent: "text-yellow-400 hover:text-yellow-500",
         };
+
+       case "guide":
+        return {
+          gradient: "from-cyan-500 to-teal-100", // Matching #2CA4BC with gradient
+          hoverGradient: "from-cyan-600 to-teal-600", // Matching #2CA4BC with gradient
+          icon: MapPin,
+          cardBg: "bg-gradient-to-br from-cyan-50/90 to-teal-50/90", // Matching #2CA4BC with gradient
+          iconBg: "bg-gradient-to-br from-cyan-500 to-teal-500", // Matching #2CA4BC with gradient
+          accent: "text-cyan-600 hover:text-cyan-800", // Matching #2CA4BC
+        }
       default:
         return {
           gradient: "from-blue-500 to-teal-500",
@@ -87,7 +87,6 @@ case "admin":
 
   const theme = getThemeConfig();
 
-
   const handleSubmit = (values: LoginType) => {
     const payloadWithRole = { ...values, role: userType };
     login(payloadWithRole, {
@@ -101,6 +100,7 @@ case "admin":
         });
       },
       onError: (error: any) => {
+        console.log(error,"--.login")
         toast.error(error);
         formik.setSubmitting(false);
       },
@@ -126,15 +126,20 @@ case "admin":
   });
 
   return (
-    <Card className={`backdrop-blur-sm ${theme.cardBg} border-0 shadow-2xl transition-all duration-300`}>
+    <Card
+      className={`backdrop-blur-sm ${theme.cardBg} border-0 shadow-2xl transition-all duration-300`}
+    >
       <CardHeader className="text-center space-y-2">
         {/* TravelMate Logo */}
         <div className="flex justify-center">
-          <img src="/Travel_Mate_Logo.png" className="w-25 h-auto" alt="TravelMate Logo" />
+          <img
+            src="/Travel_Mate_Logo.png"
+            className="w-25 h-auto"
+            alt="TravelMate Logo"
+          />
         </div>
 
         {/* Role-specific Icon */}
-        
 
         <CardTitle className="text-2xl font-bold text-gray-800">
           Welcome Back
@@ -154,7 +159,9 @@ case "admin":
               placeholder="Enter your email"
               {...formik.getFieldProps("email")}
               required
-              className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${theme.inputTextColor || ""}`}
+              className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${
+                theme.inputTextColor || ""
+              }`}
             />
             {formik.errors.email && formik.touched.email && (
               <p className="text-sm text-red-500">{formik.errors.email}</p>
@@ -170,7 +177,9 @@ case "admin":
                 placeholder="Enter your password"
                 {...formik.getFieldProps("password")}
                 required
-                className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${theme.inputTextColor || ""}`}
+                className={`transition-all duration-200 focus:ring-2 focus:ring-opacity-50 ${
+                  theme.inputTextColor || ""
+                }`}
               />
               <button
                 type="button"
@@ -217,7 +226,7 @@ case "admin":
               <button
                 type="button"
                 className={`${theme.accent} hover:underline font-medium cursor-pointer transition-colors`}
-                onClick={() => navigate("/signup")}
+                onClick={() => userType === "client" ? navigate("/signup") : navigate("/vendor/signup")}
               >
                 Sign up
               </button>

@@ -34,7 +34,7 @@ export function dispatchUserByRole({
       break;
     case "guide":
        dispatch(guideLogin(user));
-       navigate("/");
+       navigate("/guide/profile");
        break;  
     default:
       toast.error("unknown user type");

@@ -131,11 +131,17 @@ export function PersonalInfoStep({ formData, setFormData, errors }: PersonalInfo
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar
+             <Calendar
                 mode="single"
                 selected={formData.dob}
                 onSelect={(date) => setFormData({ ...formData, dob: date })}
                 initialFocus
+                captionLayout="dropdown"
+                fromYear={1950}
+                toYear={new Date().getFullYear()}
+                defaultMonth={formData.dob || new Date(1990, 0)}
+                showOutsideDays={false}
+                className="rounded-md border"
               />
             </PopoverContent>
           </Popover>

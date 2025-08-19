@@ -6,7 +6,6 @@ import UserLogin from "@/pages/user/UserLogin";
 import { NoAuthRoute } from "@/protected/PubliceRoute";
 import { AuthRoute } from "@/protected/ProtectedRoute";
 import ClientLayout from "@/components/layouts/ClientLayout";
-import TravelMateLanding from "@/components/client/landingPage/TravelMateLanding";
 import NotFoundPage from "@/components/NotFound";
 import LandingPage from "@/pages/common/LandingPage";
 import AuthPage from "@/components/logindemo/AuthPage";
@@ -15,6 +14,10 @@ import { ProfileEditPage } from "@/components/client/ProfileEdit";
 import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
 import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { UserPasswordChangePage } from "@/pages/user/UserPasswordChange";
+import ClientLayoutProfile from "@/components/layouts/ClientLayoutProfile";
+import TravelHomePage from "@/pages/user/TravelHomePage";
+import PackagesListingPage from "@/pages/user/PackagesListingPage";
+import PackageDetailsPage from "@/pages/user/PackageDetailsPage";
 
 const ClientRouter = () => {
   return (
@@ -41,12 +44,6 @@ const ClientRouter = () => {
         <Route  path="/forgot-password/sendmail" element={<ForgotPasswordForm/>}/>
         <Route  path="reset-password" element={<PasswordResetForm/>}/>
 
-        <Route
-          path="/profile"
-          element={
-            <AuthRoute element={<ProfilePage/>} allowedRoles={["client"]} />
-          }
-        />
 
         <Route
           path="/profile-edit"
@@ -74,8 +71,38 @@ const ClientRouter = () => {
             <AuthRoute allowedRoles={["client"]} element={<ClientLayout />} />
           }
         >
-          <Route path="/landing" element={<TravelMateLanding />} />
+          <Route path="/landing" element={<TravelHomePage />} />
+          <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
+          <Route path="packages" element={<PackagesListingPage/>} />
         </Route>
+
+        {/*  */}
+
+       <Route
+        path="/pvt"
+        element={
+          <AuthRoute allowedRoles={["client"]} element={<ClientLayoutProfile/>}/>
+        }
+       >
+            <Route
+          path="profile"
+          element={
+           <ProfilePage/>}
+          
+        />
+
+        <Route
+          path="profile-edit"
+          element={
+            <AuthRoute
+              allowedRoles={["client"]}
+              element={<ProfileEditPage />}
+            />
+          }
+        />
+         
+       </Route>
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

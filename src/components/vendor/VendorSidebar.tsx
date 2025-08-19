@@ -2,21 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import {
-  Package,
-  Users,
-  Zap,
-  Activity,
-  Star,
-  MessageSquare,
-  DollarSign,
-  Users2,
-  MapPin,
-  User,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react"
+import { Package, Users, Zap, Activity, Star, MessageSquare, DollarSign, Users2, MapPin, User, LogOut, Menu, X } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { useLogout } from "@/hooks/auth/useLogout"
 import { logoutVendor } from "@/services/auth/authService"
@@ -53,9 +39,10 @@ const VendorSidebar: React.FC = () => {
     { id: "guide", label: "Guide", icon: MapPin, path: "/vendor/guide" },
     { id: "profile", label: "Profile", icon: User, path: "/vendor/profile" },
   ];
-
-    const { mutate: logout } = useLogout(logoutVendor);
-    const handleLogout = (): void => {
+  
+  const { mutate: logout } = useLogout(logoutVendor);
+  
+  const handleLogout = (): void => {
     logout(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`);
@@ -71,8 +58,8 @@ const VendorSidebar: React.FC = () => {
   const handleItemClick = (itemId: string, path: string): void => {
     setActiveItem(itemId)
     navigate(path)
-    setIsOpen(false) 
-  }
+    setIsOpen(false)
+   }
 
   const toggleSidebar = (): void => {
     setIsOpen(!isOpen)
@@ -83,7 +70,7 @@ const VendorSidebar: React.FC = () => {
       {/* Mobile menu button */}
       <button
         onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#2CA4BC] text-white rounded-lg shadow-lg hover:bg-[#2CA4BC]/90 transition-colors"
         aria-label="Toggle menu"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -91,7 +78,7 @@ const VendorSidebar: React.FC = () => {
 
       {/* Backdrop for mobile */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsOpen(false)} />
+        <div className="lg:hidden fixed inset-0 bg-opacity-50 z-40" onClick={() => setIsOpen(false)} />
       )}
 
       {/* Sidebar */}
@@ -102,11 +89,16 @@ const VendorSidebar: React.FC = () => {
           "lg:translate-x-0",
         )}
       >
+      
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-              <MapPin className="h-6 w-6 text-white" />
+            <div className="w-15 h-15  rounded-lg flex items-center justify-center p-1">
+              <img 
+                src="/Travel_Mate_Logo.png" 
+                alt="Travel Mate Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">Travel Mate</h1>
@@ -114,27 +106,25 @@ const VendorSidebar: React.FC = () => {
             </div>
           </div>
         </div>
-
         {/* Navigation */}
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = activeItem === item.id
-
             return (
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item.id, item.path)}
                 className={cn(
                   "w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 group",
-                  isActive ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-blue-50 hover:text-blue-700",
+                  isActive ? "bg-[#2CA4BC] text-white shadow-md" : "text-gray-700 hover:bg-[#2CA4BC]/10 hover:text-[#2CA4BC]",
                 )}
               >
                 <Icon
                   size={20}
                   className={cn(
                     "mr-3 transition-colors",
-                    isActive ? "text-white" : "text-gray-500 group-hover:text-blue-600",
+                    isActive ? "text-white" : "text-gray-500 group-hover:text-[#2CA4BC]",
                   )}
                 />
                 <span className="font-medium">{item.label}</span>

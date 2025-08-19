@@ -1,5 +1,4 @@
 import { getVendorDetails, getVendorProfile, updateVendorDetails, vendorResendOtp, vendorSendEmailOtp } from "@/services/vendor/vendorService"
-import type { IResponse } from "@/types/Response";
 import type { IVendor } from "@/types/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 

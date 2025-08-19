@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, CheckCircle, FileText, Upload, X, Shield, Loader2 } from "lucide-react"
+import { ArrowLeft, CheckCircle, FileText, X, Shield, Loader2 } from "lucide-react"
 import type { KYCFormData } from "@/types/kycType"
 
 interface KYCData {
@@ -130,21 +130,21 @@ export default function KYCSignup({ onBack, onRegister, initialData,isUpdating }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-teal-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-bold text-[#2CA4BC] bg-clip-text  mb-2">
             KYC Verification
           </h1>
           <p className="text-gray-600 text-lg">Step 3 of 3 - Complete your business verification</p>
           <div className="flex justify-center mt-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-1 bg-blue-500 rounded-full"></div>
-              <div className="w-8 h-1 bg-blue-500 rounded-full"></div>
-              <div className="w-8 h-1 bg-blue-500 rounded-full"></div>
+              <div className="w-8 h-1 bg-[#2CA4BC] rounded-full"></div>
+              <div className="w-8 h-1 bg-[#2CA4BC] rounded-full"></div>
+              <div className="w-8 h-1 bg-[#2CA4BC] rounded-full"></div>
             </div>
           </div>
         </div>
@@ -152,8 +152,8 @@ export default function KYCSignup({ onBack, onRegister, initialData,isUpdating }
         <Card className="backdrop-blur-sm bg-white/90 border-0 shadow-2xl">
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <FileText className="w-6 h-6 text-blue-600" />
-              <CardTitle className="text-2xl font-bold text-gray-800">Business Verification Documents</CardTitle>
+              <FileText className="w-6 h-6 text-[#2CA4BC]" />
+              <CardTitle className="text-2xl font-bold text-[#2CA4BC]">Business Verification Documents</CardTitle>
             </div>
             <CardDescription className="text-gray-600 text-base">
               Please provide accurate business information and upload required documents for verification
@@ -243,15 +243,14 @@ export default function KYCSignup({ onBack, onRegister, initialData,isUpdating }
                     </Label>
 
                     {!formData.documents[docKey] ? (
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-all duration-200 bg-gray-50/50 hover:bg-blue-50/50">
-                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                      <div className="border-2 border-dashed border-cyan-300 rounded-lg p-6 text-center hover:border-cyan-500 transition-all duration-200 bg-cyan-50/30 hover:bg-cyan-50/50 cursor-pointer">
                         <div className="space-y-2">
                           <p className="text-sm text-gray-600">Click to upload {DOCUMENT_LABELS[index]}</p>
                           <Button
                             type="button"
                             variant="outline"
                             onClick={() => document.getElementById(`file-${docKey}`)?.click()}
-                            className="mx-auto border-blue-200 text-blue-600 hover:bg-blue-50 hover:border-blue-300"
+                            className="mx-auto border-blue-200 text-[#2CA4BC] hover:bg-blue-50 hover:border-blue-300"
                           >
                             Choose File
                           </Button>
@@ -345,7 +344,7 @@ export default function KYCSignup({ onBack, onRegister, initialData,isUpdating }
                 </Button>
                 <Button
         type="submit"
-        className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+        className="flex items-center gap-2 px-8 py-3 bg-[#2CA4BC] hover:from-blue-600 hover:to-teal-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
         disabled={isUpdating} // Disable when updating is true
       >
         {isUpdating? (

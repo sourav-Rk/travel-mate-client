@@ -1,0 +1,118 @@
+import { addPackage, createActivity, deleteActivity, getPackageDetails, updateActivity, updateItinerary, updatePackageBasicDetails } from "@/services/vendor/vendorService";
+import type { BasicDetails, DayDto } from "@/types/packageType";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+export interface PackageDetails {
+  _id : string;
+  packageName: string;
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  maxGroupSize: number;
+  price: number;
+  tags: string[];
+  startDate: Date | null;
+  endDate: Date | null;
+  duration: { days: number; nights: number };
+  meetingPoint: string;
+  images: string[];
+  inclusions: string[];
+  exclusions: string[];
+  cancellationPolicy: string;
+  termsAndConditions: string;
+  status : string;
+}
+
+interface FetchPackagesParams {
+  page: number;
+  limit: number;
+  searchTerm: string;
+  status: string;
+  category: string;
+}
+
+type PackagesResponse = {
+  packages: PackageDetails[];
+  totalPages: number;
+  currentPage: number;
+};
+
+//add package
+export const useAddPackageMutation = () => {
+  return useMutation({
+    mutationFn: addPackage,
+  });
+};
+
+//get packages
+export const useGetPackagesQuery = (
+  queryFunc: (params: FetchPackagesParams) => Promise<PackagesResponse>,
+  page: number,
+  limit: number,
+  searchTerm: string,
+  status: string,
+  category: string
+) => {
+  return useQuery({
+    queryKey: ["packages", page, limit, searchTerm, status, category],
+    queryFn: () => queryFunc({ page, limit, status, searchTerm, category }),
+    placeholderData: (prevData) => prevData,
+  });
+};
+
+
+//get package details
+export const useGetPackageDetailsQuery = (packageId : string) =>{
+   return useQuery({
+       queryFn : ()=>  getPackageDetails(packageId),
+       queryKey : ["package-details",packageId],
+       enabled: !!packageId
+   })
+}
+
+//update package basice details
+export const useUpdatePackageBasiceDetailsMutations = () =>{
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn : ({packageId,basicData} : {packageId : string; basicData : BasicDetails}) => updatePackageBasicDetails(packageId,basicData),
+    onSuccess : () => queryClient.invalidateQueries({queryKey : ["package-details"]})
+  })
+}
+
+//update itinerary 
+export const useUpdateItineraryDetailsMutation = () =>{
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn : ({itineraryId,itineraryData} : {itineraryId : string; itineraryData : DayDto[]}) => updateItinerary(itineraryId,itineraryData),
+    onSuccess : () => queryClient.invalidateQueries({queryKey : ["package-details"]})
+    
+  })
+}
+
+//update activity
+export const useUpdateActivityMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn : ({activityId,activityData} : {activityId : string,activityData :any}) => updateActivity(activityId,activityData),
+    onSuccess : () => queryClient.invalidateQueries({queryKey : ["package-details"]})
+  });
+}
+
+//create an activity
+export const useCreateActivityMutation = () =>{
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn : createActivity,
+    onSuccess : () => queryClient.invalidateQueries({queryKey : ["package-details"]})
+  })
+}
+
+//delete an activity
+export const useDeleteActivity = () => {
+   const queryClient = useQueryClient();
+   return useMutation({
+    mutationFn : deleteActivity,
+    onSuccess : () => queryClient.invalidateQueries({queryKey : ["package-details"]})
+   })
+}

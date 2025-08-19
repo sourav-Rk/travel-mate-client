@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-
 import { useState } from "react";
 import {
-  Card,
+Card,
   CardContent,
   CardDescription,
   CardFooter,
@@ -20,7 +19,7 @@ import { uploadImages } from "@/services/vendor/vendorService";
 import { useAddGuideMutation } from "@/hooks/vendor/useGuide";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import { Loader2,ArrowLeft } from "lucide-react";
 
 // Define the type for form data
 interface GuideFormData {
@@ -53,8 +52,9 @@ export default function AddGuideForm() {
     documents: [],
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
-  const { mutateAsync: addGuide,isPending } = useAddGuideMutation();
+  const { mutateAsync: addGuide, isPending } = useAddGuideMutation();
 
   // Validation function for each step
   const validateStep = (stepIndex: number): boolean => {
@@ -77,6 +77,7 @@ export default function AddGuideForm() {
         if (!formData.gender) currentStepErrors.gender = "Gender is required";
         if (!formData.dob) currentStepErrors.dob = "Date of Birth is required";
         break;
+
       case 1: // Professional Information
         if (!formData.yearOfExperience)
           currentStepErrors.yearOfExperience =
@@ -85,10 +86,12 @@ export default function AddGuideForm() {
           currentStepErrors.languageSpoken =
             "At least one language is required";
         break;
+
       case 2: // Account & Documents
         if (formData.documents.length === 0)
           currentStepErrors.documents = "At least one document is required";
         break;
+
       default:
         break;
     }
@@ -113,21 +116,28 @@ export default function AddGuideForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep(currentStep)) {
-      try {
-        const urls = await uploadImages(formData.documents.map((file) => file));
-
-        const payload = {
-          ...formData,
-          documents: urls.map((img) => img.url),
-          dob: new Date(formData.dob),
-        };
-        const response = await addGuide(payload);
-        toast.success(response.message);
-        navigate("/vendor/dashboard");
-      } catch (error: any) {
-        console.log(error);
-        toast.error(error);
-      }
+      setIsUploading(true);
+      const urls = await uploadImages(formData.documents.map((file) => file));
+      const payload = {
+        ...formData,
+        documents: urls.map((img) => img.url),
+        dob: new Date(formData.dob),
+      };
+      await addGuide(payload, {
+        onSuccess: (response) => {
+          setIsUploading(false);
+          toast.success(response.message);
+          navigate("/vendor/dashboard");
+        },
+        onError: (error: any) => {
+          setIsUploading(false);
+          const errorMessage =
+            error.response?.data?.message ||
+            error.message ||
+            "Failed to add guide";
+          toast.error(errorMessage);
+        },
+      });
     } else {
       console.log("Form has errors:", errors);
     }
@@ -170,96 +180,101 @@ export default function AddGuideForm() {
   ];
 
   return (
-    <Card className="w-full max-w-3xl mx-auto my-8 shadow-xl rounded-lg overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6">
-        <CardTitle className="text-3xl font-extrabold tracking-tight">
-          Add New Guide
-        </CardTitle>
-        <CardDescription className="text-gray-300 mt-2">
-          {steps[currentStep].description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-6 md:p-8">
-        {/* Step Indicator */}
-        <div className="flex justify-center items-center gap-4 mb-8">
-          {steps.map((step, index) => (
-            <React.Fragment key={index}>
-              <div className="flex flex-col items-center">
-                <div
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-all duration-300",
-                    currentStep === index
-                      ? "bg-blue-950 text-white shadow-md"
-                      : "bg-gray-200 text-gray-600 group-hover:bg-gray-300"
-                  )}
-                >
-                  {index + 1}
+    <div className="lg:ml-64 p-4 md:p-6 lg:p-8">
+      <Button onClick={() => navigate("/vendor/guide")} variant="ghost" size="sm" className="p-2">
+        <ArrowLeft className="h-4 w-4 cursor-pointer" />
+          Back
+      </Button>
+      <Card className="w-full max-w-3xl mx-auto my-8 shadow-xl rounded-lg overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-[#2CA4BC] to-[#2CA4BC]/90 text-white p-6">
+          <CardTitle className="text-3xl font-extrabold tracking-tight">
+            Add New Guide
+          </CardTitle>
+          <CardDescription className="text-white/90 mt-2">
+            {steps[currentStep].description}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-6 md:p-8">
+          {/* Step Indicator */}
+          <div className="flex justify-center items-center gap-4 mb-8">
+            {steps.map((step, index) => (
+              <React.Fragment key={index}>
+                <div className="flex flex-col items-center">
+                  <div
+                    className={cn(
+                      "w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold transition-all duration-300",
+                      currentStep === index
+                        ? "bg-[#2CA4BC] text-white shadow-md"
+                        : "bg-gray-200 text-gray-600 group-hover:bg-gray-300"
+                    )}
+                  >
+                    {index + 1}
+                  </div>
+                  <span
+                    className={cn(
+                      "mt-2 text-sm font-medium transition-colors duration-300",
+                      currentStep === index ? "text-[#2CA4BC]" : "text-gray-500"
+                    )}
+                  >
+                    {step.title}
+                  </span>
                 </div>
-                <span
-                  className={cn(
-                    "mt-2 text-sm font-medium transition-colors duration-300",
-                    currentStep === index ? "text-black-600" : "text-gray-500"
-                  )}
-                >
-                  {step.title}
-                </span>
-              </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={cn(
-                    "flex-1 h-0.5 bg-gray-300 transition-colors duration-300",
-                    currentStep > index ? "bg-blue-950" : ""
-                  )}
-                />
+                {index < steps.length - 1 && (
+                  <div
+                    className={cn(
+                      "flex-1 h-0.5 bg-gray-300 transition-colors duration-300",
+                      currentStep > index ? "bg-[#2CA4BC]" : ""
+                    )}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          {/* Form Content */}
+          {steps[currentStep].component}
+        </CardContent>
+        <CardFooter className="flex justify-between p-6 border-t border-gray-200 bg-gray-50">
+          {currentStep > 0 && (
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+              className="px-6 py-2 text-gray-700 border-gray-300 hover:bg-gray-100 bg-transparent"
+            >
+              Previous
+            </Button>
+          )}
+          {currentStep < steps.length - 1 && (
+            <Button
+              onClick={handleNext}
+              className="ml-auto px-6 py-2 bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white"
+            >
+              Next
+            </Button>
+          )}
+          {currentStep === steps.length - 1 && (
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              className={cn(
+                "ml-auto px-6 py-2 text-white",
+                isPending
+                  ? "bg-[#2CA4BC]/80 cursor-not-allowed"
+                  : "bg-[#2CA4BC] hover:bg-[#2CA4BC]/90"
               )}
-            </React.Fragment>
-          ))}
-        </div>
-
-        {/* Form Content */}
-        {steps[currentStep].component}
-      </CardContent>
-      <CardFooter className="flex justify-between p-6 border-t border-gray-200 bg-gray-50">
-        {currentStep > 0 && (
-          <Button
-            variant="outline"
-            onClick={handlePrevious}
-            className="px-6 py-2 text-gray-700 border-gray-300 hover:bg-gray-100 bg-transparent"
-          >
-            Previous
-          </Button>
-        )}
-        {currentStep < steps.length - 1 && (
-          <Button
-            onClick={handleNext}
-            className="ml-auto px-6 py-2 bg-blue-950 hover:bg-blue-900 text-white"
-          >
-            Next
-          </Button>
-        )}
-        {currentStep === steps.length - 1 && (
-         <Button
-          type="submit"
-          onClick={handleSubmit}
-          className={cn(
-            "ml-auto px-6 py-2 text-white",
-            isPending 
-              ? "bg-blue-800 cursor-not-allowed" 
-              : "bg-blue-950 hover:bg-blue-900" 
+              disabled={isPending || isUploading}
+            >
+              {isPending || isUploading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Adding...
+                </>
+              ) : (
+                "Add Guide"
+              )}
+            </Button>
           )}
-          disabled={isPending} 
-        >
-          {isPending ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {/* Loading spinner */}
-              Adding...
-            </>
-          ) : (
-            "Add Guide"
-          )}
-        </Button>
-        )}
-      </CardFooter>
-    </Card>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }

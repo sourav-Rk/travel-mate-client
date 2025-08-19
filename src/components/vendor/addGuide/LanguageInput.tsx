@@ -1,13 +1,10 @@
-
 "use client"
-
-import type React from "react"
 import { useState } from "react"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { X, Plus } from "lucide-react"
+import { X } from 'lucide-react'
 import { cn } from "@/lib/utils"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Import Select components
 
 interface LanguageInputProps {
   value: string[]
@@ -17,13 +14,24 @@ interface LanguageInputProps {
 }
 
 export function LanguageInput({ value, onChange, error, className }: LanguageInputProps) {
-  const [currentLanguage, setCurrentLanguage] = useState("")
+  const [selectedLanguage, setSelectedLanguage] = useState("") // State for the currently selected language in the dropdown
 
-  const handleAddLanguage = () => {
-    const trimmedLanguage = currentLanguage.trim()
+  const availableLanguages = [
+    "English",
+    "Malayalam",
+    "Hindi",
+    "Tamil",
+    "Bengali",
+    "Gujarati",
+    "Kannada",
+    "Assamese",
+  ]
+
+  const handleAddLanguage = (language: string) => {
+    const trimmedLanguage = language.trim()
     if (trimmedLanguage && !value.includes(trimmedLanguage)) {
       onChange([...value, trimmedLanguage])
-      setCurrentLanguage("")
+      setSelectedLanguage("") 
     }
   }
 
@@ -31,30 +39,23 @@ export function LanguageInput({ value, onChange, error, className }: LanguageInp
     onChange(value.filter((lang) => lang !== langToRemove))
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault() // Prevent form submission
-      handleAddLanguage()
-    }
-  }
-
   return (
     <div className={cn("space-y-3", className)}>
       <div className="flex gap-2">
-        <Input
-          type="text"
-          placeholder="Type a language"
-          value={currentLanguage}
-          onChange={(e) => setCurrentLanguage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className={cn("flex-1 focus-visible:ring-black-500", error ? "border-red-500" : "")}
-        />
-        <Button type="button" onClick={handleAddLanguage} variant="outline" className="shrink-0 bg-transparent">
-          <Plus className="h-4 w-4 mr-2" /> Add
-        </Button>
+        <Select value={selectedLanguage} onValueChange={handleAddLanguage}>
+          <SelectTrigger className={cn("flex-1 focus:ring-black-500", error ? "border-red-500" : "")}>
+            <SelectValue placeholder="Select a language" />
+          </SelectTrigger>
+          <SelectContent>
+            {availableLanguages.map((lang) => (
+              <SelectItem key={lang} value={lang} disabled={value.includes(lang)}>
+                {lang}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-
       {value.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-2">
           {value.map((lang) => (

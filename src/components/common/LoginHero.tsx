@@ -17,13 +17,14 @@ export default function LoginHero({ userType }: LoginHeroProps) {
             "Welcome back, adventurer! Continue exploring amazing destinations and creating unforgettable memories around the world.",
           statsColors: ["text-blue-600", "text-teal-600", "text-green-600"],
         };
-      case "vendor":
+       case "vendor":
         return {
-          titleGradient: "from-purple-600 via-pink-600 to-violet-600",
+          titleGradient: "from-teal-600 via-teal-600 to-teal-500", // Changed to solid cyan-700
           welcomeText:
             "Welcome back, partner! Continue managing your services and connecting with travelers worldwide.",
-          statsColors: ["text-purple-600", "text-pink-600", "text-violet-600"],
-        };
+          welcomeTextColor: "text-gray-600", // Set to gray-600 for consistency
+          statsColors: ["text-cyan-600", "text-cyan-600", "text-cyan-600"], // Changed to solid cyan-600
+        }
   case "admin":
   return {
        titleGradient: "text-white", // ✅ Pure white text
@@ -35,11 +36,12 @@ export default function LoginHero({ userType }: LoginHeroProps) {
 
       case "guide":
         return {
-          titleGradient: "from-green-600 via-emerald-600 to-teal-600",
+          titleGradient: "from-teal-600 via-teal-600 to-teal-500", // Changed to solid cyan-700
           welcomeText:
-            "Welcome back, guide! Continue sharing your expertise and creating amazing experiences for travelers.",
-          statsColors: ["text-green-600", "text-emerald-600", "text-teal-600"],
-        };
+            "Welcome back, partner! Continue managing your services and connecting with travelers worldwide.",
+          welcomeTextColor: "text-gray-600", // Set to gray-600 for consistency
+          statsColors: ["text-cyan-600", "text-cyan-600", "text-cyan-600"], // Changed to solid cyan-600
+        }
       default:
         return {
           titleGradient: "from-blue-600 via-teal-600 to-green-600",

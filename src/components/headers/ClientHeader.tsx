@@ -24,10 +24,10 @@ import { useLogout } from "@/hooks/auth/useLogout"
 import { logoutClient } from "@/services/auth/authService"
 
 const navItems = [
-  { name: "Dashboard", href: "/landing", icon: Home },
-  { name: "Discover", href: "/events/discover", icon: Compass },
-  { name: "Support", href: "#", icon: HelpCircle },
-  { name: "Analytics", href: "#", icon: BarChart3 },
+  { name: "Holidays", href: "/packages", icon: Home },
+  { name: "Volunteering", href: "/events/discover", icon: Compass },
+  { name: "Blogs", href: "#", icon: HelpCircle },
+  { name: "About", href: "#", icon: BarChart3 },
 ]
 
 interface Client {
@@ -75,9 +75,9 @@ export function ClientHeader({ client }: ClientHeaderProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <motion.div className="flex items-center space-x-3" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <button onClick={() => navigate("/")} className="flex items-center space-x-3 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:shadow-lg transition-shadow">
-                <span className="text-white font-bold text-sm">TM</span>
+            <button onClick={() => navigate("/landing")} className="flex items-center space-x-3 group">
+              <div className="w-14 h-8 b flex items-center justify-center group-hover:shadow-lg transition-shadow">
+                <img src="/Travel_Mate_Logo.png" alt="" />
               </div>
               <span className="hidden sm:block text-xl font-bold text-gray-900">Travel Mate</span>
             </button>
@@ -166,7 +166,7 @@ export function ClientHeader({ client }: ClientHeaderProps) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+                  <DropdownMenuItem onClick={() => navigate("/pvt/profile")} className="cursor-pointer">
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>

@@ -40,14 +40,14 @@ export const AuthAdminRoute = ({
 };
 
 
-export const AuthGuideRout = ({
+export const AuthGuideRoute = ({
   element,
   allowedRoles,
 }: ProtectedRouteProps) => {
   const userRole = useSelector((state: RootState) => state.guide.guide?.role);
 
   if (!userRole) {
-    return <Navigate to={"/guide"} />;
+    return <Navigate to={"/guide/login"} />;
   }
 
   return allowedRoles.includes(userRole) ? (

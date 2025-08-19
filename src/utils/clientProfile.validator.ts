@@ -23,7 +23,7 @@ export const clientProfileSchema = Yup.object().shape({
     .required('Phone number is required'),
 
   gender: Yup.string()
-    .oneOf(['male', 'female', 'other'], 'Please select a valid gender')
+    .oneOf(['Male', 'Female', 'Other'], 'Please select a valid gender')
     .required('Gender is required'),
 });
 
