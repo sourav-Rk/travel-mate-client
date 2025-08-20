@@ -30,6 +30,7 @@ interface FetchPackagesParams {
   searchTerm: string;
   status: string;
   category: string;
+  userType : string;
 }
 
 type PackagesResponse = {
@@ -52,21 +53,22 @@ export const useGetPackagesQuery = (
   limit: number,
   searchTerm: string,
   status: string,
-  category: string
+  category: string,
+  userType : string,
 ) => {
   return useQuery({
     queryKey: ["packages", page, limit, searchTerm, status, category],
-    queryFn: () => queryFunc({ page, limit, status, searchTerm, category }),
+    queryFn: () => queryFunc({ page, limit, status, searchTerm, category,userType }),
     placeholderData: (prevData) => prevData,
   });
 };
 
 
 //get package details
-export const useGetPackageDetailsQuery = (packageId : string) =>{
+export const useGetPackageDetailsQuery = (packageId : string,userType : string) =>{
    return useQuery({
-       queryFn : ()=>  getPackageDetails(packageId),
-       queryKey : ["package-details",packageId],
+       queryFn : ()=>  getPackageDetails(packageId,userType),
+       queryKey : ["package-details",packageId,userType],
        enabled: !!packageId
    })
 }

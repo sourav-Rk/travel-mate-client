@@ -184,12 +184,14 @@ export const getAllPackages = async ({
   searchTerm,
   status,
   category,
+  userType
 }: {
   page: number;
   limit: number;
   searchTerm: string;
   status: string;
   category: string;
+  userType : string;
 }) => {
   const response = await vendorAxiosInstance.get("/_ve/vendor/package", {
     params: {
@@ -198,15 +200,16 @@ export const getAllPackages = async ({
       searchTerm,
       status,
       category,
+      userType
     },
   });
   return response.data;
 };
 
 //---------get package details api---------
-export const getPackageDetails = async(packageId : string) =>{
+export const getPackageDetails = async(packageId : string,userType : string) =>{
     try{
-      const response = await vendorAxiosInstance.get(`/_ve/vendor/package/${packageId}`);
+      const response = await vendorAxiosInstance.get(`/_ve/vendor/package/${packageId}`,{params : {userType}});
       return response.data;
     }catch(error: any){
        throw error;

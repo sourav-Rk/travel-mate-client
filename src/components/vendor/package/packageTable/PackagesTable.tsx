@@ -32,7 +32,7 @@ export function PackagesTable() {
   const [totalPages,setTotalPages] = useState(0);
   const limit =5;
   
-  const {data,isLoading} = useGetPackagesQuery(getAllPackages,page,limit,debouncedSearchTerm,statusFilter,categoryFilter);
+  const {data,isLoading} = useGetPackagesQuery(getAllPackages,page,limit,debouncedSearchTerm,statusFilter,categoryFilter,"vendor");
 
   const debouncedSearch = useCallback(
     _.debounce((query) => {

@@ -50,7 +50,7 @@ export function PackageDetails({className }: PackageDetailsProps) {
   if(!packageId){
      return <div>Package Id not found</div>
   }
-  const {data,isLoading,isError,error} = useGetPackageDetailsQuery(packageId);
+  const {data,isLoading,isError,error} = useGetPackageDetailsQuery(packageId,"vendor");
 
   useEffect(() =>{
     if(!data) return ;

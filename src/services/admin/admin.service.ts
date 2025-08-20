@@ -110,3 +110,42 @@ export const getVendorKycUrlsForAdmin = async(data : string[]) : Promise<string[
     return error?.response?.data.message || error;
   }
 }
+
+//-------get packages api----------
+export const getAllPackages = async ({
+  page = 1,
+  limit = 5,
+  searchTerm,
+  status,
+  category,
+  userType
+}: {
+  page: number;
+  limit: number;
+  searchTerm: string;
+  status: string;
+  category: string;
+  userType : string;
+}) => {
+  const response = await adminAxiosInstance.get("/_ad/admin/package", {
+    params: {
+      page,
+      limit,
+      searchTerm,
+      status,
+      category,
+      userType
+    },
+  });
+  return response.data;
+};
+
+//---------get package details api---------
+export const getPackageDetails = async(packageId : string,userType : string) =>{
+    try{
+      const response = await adminAxiosInstance.get(`/_ad/admin/package/${packageId}`,{params : {userType}});
+      return response.data;
+    }catch(error: any){
+       throw error;
+    }
+}

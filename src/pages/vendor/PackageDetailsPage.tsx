@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import type { TravelPackage } from "@/types/packageType"
 import { useGetPackageDetailsQuery } from "@/hooks/vendor/usePackage"
@@ -29,7 +29,7 @@ export function PackageDetailsPage({ className }: PackageDetailsProps) {
     )
   }
   const [packageData, setPackageData] = useState<TravelPackage>()
-  const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId)
+  const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId,"vendor");
 
   useEffect(() => {
     if (!data) return
