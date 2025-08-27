@@ -116,6 +116,12 @@ export const getRelatedPackages = async ({
   return response.data;
 };
 
+//---------get trending packages----------
+export const getTrendingPackages = async() => {
+  const response = await clientAxiosInstance.get('_cl/client/packages/trending');
+  return response.data;
+}
+
 //-------upload images api------------
 export const uploadImages = async (
   files: File[]

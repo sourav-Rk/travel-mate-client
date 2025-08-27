@@ -149,3 +149,10 @@ export const getPackageDetails = async(packageId : string,userType : string) =>{
        throw error;
     }
 }
+
+
+//-------block or unblock packages
+export const updatePackageBlockStatus = async(packageId : string) => {
+  const response = await adminAxiosInstance.put("/_ad/admin/package/block",{packageId});
+  return response.data;
+}

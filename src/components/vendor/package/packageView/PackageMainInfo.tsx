@@ -15,10 +15,19 @@ interface PackageMainInfoProps {
 
 export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
   const navigate =  useNavigate();
+
+    const canEdit = packageData.status === "draft"
+  const editMessage = canEdit
+    ? "Edit this package"
+    : `Cannot edit package with status: ${packageData.status}. Only draft packages can be edited.`
  
   const handleEditPackage = (packageId : string) =>{
-     navigate(`/vendor/packages/edit/${packageId}`)
+    if(packageData.status === "draft"){
+        navigate(`/vendor/packages/edit/${packageId}`)
+    }
   }
+
+
    
   return (
     <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm border-slate-300/60 overflow-hidden">
@@ -54,10 +63,18 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button onClick={() => handleEditPackage(packageData._id)} className="bg-gradient-to-r from-[#2CA4BC] to-[#1a5f6b] hover:from-[#1a5f6b] hover:to-[#2CA4BC] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <div className="flex flex-col items-end gap-1">
+                <Button
+                  onClick={() => handleEditPackage(packageData._id)}
+                  disabled={!canEdit}
+                  variant={canEdit ? "default" : "outline"}
+                  className={canEdit ? "bg-blue-600 hover:bg-blue-700 text-white" : "opacity-50 cursor-not-allowed"}
+                >
                   <Edit className="h-4 w-4 mr-2" />
                   Edit Package
                 </Button>
+                {!canEdit && <p className="text-xs text-red-600 max-w-48 text-right">{editMessage}</p>}
+              </div>
                 <Button
                   variant="outline"
                   className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"

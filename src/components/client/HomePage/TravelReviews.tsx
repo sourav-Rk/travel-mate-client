@@ -5,19 +5,19 @@ export default function TravelReviews() {
   const reviews = [
     {
       name: "Sarah Johnson",
-      avatar: "/professional-woman-headshot.png",
+      avatar: "/neom-0SUho_B0nus-unsplash.jpg",
       rating: 5,
       text: "Amazing experience! The trip was perfectly organized and the destinations were breathtaking. Highly recommend!",
     },
     {
       name: "Michael Chen",
-      avatar: "/professional-man-headshot.png",
+      avatar: "/neom-eOWabmCNEdg-unsplash.jpg",
       rating: 5,
       text: "Professional service and incredible value. The local guides were knowledgeable and friendly throughout our journey.",
     },
     {
       name: "Emma Wilson",
-      avatar: "/smiling-woman-headshot.png",
+      avatar: "/neom-0SUho_B0nus-unsplash.jpg",
       rating: 5,
       text: "Best travel experience ever! Every detail was taken care of. Will definitely book again for our next adventure.",
     },

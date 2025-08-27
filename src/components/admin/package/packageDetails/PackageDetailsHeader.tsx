@@ -1,7 +1,9 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Users } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Calendar, Users, Building2 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 interface PackageDetailsHeaderProps {
   packageName: string
@@ -10,7 +12,8 @@ interface PackageDetailsHeaderProps {
   status: string
   duration: { days: number; nights: number }
   maxGroupSize: number
-  price: number
+  price: number,
+  agencyId : string
 }
 
 export function PackageDetailsHeader({
@@ -21,47 +24,63 @@ export function PackageDetailsHeader({
   duration,
   maxGroupSize,
   price,
+  agencyId
 }: PackageDetailsHeaderProps) {
+
+  const navigate = useNavigate();
+  
+  const handleViewAgency = () => {
+    navigate(`/admin/ad_pvt/vendor/${agencyId}`)
+  }
   return (
-    <div className="bg-slate-900 border-b border-slate-700 p-6">
+    <div className="bg-white border-b border-black p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant="outline" className="bg-purple-400/20 text-purple-300 border-purple-400/30">
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300">
                 {category}
               </Badge>
               <Badge
                 variant="outline"
                 className={
                   status === "active"
-                    ? "bg-green-400/20 text-green-300 border-green-400/30"
-                    : "bg-red-400/20 text-red-300 border-red-400/30"
+                    ? "bg-green-50 text-green-700 border-green-300"
+                    : "bg-red-50 text-red-700 border-red-300"
                 }
               >
                 {status}
               </Badge>
             </div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-slate-200">{packageName}</h1>
-            <p className="text-slate-400 text-lg">{title}</p>
+            <h1 className="text-2xl lg:text-3xl font-bold text-black">{packageName}</h1>
+            <p className="text-gray-600 text-lg">{title}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 lg:text-right">
-            <div className="flex items-center gap-4 text-sm text-slate-400">
+            <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4 text-purple-400" />
+                <Calendar className="h-4 w-4 text-blue-600" />
                 <span>
                   {duration.days}D/{duration.nights}N
                 </span>
               </div>
               <div className="flex items-center gap-1">
-                <Users className="h-4 w-4 text-purple-400" />
+                <Users className="h-4 w-4 text-blue-600" />
                 <span>Max {maxGroupSize}</span>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold text-slate-200">₹{price.toLocaleString()}</p>
-              <p className="text-sm text-slate-400">per person</p>
+              <p className="text-2xl font-bold text-black">₹{price.toLocaleString()}</p>
+              <p className="text-sm text-gray-600">per person</p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-2 border-black text-black hover:bg-black hover:text-white bg-transparent"
+                onClick={handleViewAgency}
+              >
+                <Building2 className="h-4 w-4 mr-2" />
+                View Agency
+              </Button>
             </div>
           </div>
         </div>

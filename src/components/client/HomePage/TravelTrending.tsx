@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button"
 
 export default function TravelTrending() {
   const trendingDestinations = [
-    "/iceland-northern-lights.png",
-    "/norway-fjords-mountains.png",
-    "/swiss-alps-lake.png",
-    "/colosseum-rome-day.png",
-    "/scottish-highlands-castle.png",
-    "/croatia-dubrovnik-coast.png",
-    "/phi-phi-islands-thailand.png",
-    "/venice-canals.png",
+    "/neom-eOWabmCNEdg-unsplash.jpg",
+    "/ai-generated-travelling-to-thailand-advertisment-background-with-copy-space-free-photo.jpg",
+    "/trekking.png",
+    "/ai-generated-travelling-to-thailand-advertisment-background-with-copy-space-free-photo.jpg",
+    "/neom-eOWabmCNEdg-unsplash.jpg",
+    "/trekking.png",
+    "/ai-generated-travelling-to-thailand-advertisment-background-with-copy-space-free-photo.jpg",
+    "/neom-eOWabmCNEdg-unsplash.jpg",
   ]
 
   return (

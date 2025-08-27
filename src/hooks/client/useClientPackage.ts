@@ -3,6 +3,7 @@ import type { PackageDetails } from "../vendor/usePackage";
 import {
   getPackageDetails,
   getRelatedPackages,
+  getTrendingPackages,
 } from "@/services/client/client.service";
 
 interface FetchPackagesParams {
@@ -75,3 +76,11 @@ export const useGetRelatedPackagesQuery = (packageId: string) => {
     queryKey: ["related-packages", packageId],
   });
 };
+
+//get trending packages
+export const useGetTrendingPackagesQuery = () => {
+  return useQuery({
+    queryKey : ['trending-packages'],
+    queryFn : getTrendingPackages
+  })
+}

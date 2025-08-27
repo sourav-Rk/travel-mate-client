@@ -108,7 +108,7 @@ export interface TravelPackage {
   description: string;
   category: string;
   tags: string[];
-  status: "active" | "inactive" | "draft"; // inferred from your status usage
+  status: "active" | "inactive" | "draft" | "completed";
   meetingPoint: string;
   images: string[];
   maxGroupSize: number;

@@ -18,7 +18,7 @@ export default function TravelPromo() {
           </div>
           <div className="relative">
             <img
-              src="/placeholder-lzavv.png"
+              src="/hotariballoon.png"
               alt="Hot air balloons"
               className="w-full h-80 object-cover rounded-lg shadow-lg"
             />

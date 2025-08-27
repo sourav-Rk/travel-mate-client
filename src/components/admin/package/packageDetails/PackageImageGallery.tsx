@@ -7,10 +7,9 @@ import { Button } from "@/components/ui/button"
 
 interface PackageImageGalleryProps {
   images: string[]
-  title: string
 }
 
-export function PackageImageGallery({ images, title }: PackageImageGalleryProps) {
+export function PackageImageGallery({ images }: PackageImageGalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const nextImage = () => {
@@ -25,7 +24,7 @@ export function PackageImageGallery({ images, title }: PackageImageGalleryProps)
     <div className="relative rounded-xl overflow-hidden shadow-2xl group bg-slate-800 border border-slate-700">
       <img
         src={images[currentImageIndex] || "/placeholder.svg"}
-        alt={title}
+        alt={"package images"}
         className="w-full h-64 md:h-80 lg:h-96 object-cover transition-transform duration-300 group-hover:scale-105"
       />
 

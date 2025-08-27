@@ -11,6 +11,8 @@ import { PackageHighlights } from "@/components/admin/package/packageDetails/Pac
 import { PackageAbout } from "@/components/admin/package/packageDetails/PackageAbout";
 import { PackageTabsSection } from "@/components/admin/package/packageDetails/PackageTabsSection";
 import { useGetPackageDetailsAdminQuery } from "@/hooks/admin/usePackage";
+import { PackageItinerary } from "@/components/admin/package/packageDetails/PackageItinerary";
+import { PackageImageGallery } from "@/components/admin/package/packageDetails/PackageImageGallery";
 
 interface PackageDetailsProps {
   className?: string;
@@ -39,7 +41,14 @@ export function PackageDetailsPageAdmin({ className }: PackageDetailsProps) {
   useEffect(() => {
     if (!data) return;
     setPackageData(data.packages);
+    console.log(packageData)
   }, [packageId, data]);
+
+  useEffect(() => {
+  if (packageData) {
+    console.log("Updated packageData:", packageData);
+  }
+}, [packageData]);
 
   if (isLoading) {
     return (
@@ -95,7 +104,10 @@ export function PackageDetailsPageAdmin({ className }: PackageDetailsProps) {
           price={packageData.price}
           status={packageData.status}
           title={packageData.title}
+          agencyId={packageData.agencyId}
         />
+
+        <PackageImageGallery images={packageData.images}/>
 
         <PackageMainInfo
           category={packageData.category}
@@ -113,6 +125,11 @@ export function PackageDetailsPageAdmin({ className }: PackageDetailsProps) {
         <PackageHighlights tags={packageData.tags} />
 
         <PackageAbout description={packageData.description} />
+
+
+        <PackageItinerary
+        itineraryDetails={packageData.itineraryDetails.days}
+        />
 
         <PackageTabsSection
           cancellationPolicy={packageData.cancellationPolicy}

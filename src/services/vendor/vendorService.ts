@@ -118,8 +118,8 @@ export const addGuide = async (data: UserDto) => {
 
 //----------guide details api-----------
 export const getGuideDetails = async (id: string) => {
-  const response = await vendorAxiosInstance.get("/_ve/vendor/guide", {
-    params: { id }, // pass as object for query params
+  const response = await vendorAxiosInstance.get("/_ve/vendor/guide-details", {
+    params: { id },
   });
   return response.data;
 };
@@ -252,6 +252,12 @@ export const createActivity = async(activityData : any) => {
 //-----------delete an activity---------
 export const deleteActivity = async ({itineraryId,dayNumber,activityId} : {itineraryId : string,dayNumber : number,activityId : string}) : Promise<AxiosResponse> => {
    const response = await vendorAxiosInstance.delete("/_ve/vendor/activity",{data : {itineraryId,dayNumber,activityId}});
+   return response.data;
+}
+
+//---------update package status-------
+export const updatePackageStatus = async (packageId : string,status : string) => {
+   const response = await vendorAxiosInstance.put("/_ve/vendor/package/status",{packageId,status});
    return response.data;
 }
 

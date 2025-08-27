@@ -14,7 +14,7 @@ export const NoAuthRoute = ({element } : NoAuthRouteProps) =>{
     }
 
     if (client){
-        return <Navigate to={"/landing"}/>
+        return <Navigate to={"/home"}/>
     }
 
     return element

@@ -74,7 +74,7 @@ export function EditPackage({ className }: EditPackageProps) {
   const [activeTab, setActiveTab] = useState("basic-details")
   const [packageData, setPackageData] = useState<TravelPackage | null>(null)
   const [isPreviewMode, setIsPreviewMode] = useState(false)
-  const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId)
+  const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId,"vendor");
 
   const initialValues = {
     basicDetails: {
@@ -108,6 +108,58 @@ export function EditPackage({ className }: EditPackageProps) {
 
   if (isLoading) return <Spinner />
   if (isError) return <div>Error: {error.message}</div>
+
+    if (packageData && packageData.status !== "draft") {
+    return (
+      <div className={cn("lg:ml-64 min-h-screen bg-gradient-to-br from-slate-100 to-blue-100/80", className)}>
+        <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-lg">
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={() => navigate(`/vendor/packages/${packageId}`)}
+                variant="ghost"
+                size="sm"
+                className="hover:bg-white/80 border border-slate-300 transition-all duration-200 hover:shadow-md"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Package Details
+              </Button>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-[#1a5f6b]">Edit Package</h1>
+                <p className="text-sm text-slate-600">Package ID: {packageId}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Disabled Message */}
+          <Card className="border-0 shadow-xl bg-white">
+            <CardContent className="p-8 text-center">
+              <div className="max-w-md mx-auto space-y-4">
+                <div className="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center">
+                  <Edit3 className="h-8 w-8 text-yellow-600" />
+                </div>
+                <h2 className="text-xl font-semibold text-gray-900">Package Cannot Be Edited</h2>
+                <p className="text-gray-600">
+                  This package cannot be edited because its current status is{" "}
+                  <span className="font-semibold text-gray-900">"{packageData.status}"</span>. Only packages with
+                  "draft" status can be edited.
+                </p>
+                <div className="pt-4">
+                  <Button
+                    onClick={() => navigate(`/vendor/packages/${packageId}`)}
+                    className="bg-[#2CA4BC] hover:bg-[#1a5f6b] text-white"
+                  >
+                    View Package Details
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    )
+  }
 
   // Create preview data combining current form values
   const getPreviewData = (values: any) => {

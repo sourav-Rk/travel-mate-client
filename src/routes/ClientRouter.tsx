@@ -7,8 +7,6 @@ import { NoAuthRoute } from "@/protected/PubliceRoute";
 import { AuthRoute } from "@/protected/ProtectedRoute";
 import ClientLayout from "@/components/layouts/ClientLayout";
 import NotFoundPage from "@/components/NotFound";
-import LandingPage from "@/pages/common/LandingPage";
-import AuthPage from "@/components/logindemo/AuthPage";
 import { ProfilePage } from "@/components/client/Profile";
 import { ProfileEditPage } from "@/components/client/ProfileEdit";
 import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
@@ -18,19 +16,26 @@ import ClientLayoutProfile from "@/components/layouts/ClientLayoutProfile";
 import TravelHomePage from "@/pages/user/TravelHomePage";
 import PackagesListingPage from "@/pages/user/PackagesListingPage";
 import PackageDetailsPage from "@/pages/user/PackageDetailsPage";
+import VolunteeringLanding from "@/components/client/VolunteeringLanding";
 
 const ClientRouter = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+
+        <Route
+          path="/"
+          element={<ClientLayout />} >
+           <Route path="/" element={<TravelHomePage />} />
+          <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
+          <Route path="packages" element={<PackagesListingPage/>} />
+
+          <Route path="volunteering" element={<VolunteeringLanding/>}/>
+        </Route>
+        
         <Route
           path="/login"
           element={<NoAuthRoute element={<UserLogin />} />}
-        />
-        <Route
-          path="/login/auth"
-          element={<NoAuthRoute element={<AuthPage />} />}
         />
         <Route
           path="/signup"
@@ -71,9 +76,8 @@ const ClientRouter = () => {
             <AuthRoute allowedRoles={["client"]} element={<ClientLayout />} />
           }
         >
-          <Route path="/landing" element={<TravelHomePage />} />
-          <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
-          <Route path="packages" element={<PackagesListingPage/>} />
+          <Route path="/home" element={<TravelHomePage />} />
+         
         </Route>
 
         {/*  */}

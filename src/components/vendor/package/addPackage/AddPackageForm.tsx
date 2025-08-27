@@ -138,9 +138,9 @@ export default function AddPackageForm() {
       } else if (currentStep === 1) {
         // Itinerary validation
         const hasItineraryErrors = errors.itinerary && errors.itinerary.length > 0;
+        console.log(errors.itinerary)
         
         if (hasItineraryErrors) {
-          // Mark itinerary fields as touched
           values.itinerary.forEach((_, index) => {
             setFieldTouched(`itinerary.${index}.title`, true);
             setFieldTouched(`itinerary.${index}.description`, true);

@@ -10,7 +10,7 @@ export default function TravelFooter() {
               <div className="w-8 h-8 bg-[#2CA4BC] rounded-full flex items-center justify-center">
                 <MapPin className="w-5 h-5 text-white" />
               </div>
-              <span className="ml-3 text-xl font-bold">TravelCo</span>
+              <span className="ml-3 text-xl font-bold">TravelMate</span>
             </div>
             <p className="text-gray-400">Your trusted partner for unforgettable travel experiences around the globe.</p>
           </div>

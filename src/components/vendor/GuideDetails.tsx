@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import {User,Mail,Phone,Users,FileText,Briefcase,Languages,CalendarDays,FileCheck,Eye,X,ArrowLeft,CheckCircle,Clock,} from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import { useGuideDetailsQuery } from "@/hooks/vendor/useGuide"
 
 interface Guide {
@@ -49,7 +49,7 @@ export function GuideDetails() {
 
   useEffect(() => {
     if (data) {
-      setGuide(data.users[0])
+      setGuide(data.user)
     }
   }, [data])
 

@@ -220,11 +220,13 @@ export function BasicDetailsForm({ className }: BasicDetailsFormProps) {
               <DollarSign className="h-4 w-4 text-[#2CA4BC]" />
               Price (₹) *
             </Label>
-            <Input
+           <Input
               type="number"
               min="500"
-              value={values.basicDetails?.price || 500}
-              onChange={(e) => setFieldValue("basicDetails.price", Number.parseFloat(e.target.value) || 0)}
+              value={values.basicDetails?.price ?? ""}
+              onChange={(e) =>
+                setFieldValue("basicDetails.price", e.target.value ? Number.parseFloat(e.target.value) : "")
+              }
               className="focus:border-[#2CA4BC] focus:ring-[#2CA4BC]"
             />
             {touched.basicDetails?.price && errors.basicDetails?.price && (

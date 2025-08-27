@@ -35,8 +35,13 @@ export default function InclusionsExclusionsSection({
             onChange={(e) => setNewInclusion(e.target.value)}
             placeholder="e.g., Accommodation, Meals, Transport"
             className="focus:border-green-400 focus:ring-green-400"
-            onKeyPress={(e) => e.key === "Enter" && handleAddInclusion()}
-          />
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); 
+                handleAddInclusion();
+              }
+            }}
+                    />
           <Button type="button" onClick={handleAddInclusion} size="sm" className="bg-green-600 hover:bg-green-700">
             <Plus className="h-4 w-4" />
           </Button>
@@ -65,7 +70,12 @@ export default function InclusionsExclusionsSection({
             onChange={(e) => setNewExclusion(e.target.value)}
             placeholder="e.g., Personal expenses, Tips"
             className="focus:border-red-400 focus:ring-red-400"
-            onKeyPress={(e) => e.key === "Enter" && handleAddExclusion()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); 
+                handleAddExclusion();
+              }
+            }}
           />
           <Button type="button" onClick={handleAddExclusion} size="sm" className="bg-red-600 hover:bg-red-700">
             <Plus className="h-4 w-4" />

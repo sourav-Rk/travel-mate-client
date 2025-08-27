@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useCallback, useEffect, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
@@ -7,60 +9,95 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {Search,Eye,Edit,Trash2,Plus,MapPin,Calendar,Users,DollarSign,Star,MoreHorizontal,} from "lucide-react"
+import {
+  Search,
+  Eye,
+  Edit,
+  Trash2,
+  Plus,
+  MapPin,
+  Calendar,
+  Users,
+  DollarSign,
+  Star,
+  MoreHorizontal,
+  Send,
+} from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from "react-router-dom"
-import { useGetPackagesQuery, type PackageDetails } from "@/hooks/vendor/usePackage"
+import { useGetPackagesQuery, useUpdatePackageStatusMutation, type PackageDetails } from "@/hooks/vendor/usePackage"
 import { getAllPackages } from "@/services/vendor/vendorService"
 import Pagination from "@/components/Pagination"
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/Spinner"
 import _ from "lodash"
+import toast from "react-hot-toast"
 
-type PackageStatus = "all" | "active" | "inactive" | "draft"
+type PackageStatus = "all" | "active" | "ongoing" | "draft" | "completed" | "blocked"
 type PackageCategory = "all" | "nature" | "beach" | "adventure" | "heritage" | "cultural"
 
 export function PackagesTable() {
-  const navigate = useNavigate();
-  const [packages,setPackage] = useState<PackageDetails[]>();
-  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate()
+  const [packages, setPackage] = useState<PackageDetails[]>()
+  const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<PackageStatus>("all")
   const [categoryFilter, setCategoryFilter] = useState<PackageCategory>("all")
-  const [currentPage, setCurrentPage] = useState(1);
-  const [page,setPage] = useState(1);
-  const [totalPages,setTotalPages] = useState(0);
-  const limit =5;
-  
-  const {data,isLoading} = useGetPackagesQuery(getAllPackages,page,limit,debouncedSearchTerm,statusFilter,categoryFilter,"vendor");
+  const [currentPage, setCurrentPage] = useState(1)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
+  const limit = 5;
+
+  const {mutate : updateStatus}= useUpdatePackageStatusMutation();
+
+  const { data, isLoading } = useGetPackagesQuery(
+    getAllPackages,
+    page,
+    limit,
+    debouncedSearchTerm,
+    statusFilter,
+    categoryFilter,
+    "vendor",
+  )
 
   const debouncedSearch = useCallback(
     _.debounce((query) => {
-        setDebouncedSearchTerm(query)
-    },500),
-    []
+      setDebouncedSearchTerm(query)
+    }, 500),
+    [],
   )
 
-  useEffect(() =>{
-    if(!data) return;
-    setPackage(data.packages);
-    setCurrentPage(data.currentPage);
-    setTotalPages(data.totalPages);
-  },[data,categoryFilter,statusFilter]);
+  useEffect(() => {
+    if (!data) return
+    setPackage(data.packages)
+    setCurrentPage(data.currentPage)
+    setTotalPages(data.totalPages)
+  }, [data, categoryFilter, statusFilter])
 
-  if(isLoading) return <Spinner/>;
+  if (isLoading) return <Spinner />;
 
-   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchQuery(e.target.value)
-      debouncedSearch(e.target.value)
-    }
+  const handleUpdatePackageStatus = (packageId : string,status:string) => {
+      updateStatus({packageId,status},{
+        onSuccess :(response) => {
+           toast.success(response.message);
+        },
+        onError : (error : any) => {
+          toast.error(error?.response.data.message);
+        }
+      })
+  }
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+    debouncedSearch(e.target.value)
+  }
 
   const navigateToAddPackage = () => {
     navigate("/vendor/packages/add")
   }
 
-  const handleViewPackage = (id : string) => {
-     navigate(`/vendor/packages/${id}`)
+  const handleViewPackage = (id: string) => {
+    navigate(`/vendor/packages/${id}`)
   }
 
   const getStatusConfig = (status: string) => {
@@ -98,7 +135,11 @@ export function PackagesTable() {
                 <CardTitle className="text-2xl md:text-3xl font-bold">Package Management</CardTitle>
                 <p className="text-white/90 mt-1">Manage your travel packages and bookings</p>
               </div>
-              <Button onClick={navigateToAddPackage} className="bg-white text-[#1a5f6b] hover:bg-white/90 shadow-lg" size="lg">
+              <Button
+                onClick={navigateToAddPackage}
+                className="bg-white text-[#1a5f6b] hover:bg-white/90 shadow-lg"
+                size="lg"
+              >
                 <Plus className="h-5 w-5 mr-2" />
                 Add New Package
               </Button>
@@ -189,8 +230,10 @@ export function PackagesTable() {
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="ongoing">Ongoing</SelectItem>
                     <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="blocked">Blocked</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -233,7 +276,12 @@ export function PackagesTable() {
                   {packages?.map((pkg) => {
                     const statusConfig = getStatusConfig(pkg?.status)
                     return (
-                      <TableRow key={pkg._id} className="border-[#2CA4BC]/10 hover:bg-[#2CA4BC]/5 transition-colors">
+                      <TableRow
+                        key={pkg._id}
+                        className={`border-[#2CA4BC]/10 hover:bg-[#2CA4BC]/5 transition-colors ${
+                          pkg.isBlocked ? "bg-red-50/50 opacity-60 hover:bg-red-100/50" : ""
+                        }`}
+                      >
                         <TableCell className="py-4">
                           <div className="flex items-center gap-3">
                             <Avatar className="h-12 w-16 rounded-lg">
@@ -274,19 +322,24 @@ export function PackagesTable() {
                           <p className="text-xs text-gray-500">per person</p>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className={statusConfig.className}>
-                            {statusConfig.label}
-                          </Badge>
+                          <div className="flex flex-col gap-1">
+                            <Badge variant="outline" className={statusConfig.className}>
+                              {statusConfig.label}
+                            </Badge>
+                            {pkg.isBlocked && (
+                              <Badge variant="outline" className="bg-red-100 text-red-800 border-red-300 text-xs">
+                                🚫 Blocked
+                              </Badge>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell>
-                          <p className="font-medium text-[#1a5f6b]">{ ""}</p>
+                          <p className="font-medium text-[#1a5f6b]">{""}</p>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
                             <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                            <span className="font-medium text-[#1a5f6b]">
-                              { "N/A"}
-                            </span>
+                            <span className="font-medium text-[#1a5f6b]">{"N/A"}</span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -305,6 +358,12 @@ export function PackagesTable() {
                                 <Edit className="h-4 w-4 mr-2" />
                                 Edit Package
                               </DropdownMenuItem>
+                              {pkg.status === "draft" && (
+                                <DropdownMenuItem onClick={() => handleUpdatePackageStatus(pkg._id,"active")} className="cursor-pointer text-green-600">
+                                  <Send className="h-4 w-4 mr-2" />
+                                  Publish Package
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuItem className="cursor-pointer text-red-600">
                                 <Trash2 className="h-4 w-4 mr-2" />
                                 Delete Package
@@ -331,11 +390,7 @@ export function PackagesTable() {
           </CardContent>
         </Card>
 
-         <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setPage}
-         />
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setPage} />
       </div>
     </div>
   )
