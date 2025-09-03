@@ -17,6 +17,8 @@ import TravelHomePage from "@/pages/user/TravelHomePage";
 import PackagesListingPage from "@/pages/user/PackagesListingPage";
 import PackageDetailsPage from "@/pages/user/PackageDetailsPage";
 import VolunteeringLanding from "@/components/client/VolunteeringLanding";
+import BookingsView from "@/components/client/Bookings/BookingView";
+import BookingDetailsViewClientPage from "@/pages/user/BookingDetailsViewClientPage";
 
 const ClientRouter = () => {
   return (
@@ -77,6 +79,7 @@ const ClientRouter = () => {
           }
         >
           <Route path="/home" element={<TravelHomePage />} />
+
          
         </Route>
 
@@ -104,6 +107,10 @@ const ClientRouter = () => {
             />
           }
         />
+
+        <Route path="bookings" element={<AuthRoute allowedRoles={["client"]} element={<BookingsView/>}/>}/>
+        
+        <Route path="bookings/:bookingId" element={<AuthRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
          
        </Route>
 

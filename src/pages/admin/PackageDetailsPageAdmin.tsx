@@ -120,6 +120,8 @@ export function PackageDetailsPageAdmin({ className }: PackageDetailsProps) {
           status={packageData.status}
           tags={packageData.tags}
           title={packageData.title}
+          startDate={packageData.startDate}
+          endDate={packageData.endDate}
         />
 
         <PackageHighlights tags={packageData.tags} />

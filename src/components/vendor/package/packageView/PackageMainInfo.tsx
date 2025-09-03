@@ -27,6 +27,11 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
     }
   }
 
+  const handleViewBookings = (packageId : string) => {
+    console.log("triggeredddd")
+    navigate(`/vendor/bookings/${packageId}`)
+  }
+
 
    
   return (
@@ -76,6 +81,7 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                 {!canEdit && <p className="text-xs text-red-600 max-w-48 text-right">{editMessage}</p>}
               </div>
                 <Button
+                onClick={() => handleViewBookings(packageData._id)}
                   variant="outline"
                   className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >

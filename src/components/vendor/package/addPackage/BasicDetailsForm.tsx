@@ -215,6 +215,22 @@ export function BasicDetailsForm({ className }: BasicDetailsFormProps) {
               <p className="text-red-500 text-sm">{errors.basicDetails.maxGroupSize}</p>
             )}
           </div>
+           <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-[#2CA4BC]" />
+              Min Group Size *
+            </Label>
+            <Input
+              type="number"
+              min="1"
+              value={values.basicDetails?.minGroupSize || 1}
+              onChange={(e) => setFieldValue("basicDetails.minGroupSize", Number.parseInt(e.target.value) || 10)}
+              className="focus:border-[#2CA4BC] focus:ring-[#2CA4BC]"
+            />
+            {touched.basicDetails?.minGroupSize && errors.basicDetails?.minGroupSize && (
+              <p className="text-red-500 text-sm">{errors.basicDetails.minGroupSize}</p>
+            )}
+          </div>
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-[#2CA4BC]" />

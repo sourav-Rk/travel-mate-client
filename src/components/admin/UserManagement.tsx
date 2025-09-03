@@ -267,7 +267,7 @@ export default function UserManagement() {
                           <p className="font-medium text-slate-900 truncate">{user.email}</p>
                         </TableCell>
                         <TableCell className="hidden md:table-cell py-6">
-                          <p className="text-slate-700 font-medium">{user.phone}</p>
+                          <p className="text-slate-700 font-medium">{user.phone || "N/A"}</p>
                         </TableCell>
                         <TableCell className="py-6 text-center">
                           <div className="flex justify-center">{getStatusBadge(user.isBlocked)}</div>

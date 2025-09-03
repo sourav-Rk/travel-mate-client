@@ -60,6 +60,11 @@ const basicDetailsSchema = Yup.object().shape({
     .min(10, "Group size must be at least 10")
     .max(50, "Group size cannot exceed 50")
     .integer("Group size must be a whole number"),
+  minGroupSize: Yup.number()
+    .required("Minimum group size is required")
+    .min(10, "Group size must be at least 10")
+    .max(50, "Group size cannot exceed 50")
+    .integer("Group size must be a whole number"),
 
   price: Yup.number()
     .required("Price is required")

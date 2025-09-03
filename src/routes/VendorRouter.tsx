@@ -18,7 +18,8 @@ import AddPackageForm from "@/components/vendor/package/addPackage/AddPackageFor
 import { PackagesTable } from "@/components/vendor/package/packageTable/PackagesTable";
 import { PackageDetailsPage } from "@/pages/vendor/PackageDetailsPage";
 import { EditPackage } from "@/components/vendor/package/editPackage/EditPackage";
-
+import { BookingListTable } from "@/components/vendor/booking/BookingTable"; 
+import BookingDetailsVendorPage from "@/pages/vendor/BookingDetailsVendorPage";
 
 const VendorRouter = () => {
   return (
@@ -40,6 +41,8 @@ const VendorRouter = () => {
        <Route path="packages/:packageId" element={<PackageDetailsPage/>}/>
        <Route path="packages/add" element={<AddPackageForm/>}/>
        <Route path="packages" element={<PackagesTable/>}/>
+       <Route path="bookings/:packageId" element={<BookingListTable/>}/>
+       <Route path="bookings/users/:bookingId" element={<BookingDetailsVendorPage/>}/>
        </Route>
         <Route path="*" element={<NotFoundPage />} /> 
       </Routes>

@@ -9,6 +9,7 @@ export interface PackageFormData {
     meetingPoint: string
     images: File[]
     maxGroupSize: number
+    minGroupSize : number
     price: number
     cancellationPolicy: string
     termsAndConditions: string
@@ -44,6 +45,7 @@ export interface BasicDetails {
   description: string;
   category: string;
   maxGroupSize: number;
+  minGroupSize : number;
   price: number;
   tags: string[];
   startDate: Date | null;

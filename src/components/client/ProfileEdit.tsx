@@ -75,7 +75,9 @@ export function ProfileEditPage() {
       lastName: client?.lastName || "",
       email: client?.email || "",
       phone: client?.phone || "",
-      gender: client?.gender || "",
+     gender: client?.gender
+      ? client.gender.charAt(0).toUpperCase() + client.gender.slice(1).toLowerCase()
+      : "",
       bio: client?.bio || "",
       profileImage: client?.profileImage || "",
     },
@@ -295,10 +297,8 @@ export function ProfileEditPage() {
                     Gender
                   </Label>
                   <Select
-                    value={formik.values.gender}
-                    onValueChange={(value) =>
-                      formik.setFieldValue("gender", value)
-                    }
+                     value={formik.values.gender || undefined}
+                     onValueChange={(value) => formik.setFieldValue("gender", value)}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select your gender" />

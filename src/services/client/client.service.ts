@@ -117,10 +117,74 @@ export const getRelatedPackages = async ({
 };
 
 //---------get trending packages----------
-export const getTrendingPackages = async() => {
-  const response = await clientAxiosInstance.get('_cl/client/packages/trending');
+export const getTrendingPackages = async () => {
+  const response = await clientAxiosInstance.get(
+    "_cl/client/packages/trending"
+  );
   return response.data;
+};
+
+//apply for a booking api
+export const applyPackage = async (packageId: string) => {
+  const response = await clientAxiosInstance.post("/_cl/client/booking/apply", {
+    packageId,
+  });
+  return response.data;
+};
+
+//get single booking details api
+export const getBookingDetails = async (packageId: string) => {
+  const response = await clientAxiosInstance.get(
+    `/_cl/client/booking/package/${packageId}`
+  );
+  return response.data;
+};
+
+//get booking details
+export const getBookingDetailsVendor = async(bookingId : string) => {
+   const response = await clientAxiosInstance.get(`/_cl/client/booking/${bookingId}`);
+   return response.data;
 }
+
+//get booking list
+export const getBookingsBasedOnStatus = async ({
+  status,
+}: {
+  status: string[];
+}) => {
+  const response = await clientAxiosInstance.get("/_cl/client/bookings", {
+    params: { status: status.join(",") },
+  });
+  return response.data;
+};
+
+//get booking details
+export const getBookingDetailsClient = async (bookingId: string) => {
+  const response = await clientAxiosInstance.get(
+    `/_cl/client/booking/${bookingId}`
+  );
+  return response.data;
+};
+
+//get notifications
+export const getNotificationsClient = async () => {
+  const response = await clientAxiosInstance.get("/_cl/client/notifications");
+  return response.data;
+};
+
+//set single notification as read
+export const markNotificationReadClient = async (notificationId: string) => {
+  const response = await clientAxiosInstance.patch(
+    `/_cl/client/notifications/${notificationId}`
+  );
+  return response.data;
+};
+
+//set all notifications as read
+export const markAllNotificationReadClient = async () => {
+  const response = await clientAxiosInstance.patch("_cl/client/notifications");
+  return response.data;
+};
 
 //-------upload images api------------
 export const uploadImages = async (

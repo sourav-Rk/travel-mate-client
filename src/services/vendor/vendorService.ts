@@ -6,7 +6,6 @@ import type { AxiosResponse } from "../auth/authService";
 import type { IVendor, UserDto } from "@/types/User";
 import type { BasicDetails } from "@/types/packageType";
 
-
 export interface Vendor {
   _id: string;
   firstName: string;
@@ -184,14 +183,14 @@ export const getAllPackages = async ({
   searchTerm,
   status,
   category,
-  userType
+  userType,
 }: {
   page: number;
   limit: number;
   searchTerm: string;
   status: string;
   category: string;
-  userType : string;
+  userType: string;
 }) => {
   const response = await vendorAxiosInstance.get("/_ve/vendor/package", {
     params: {
@@ -200,66 +199,166 @@ export const getAllPackages = async ({
       searchTerm,
       status,
       category,
-      userType
+      userType,
     },
   });
   return response.data;
 };
 
 //---------get package details api---------
-export const getPackageDetails = async(packageId : string,userType : string) =>{
-    try{
-      const response = await vendorAxiosInstance.get(`/_ve/vendor/package/${packageId}`,{params : {userType}});
-      return response.data;
-    }catch(error: any){
-       throw error;
-    }
-}
-
-//-------update package basicdetails----------
-export const updatePackageBasicDetails = async (packageId : string,basicData : BasicDetails) => {
-  try{
-     const response = await vendorAxiosInstance.put(`/_ve/vendor/package/${packageId}`,basicData);
-     return response.data;
-  }catch(error : any){
-     throw error;
-  }
-}
-
-//--------update itinerary-------
-export const updateItinerary  = async(itineraryId : string,itineraryData : any) => {
-  try{
-    const response = await vendorAxiosInstance.put(`/_ve/vendor/itinerary/${itineraryId}`,{days : itineraryData});
-    return response.data
-  }catch(error : any){
+export const getPackageDetails = async (
+  packageId: string,
+  userType: string
+) => {
+  try {
+    const response = await vendorAxiosInstance.get(
+      `/_ve/vendor/package/${packageId}`,
+      { params: { userType } }
+    );
+    return response.data;
+  } catch (error: any) {
     throw error;
   }
-}
+};
+
+//-------update package basicdetails----------
+export const updatePackageBasicDetails = async (
+  packageId: string,
+  basicData: BasicDetails
+) => {
+  try {
+    const response = await vendorAxiosInstance.put(
+      `/_ve/vendor/package/${packageId}`,
+      basicData
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
+};
+
+//--------update itinerary-------
+export const updateItinerary = async (
+  itineraryId: string,
+  itineraryData: any
+) => {
+  try {
+    const response = await vendorAxiosInstance.put(
+      `/_ve/vendor/itinerary/${itineraryId}`,
+      { days: itineraryData }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
+};
 
 //update the activity
-export const updateActivity = async(activityId : string,activityData : any) => {
-    const response = await vendorAxiosInstance.put(`/_ve/vendor/activity/${activityId}`,activityData);
-    return response.data;
-}
-
+export const updateActivity = async (activityId: string, activityData: any) => {
+  const response = await vendorAxiosInstance.put(
+    `/_ve/vendor/activity/${activityId}`,
+    activityData
+  );
+  return response.data;
+};
 
 //-------add an activity----------
-export const createActivity = async(activityData : any) => {
-   const response = await vendorAxiosInstance.post("/_ve/vendor/activity",activityData);
-   return response.data;
-}
+export const createActivity = async (activityData: any) => {
+  const response = await vendorAxiosInstance.post(
+    "/_ve/vendor/activity",
+    activityData
+  );
+  return response.data;
+};
 
 //-----------delete an activity---------
-export const deleteActivity = async ({itineraryId,dayNumber,activityId} : {itineraryId : string,dayNumber : number,activityId : string}) : Promise<AxiosResponse> => {
-   const response = await vendorAxiosInstance.delete("/_ve/vendor/activity",{data : {itineraryId,dayNumber,activityId}});
+export const deleteActivity = async ({
+  itineraryId,
+  dayNumber,
+  activityId,
+}: {
+  itineraryId: string;
+  dayNumber: number;
+  activityId: string;
+}): Promise<AxiosResponse> => {
+  const response = await vendorAxiosInstance.delete("/_ve/vendor/activity", {
+    data: { itineraryId, dayNumber, activityId },
+  });
+  return response.data;
+};
+
+//---------update package status-------
+export const updatePackageStatus = async (
+  packageId: string,
+  status: string
+) => {
+  const response = await vendorAxiosInstance.put("/_ve/vendor/package/status", {
+    packageId,
+    status,
+  });
+  return response.data;
+};
+
+//----------bookings-----------
+
+//get bookings for a package
+export const getBookingsVendor = async ({
+  packageId,
+  page = 1,
+  limit = 5,
+  searchTerm,
+  status,
+}: {
+  packageId: string;
+  page: number;
+  limit: number;
+  searchTerm: string;
+  status: string;
+}) => {
+  const response = await vendorAxiosInstance.get(
+    `/_ve/vendor/bookings/${packageId}`,
+    {
+      params: {
+        page,
+        limit,
+        searchTerm,
+        status,
+      },
+    }
+  );
+  return response.data;
+};
+
+//get booking details
+export const getBookingDetailsVendor = async(bookingId : string) => {
+   const response = await vendorAxiosInstance.get(`/_ve/vendor/bookings/users/${bookingId}`);
    return response.data;
 }
 
-//---------update package status-------
-export const updatePackageStatus = async (packageId : string,status : string) => {
-   const response = await vendorAxiosInstance.put("/_ve/vendor/package/status",{packageId,status});
+//send-payment alert
+export const sendPaymentAlert = async(packageId : string) => {
+  const response = await vendorAxiosInstance.put(`/_ve/vendor/bookings/${packageId}/payment-alert`);
+  return response.data;
+}
+
+//get notifications
+export const getNotificationsVendor = async() => {
+  const response = await vendorAxiosInstance.get("/_ve/vendor/notifications");
+  return response.data;
+}
+
+//set single notification as read
+export const markNotificationReadVendor = async(notificationId : string) => {
+   const response = await vendorAxiosInstance.patch(`/_ve/vendor/notifications/${notificationId}`);
    return response.data;
 }
+
+//set all notifications as read
+export const markAllNotificationReadVendor = async() => {
+  const response = await vendorAxiosInstance.patch("/_ve/vendor/notifications");
+  return response.data;
+}
+
 
 //-------update vendor status api------------
 export const updateVendorStatus = async (

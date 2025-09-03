@@ -34,7 +34,7 @@ import toast from "react-hot-toast"
 import ConfirmationModal from "@/components/modals/ConfirmationModal"
 
 
-type PackageStatus = "all" | "active" | "inactive" | "draft"
+type PackageStatus = "all" | "active" | "inactive" | "draft" | "ongoing"
 type PackageCategory = "all" | "nature" | "beach" | "adventure" | "heritage" | "cultural"
 
 export function AdminPackagesView() {
@@ -111,6 +111,8 @@ export function AdminPackagesView() {
     switch (status) {
       case "active":
         return { label: "Active", className: "bg-green-900/20 text-green-400 border-green-400/30" }
+      case "ongoing":
+        return { label: "Ongoing", className: "bg-blue-900/20 text-blue-700 border-green-400/30" }
       case "inactive":
         return { label: "Inactive", className: "bg-red-900/20 text-red-400 border-red-400/30" }
       case "draft":

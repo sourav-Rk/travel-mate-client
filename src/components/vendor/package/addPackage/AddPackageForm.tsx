@@ -46,6 +46,7 @@ export default function AddPackageForm() {
       meetingPoint: "",
       images: [],
       maxGroupSize: 1,
+      minGroupSize : 1,
       price: 0,
       cancellationPolicy: "",
       termsAndConditions: "",
@@ -120,7 +121,7 @@ export default function AddPackageForm() {
         // Basic Details validation - mark fields as touched to show errors
         const basicDetailsFields = [
           'packageName', 'title', 'description', 'category', 'meetingPoint', 
-          'maxGroupSize', 'price', 'cancellationPolicy', 'termsAndConditions',
+          'maxGroupSize','minGroupSize', 'price', 'cancellationPolicy', 'termsAndConditions',
           'startDate', 'endDate'
         ];
         

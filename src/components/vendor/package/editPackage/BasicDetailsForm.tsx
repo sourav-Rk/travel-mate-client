@@ -32,7 +32,7 @@ export function BasicDetailsForm({ packageId }: BasicDetailsFormProps) {
     touched, 
     dirty,
     validateForm,
-    setTouched
+    setTouched,
   } = useFormikContext<FormValues>();
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -44,6 +44,8 @@ export function BasicDetailsForm({ packageId }: BasicDetailsFormProps) {
   const { mutateAsync: uploadImages } = useUploadImagesMutation()
 
   const basicDetails = values.basicDetails
+
+  console.log(values.basicDetails.category,"---> basicdetails")
 
   const handleSaveClick = async () => {
     // Trigger validation and mark all fields as touched
@@ -125,6 +127,7 @@ export function BasicDetailsForm({ packageId }: BasicDetailsFormProps) {
         tags: basicDetails.tags,
         meetingPoint: basicDetails.meetingPoint,
         maxGroupSize: basicDetails.maxGroupSize,
+        minGroupSize : basicDetails.minGroupSize,
         price: basicDetails.price,
         startDate: basicDetails.startDate,
         endDate: basicDetails.endDate,
@@ -358,6 +361,25 @@ export function BasicDetailsForm({ packageId }: BasicDetailsFormProps) {
           />
           {touched.basicDetails?.maxGroupSize && errors.basicDetails?.maxGroupSize && (
             <p className="text-red-500 text-sm">{errors.basicDetails.maxGroupSize}</p>
+          )}
+        </div>
+        <div className="space-y-2">
+          <Label className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-[#2CA4BC]" />
+            Min Group Size *
+          </Label>
+          <Input
+            type="number"
+            min="1"
+            value={basicDetails.minGroupSize || 1}
+            onChange={(e) => setFieldValue("basicDetails.minGroupSize", Number.parseInt(e.target.value) || 1)}
+            className={cn(
+              "focus:border-[#2CA4BC] focus:ring-[#2CA4BC]",
+              touched.basicDetails?.minGroupSize && errors.basicDetails?.minGroupSize && "border-red-500",
+            )}
+          />
+          {touched.basicDetails?.minGroupSize && errors.basicDetails?.minGroupSize && (
+            <p className="text-red-500 text-sm">{errors.basicDetails.minGroupSize}</p>
           )}
         </div>
         <div className="space-y-2">

@@ -60,6 +60,16 @@ export function PackageDetails({className }: PackageDetailsProps) {
   console.log(data)
   if(isLoading) return <Spinner/>
   if (isError) return <div>Error: {error.message}</div>;
+
+  const handleViewBookings = (e : React.MouseEvent) => {
+    e.preventDefault()
+    console.log("triggeredddd")
+    navigate(`/vendor/bookings/${packageId}`)
+  }
+
+  const handleEditPackage = () => {
+    navigate(`/vendor/packages/edit/${packageId}`)
+  }
   
   const toggleDay = (dayNumber: number) => {
     setExpandedDays((prev) => (prev.includes(dayNumber) ? prev.filter((d) => d !== dayNumber) : [...prev, dayNumber]))
@@ -107,6 +117,14 @@ export function PackageDetails({className }: PackageDetailsProps) {
               {packageData?.status}
             </Badge>
           </div>
+          <Button
+                     onClick={handleViewBookings}
+                      variant="outline"
+                      className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
+                    >
+                      <Users className="h-4 w-4 mr-2" />
+                      View Bookings
+                    </Button>
         </div>
 
         {/* Main Package Info */}
@@ -155,17 +173,18 @@ export function PackageDetails({className }: PackageDetailsProps) {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Button className="bg-[#2CA4BC] hover:bg-[#1a5f6b] text-white">
+                    <Button onClick={handleEditPackage} className="bg-[#2CA4BC] hover:bg-[#1a5f6b] text-white">
                       <Edit className="h-4 w-4 mr-2" />
                       Edit Package
                     </Button>
-                    <Button
+                    {/* <Button
+                     onClick={handleViewBookings}
                       variant="outline"
                       className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
                     >
                       <Users className="h-4 w-4 mr-2" />
                       View Bookings
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
 

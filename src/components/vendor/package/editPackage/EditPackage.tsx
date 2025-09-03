@@ -51,6 +51,7 @@ const basicDetailsSchema = Yup.object().shape({
     description: Yup.string().required("Description is required").min(50, "Description must be at least 50 characters"),
     category: Yup.string().required("Category is required"),
     maxGroupSize: Yup.number().required("Max group size is required").min(1, "Group size must be at least 1"),
+    minGroupSize: Yup.number().required("Max group size is required").min(1, "Group size must be at least 1"),
     price: Yup.number().required("Price is required").min(500, "Price must be greater than 500"),
     meetingPoint: Yup.string().required("Meeting point is required"),
     startDate: Yup.date().required("Start date is required").nullable(),
@@ -85,6 +86,7 @@ export function EditPackage({ className }: EditPackageProps) {
       tags: [],
       meetingPoint: "",
       maxGroupSize: 1,
+      minGroupSize : 1,
       price: 0,
       startDate: null,
       endDate: null,
@@ -105,6 +107,7 @@ export function EditPackage({ className }: EditPackageProps) {
       setPackageData(pkg)
     }
   }, [packageId, data])
+
 
   if (isLoading) return <Spinner />
   if (isError) return <div>Error: {error.message}</div>
@@ -216,7 +219,7 @@ export function EditPackage({ className }: EditPackageProps) {
               packageName: packageData.packageName,
               title: packageData.title,
               description: packageData.description,
-              category: packageData.category,
+              category: packageData.category ||"",
               tags: packageData.tags || [],
               meetingPoint: packageData.meetingPoint,
               maxGroupSize: packageData.maxGroupSize,
@@ -230,7 +233,7 @@ export function EditPackage({ className }: EditPackageProps) {
               termsAndConditions: packageData.termsAndConditions,
               images: packageData.images || [],
             })
-            setFieldValue("itinerary", packageData.itineraryDetails?.days || [])
+            setFieldValue("itinerary", packageData.itineraryDetails?.days || []);
           }
         }
 
