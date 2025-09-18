@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 import { ArrowLeft, Save, FileText, Utensils, Upload, Check } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { BasicDetailsForm } from "./BasicDetailsForm"
-import { ItineraryForm } from "./itineraryForm"
 import { ReviewForm } from "./ReviewForm"
+import { ItineraryForm } from "./itineraryForm"
 import { packageFormSchema } from "@/utils/packageFormValidation"
 import { useAddPackageMutation } from "@/hooks/vendor/usePackage"
 import toast from "react-hot-toast"
@@ -96,7 +96,7 @@ export default function AddPackageForm() {
         onSuccess: (response) => {
           toast.success(response.message);
           setIsSubmitting(false);
-          navigate("/vendor/profile")
+          navigate("/vendor/packages")
         },
         onError: (error: any) => {
           toast.error(error.response?.data?.message || error.message || "An error occurred");

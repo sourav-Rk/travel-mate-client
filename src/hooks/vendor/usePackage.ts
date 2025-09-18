@@ -14,6 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface PackageDetails {
   _id: string;
+  packageId ?: string;
   packageName: string;
   title: string;
   slug: string;

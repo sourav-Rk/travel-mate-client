@@ -70,7 +70,7 @@ export function PackageDetailsPage({ className }: PackageDetailsProps) {
   return (
     <div className={cn("lg:ml-64 min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100", className)}>
       <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8">
-        <PackageDetailsHeader packageId={packageData._id} status={packageData.status} />
+        <PackageDetailsHeader packageId={packageData.packageId!} status={packageData.status} />
 
         <PackageMainInfo packageData={packageData} />
 

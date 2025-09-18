@@ -103,6 +103,7 @@ export interface Duration {
 // Main Package interface
 export interface TravelPackage {
   _id: string;
+  packageId ?: string;
   agencyId: string;
   packageName: string;
   title: string;

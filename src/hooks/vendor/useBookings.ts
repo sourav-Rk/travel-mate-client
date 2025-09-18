@@ -55,6 +55,6 @@ export const useSendPaymentAlertMutation = () => {
   return useMutation({
     mutationFn: sendPaymentAlert,
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["bookings-vendor"] }),
+      queryClient.invalidateQueries({ queryKey: ["bookings-vendor","notifications-client"] }),
   });
 };

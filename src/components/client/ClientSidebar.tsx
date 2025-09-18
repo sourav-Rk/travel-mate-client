@@ -238,7 +238,7 @@ const ClientSidebar = ({
     { title: "Profile", href: "/pvt/profile", icon: User },
     { title: "My Bookings", href: "/pvt/bookings", icon: Calendar },
     { title: "Wallet", href: "/wallet", icon: Wallet },
-    { title: "Bucket List", href: "/bucket-list", icon: Heart },
+    { title: "Bucket List", href: "/pvt/wishlist", icon: Heart },
     { title: "Messages", href: "/messages", icon: MessageCircle },
     { title: "Volunteering", href: "/volunteering", icon: UserPlus },
     { title: "Groups", href: "/groups", icon: Users },

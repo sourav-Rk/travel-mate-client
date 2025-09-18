@@ -70,7 +70,7 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="flex flex-col items-end gap-1">
                 <Button
-                  onClick={() => handleEditPackage(packageData._id)}
+                  onClick={() => handleEditPackage(packageData.packageId!)}
                   disabled={!canEdit}
                   variant={canEdit ? "default" : "outline"}
                   className={canEdit ? "bg-blue-600 hover:bg-blue-700 text-white" : "opacity-50 cursor-not-allowed"}
@@ -81,7 +81,7 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                 {!canEdit && <p className="text-xs text-red-600 max-w-48 text-right">{editMessage}</p>}
               </div>
                 <Button
-                onClick={() => handleViewBookings(packageData._id)}
+                onClick={() => handleViewBookings(packageData.packageId!)}
                   variant="outline"
                   className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >

@@ -166,7 +166,7 @@ export default function PackageListingUpdated({
                         </p>
                         <p className="text-sm text-gray-500">per person</p>
                       </div>
-                      <Button onClick={() => handleViewPackage(pkg._id)} className="w-full lg:w-auto bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white">
+                      <Button onClick={() => handleViewPackage(pkg.packageId!)} className="w-full lg:w-auto bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white">
                         View Details
                       </Button>
                     </div>

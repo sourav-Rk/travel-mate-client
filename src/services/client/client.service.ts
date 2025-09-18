@@ -1,5 +1,6 @@
 import { clientAxiosInstance } from "@/api/client.axios";
 import type { PasswordChangeFormType } from "@/types/authTypes";
+import type { AxiosResponse } from "@/services/auth/authService";
 import qs from "qs";
 
 export type Client = {
@@ -141,10 +142,12 @@ export const getBookingDetails = async (packageId: string) => {
 };
 
 //get booking details
-export const getBookingDetailsVendor = async(bookingId : string) => {
-   const response = await clientAxiosInstance.get(`/_cl/client/booking/${bookingId}`);
-   return response.data;
-}
+export const getBookingDetailsVendor = async (bookingId: string) => {
+  const response = await clientAxiosInstance.get(
+    `/_cl/client/booking/${bookingId}`
+  );
+  return response.data;
+};
 
 //get booking list
 export const getBookingsBasedOnStatus = async ({
@@ -182,7 +185,72 @@ export const markNotificationReadClient = async (notificationId: string) => {
 
 //set all notifications as read
 export const markAllNotificationReadClient = async () => {
-  const response = await clientAxiosInstance.patch("_cl/client/notifications");
+  const response = await clientAxiosInstance.patch("/_cl/client/notifications");
+  return response.data;
+};
+
+//pay advance amount api
+export const payAdvanceAmount = async (bookingId: string, amount: number) => {
+  const response = await clientAxiosInstance.post(
+    "/_cl/client/payment/advance",
+    { bookingId, amount }
+  );
+  return response.data;
+};
+
+//pay full amount api
+export const payFullAmount = async (bookingId: string, amount: number) => {
+  const response = await clientAxiosInstance.post("/_cl/client/payment/full", {
+    bookingId,
+    amount,
+  });
+  return response.data;
+};
+
+//get wishlist api
+export const getWishlist = async () => {
+  const response = await clientAxiosInstance.get("/_cl/client/wishlist");
+  return response.data;
+};
+
+//add to wishlist
+export const addToWishlist = async (
+  packageId: string
+): Promise<AxiosResponse> => {
+  const response = await clientAxiosInstance.put("/_cl/client/wishlist", {
+    packageId,
+  });
+  return response.data;
+};
+
+//remove from wishlist
+export const removeFromWishlist = async (
+  packageId: string
+): Promise<AxiosResponse> => {
+  const response = await clientAxiosInstance.patch(
+    "/_cl/client/wishlist/remove",
+    { packageId }
+  );
+  return response.data;
+};
+
+//add a review api
+export const addReview = async (data: {
+  targetType: string;
+  rating: number;
+  comment: string;
+  packageId?: string;
+  guideId?: string;
+}): Promise<AxiosResponse> => {
+  const response = await clientAxiosInstance.post("/_cl/client/review", data);
+  return response.data;
+};
+
+//get package reviews
+export const getPackageReviews = async (packageId: string) => {
+  const response = await clientAxiosInstance.get(
+    `/_cl/client/reviews/packages/${packageId}`
+  );
   return response.data;
 };
 

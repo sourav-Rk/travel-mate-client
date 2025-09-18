@@ -19,7 +19,7 @@ import Advance_Pending_Booking from './AdvancePendingBookings';
 
 
 
-type status = 'applied'  | 'confirmed' | 'advance_paid' | 'advance_pending' | 'completed' | 'cancelled';
+type status = 'applied'  | 'confirmed' | 'advance_paid' | 'advance_pending' | 'completed' | 'cancelled' | 'fully_paid';
 
 interface TabData {
   key: string;
@@ -86,28 +86,17 @@ const UpcomingBookingsTabs: React.FC<UpcomingBookingsTabsProps> = ({ bookings = 
       borderColor: 'border-green-200',
       component: ConfirmedBookings
     },
-    // {
-    //   key: 'advance_paid',
-    //   label: 'Advance Paid',
-    //   icon: CheckCircle,
-    //   count: filterBookings('advance_paid').length,
-    //   color: 'emerald',
-    //   bgColor: 'bg-emerald-500',
-    //   textColor: 'text-emerald-600',
-    //   borderColor: 'border-emerald-200',
-    //   component: AdvancePaidBookings
-    // },
-    // {
-    //   key: 'advance_pending',
-    //   label: 'Advance Pending',
-    //   icon: AlertCircle,
-    //   count: filterBookings('advance_pending').length,
-    //   color: 'yellow',
-    //   bgColor: 'bg-yellow-500',
-    //   textColor: 'text-yellow-600',
-    //   borderColor: 'border-yellow-200',
-    //   component: AdvancePendingBookings
-    // }
+    {
+      key: 'fully_paid',
+      label: 'FullyPaid',
+      icon: CheckCircle,
+      count: filterBookings('fully_paid').length,
+      color: 'emerald',
+      bgColor: 'bg-emerald-500',
+      textColor: 'text-emerald-600',
+      borderColor: 'border-emerald-200',
+      component: ConfirmedBookings
+    },
   ];
 
   const activeTabData = tabs.find(tab => tab.key === activeTab);

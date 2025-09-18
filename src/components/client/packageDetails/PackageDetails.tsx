@@ -16,7 +16,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import type { TravelPackage } from "@/types/packageType";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetPackageDetailsQuery } from "@/hooks/client/useClientPackage";
 import { Spinner } from "@/components/Spinner";
 import {
@@ -28,7 +28,8 @@ import PackageContent from "./PackageContent";
 import type { ClientBookingDetailDto } from "@/types/bookingType";
 import BookingConfirmationModal from "./BookingConfirmationModal";
 import CelebrationAnimation from "./CelebrationAnimation";
-
+import { useAddToWishlistMutation, useGetWishlistQuery, useRemoveFromWishlistMutation } from "@/hooks/wishlist/useWishlist";
+import type { WishlistDto } from "../wishlist/WishlistPage";
 export default function PackageDetails() {
   const { packageId } = useParams<{ packageId: string }>();
   if (!packageId) return <div>No PackageId</div>;
@@ -38,27 +39,31 @@ export default function PackageDetails() {
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [packageData, setPackageData] = useState<TravelPackage>();
+  const [wishlistDetails, setWishlistDetails] = useState<WishlistDto>();
   const [bookingDetails, setBookingDetails] =
     useState<ClientBookingDetailDto>();
   const [bookingStatus, setBookingStatus] = useState<
     | "applied"
-    | "pending"
     | "confirmed"
     | "completed"
     | "waitlisted"
     | "cancelled"
     | "expired"
     | "advance_pending"
-    | "advance_paid"
+    | "fully_paid"
     | "none"
   >("none");
   const [mutationMessage, setMutationMessage] = useState<{
     type: "success" | "error" | null;
     content: string;
   }>({ type: null, content: "" });
+  const navigate = useNavigate();
   const { data, isLoading } = useGetPackageDetailsQuery(packageId);
   const { data: bookingData } = useGetBookingDetails(packageId);
   const { mutate: applyToPackage } = useApplyPackageMutation();
+  const {data : wishlistData,isLoading : wishlistDataLoading} = useGetWishlistQuery();
+  const {mutate : addToWishlist,isPending} = useAddToWishlistMutation();
+  const {mutate : removeFromWishlist,isPending : removePending} = useRemoveFromWishlistMutation();
 
   useEffect(() => {
     if (!packageId) return;
@@ -69,10 +74,21 @@ export default function PackageDetails() {
   useEffect(() => {
     if (bookingData) {
       setBookingDetails(bookingData.bookingDetails);
-      setBookingStatus(bookingData.bookingDetails?.status ?? "none");
+       if (bookingData.bookingDetails?.isWaitlisted) {
+        setBookingStatus("waitlisted")
+      } else {
+        setBookingStatus(bookingData.bookingDetails?.status ?? "none")
+      }
       console.log(bookingData);
     }
   }, [bookingData]);
+
+    useEffect(() => {
+    if (wishlistData) {
+      setWishlistDetails(wishlistData.wishlist);
+    }
+  }, [wishlistData]);
+
 
   useEffect(() => {
     const imageCount = packageData?.images?.length || 0;
@@ -86,9 +102,51 @@ export default function PackageDetails() {
     }
   }, [packageData?.images?.length]);
 
+  const isInWishlist = wishlistDetails?.packages?.some((pkg : any) => pkg?._id === packageId);
+  
+
+  //add to wishlist
+  const handleAddToWishlist = () => {
+    addToWishlist(packageId,{
+      onSuccess :(response) =>{
+        toast.success(response.message);
+      },
+      onError :(error : any) => {
+        toast.error(error?.response?.data.message);
+      }
+    })
+  }
+
+ const handleRemoveFromWishlist = () => {
+  removeFromWishlist(packageId, {
+    onSuccess: (response) => {
+      toast.success(response.message);
+    },
+    onError: (error: any) => {
+      console.error("Error object:", error); 
+
+      const errorMsg =
+        error?.response?.data?.message || 
+        error?.message || 
+        "Something went wrong";
+
+      if (errorMsg.includes("Invalid token")) {
+        toast.error("Please Login");
+      } else {
+        toast.error(errorMsg);
+      }
+    },
+  });
+};
+
+
   const handleBooking = () => {
     setShowConfirmationModal(true);
   };
+
+  const handleNavigationToCheckout = () => {
+     navigate(`/packages/checkout/${bookingDetails?._id}/${packageId}`);
+  }
 
   const handleConfirmBooking = () => {
     setIsBookingLoading(true);
@@ -174,7 +232,7 @@ export default function PackageDetails() {
           </div>
         );
 
-      case "pending":
+      case "advance_pending":
         return (
           <div className="space-y-4">
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
@@ -190,6 +248,7 @@ export default function PackageDetails() {
               </p>
             </div>
             <Button
+              onClick={handleNavigationToCheckout}
               className="w-full bg-orange-600 hover:bg-orange-700 text-white"
               size="lg"
             >
@@ -215,6 +274,7 @@ export default function PackageDetails() {
               </p>
             </div>
             <Button
+              onClick={handleNavigationToCheckout}
               className="w-full bg-green-600 hover:bg-green-700 text-white"
               size="lg"
             >
@@ -224,25 +284,149 @@ export default function PackageDetails() {
           </div>
         );
 
-      default:
+        case "fully_paid":
+  return (
+    <div className="space-y-4">
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="flex items-center gap-3 mb-2">
+          <CheckCircle className="w-5 h-5 text-green-600" />
+          <h4 className="font-semibold text-green-900">
+            Booking Completed!
+          </h4>
+        </div>
+        <p className="text-green-700 text-sm">
+          🎉 Congratulations! You’ve successfully completed your booking and paid the full amount.  
+          Get ready for an amazing trip — we’ll see you soon!
+        </p>
+      </div>
+      <Button
+        disabled
+        className="w-full bg-green-600 text-white cursor-not-allowed"
+        size="lg"
+      >
+        Trip Confirmed ✔
+      </Button>
+    </div>
+  );
+
+
+        case "waitlisted":
         return (
-          <div className="space-y-3">
-            <Button
-              onClick={handleBooking}
-              className="w-full bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white"
-              size="lg"
-            >
-              Book Now
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
-              size="lg"
-            >
-              Add to Wishlist
-            </Button>
+          <div className="space-y-4">
+            {/* Waitlist Information Card */}
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-4">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                  <Clock className="w-4 h-4 text-amber-600" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-amber-800 mb-2">Your booking is waitlisted!</h4>
+                  <p className="text-sm text-amber-700 leading-relaxed mb-3">
+                    Don't worry! If anyone cancels their booking, we will inform you immediately. You'll be the first to
+                    know when a spot becomes available.
+                  </p>
+
+                  {/* Waitlist Status Indicator */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium text-amber-700">Waitlist Active</span>
+                    </div>
+                    <span className="text-xs text-amber-600 font-medium">Notifications Enabled</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Additional Info */}
+              <div className="bg-amber-100/50 rounded-lg p-3 mt-3">
+                <div className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs font-medium text-amber-800 mb-1">What happens next?</p>
+                    <ul className="text-xs text-amber-700 space-y-1">
+                      <li>• We'll monitor for cancellations</li>
+                      <li>• You'll get instant notification if a spot opens</li>
+                      <li>• Your waitlist position is secured</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <Button disabled className="w-full bg-amber-500 text-white cursor-not-allowed opacity-75" size="lg">
+                <Clock className="w-4 h-4 mr-2" />
+                On Waitlist - We'll Notify You
+              </Button>
+
+              {/* Wishlist functionality still available */}
+              {wishlistDataLoading ? (
+                <Button disabled className="w-full">
+                  Checking Wishlist...
+                </Button>
+              ) : isInWishlist ? (
+                <Button
+                  onClick={handleRemoveFromWishlist}
+                  variant="destructive"
+                  className="w-full"
+                  size="lg"
+                  disabled={removePending}
+                >
+                  {removePending ? "Removing..." : "Remove from Wishlist"}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleAddToWishlist}
+                  variant="outline"
+                  className="w-full border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
+                  size="lg"
+                  disabled={isPending}
+                >
+                  {isPending ? "Adding..." : "Add To Wishlist"}
+                </Button>
+              )}
+            </div>
           </div>
-        );
+        )
+
+default:
+  return (
+    <div className="space-y-3">
+      <Button
+        onClick={handleBooking}
+        className="w-full bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white"
+        size="lg"
+      >
+        Book Now
+      </Button>
+
+      {wishlistDataLoading ? (
+        <Button disabled className="w-full">Checking Wishlist...</Button>
+      ) : isInWishlist ? (
+        <Button
+          onClick={handleRemoveFromWishlist}
+          variant="destructive"
+          className="w-full"
+          size="lg"
+          disabled={removePending}
+        >
+           {removePending ? 'Removing' : "Remove from Wishlist"}
+        </Button>
+      ) : (
+        <Button
+          onClick={handleAddToWishlist}
+          variant="outline"
+          className="w-full border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
+          size="lg"
+          disabled={isPending}
+        >
+          {isPending ? 'Adding' : "Add To Wishlist"}
+        </Button>
+      )}
+    </div>
+  );
+
     }
   };
 

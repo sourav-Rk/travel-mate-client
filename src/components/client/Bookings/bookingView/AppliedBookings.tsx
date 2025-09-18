@@ -126,10 +126,6 @@ const AppliedBookings: React.FC<AppliedBookingsProps> = ({ bookings = [] }:{book
                       <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
                         {booking.package?.name}
                       </h3>
-                      <div className="flex items-center gap-1 ml-4 flex-shrink-0">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm font-semibold text-gray-700">{ '4.8'}</span>
-                      </div>
                     </div>
                     
                     <div className="flex items-center text-gray-600 mb-3">
@@ -171,7 +167,7 @@ const AppliedBookings: React.FC<AppliedBookingsProps> = ({ bookings = [] }:{book
                           </div>
                           <div className="text-right">
                             <p className="text-xs text-gray-500">Booking ID</p>
-                            <p className="font-mono text-sm font-bold text-gray-800">{booking.id}</p>
+                            <p className="font-mono text-sm font-bold text-gray-800">{booking.bookingId}</p>
                           </div>
                         </div>
                         

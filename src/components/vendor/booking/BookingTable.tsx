@@ -39,7 +39,7 @@ import { getBookingsVendor } from "@/services/vendor/vendorService"
 import ConfirmationModal from "@/components/modals/ConfirmationModal"
 
 // Type definitions
-type BOOKINGSTATUS = "pending" | "confirmed" | "completed" | "cancelled" | "advance_paid" | "advance_pending" | "all" | "applied" | "waitlisted"
+type BOOKINGSTATUS = "pending" | "confirmed" | "completed" | "cancelled" | "advance_pending" | "all" | "applied" | "waitlisted" | "fully_paid"
 type BookingStatus = "all" | BOOKINGSTATUS
 
 
@@ -97,7 +97,11 @@ export function BookingListTable() {
         setIsUpdating(false);
       },
       onError :(error : any) => {
-        toast.error(error?.response.data.message);
+        toast.error(
+          typeof error?.response?.data?.message === "string"
+            ? error.response.data.message
+            : "Something went wrong"
+            );
         setIsUpdating(false);
       }
     })
@@ -135,6 +139,12 @@ export function BookingListTable() {
           label: "Advance_pending", 
           className: "bg-yellow-100 text-yellow-800 border-yellow-200",
           icon: <Clock className="h-3 w-3" />
+        }
+      case "fully_paid":
+        return { 
+          label: "Fully Paid", 
+          className: "bg-blue-100 text-green-800 border-blue-200",
+          icon: <CheckCircle className="h-3 w-3" />
         }
       case "completed":
         return { 
@@ -314,11 +324,12 @@ export function BookingListTable() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="advance_pending">Advance Pending</SelectItem>
                     <SelectItem value="confirmed">Confirmed</SelectItem>
                     <SelectItem value="applied">Applied</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
                     <SelectItem value="cancelled">Cancelled</SelectItem>
+                    <SelectItem value="waitlisted">waitlisted</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -356,9 +367,9 @@ export function BookingListTable() {
                             </div>
                             <div>
                               <p className="font-mono font-semibold text-[#1a5f6b]">
-                                #{booking._id.slice(-6).toUpperCase()}
+                                #{booking.bookingId!.toUpperCase()}
                               </p>
-                              <p className="text-xs text-gray-500">ID: {booking._id.slice(0, 8)}...</p>
+                              <p className="text-xs text-gray-500">ID: {booking.bookingId!.slice(0, 8)}...</p>
                             </div>
                           </div>
                         </TableCell>
@@ -375,9 +386,6 @@ export function BookingListTable() {
                               <div className="min-w-0 flex-1">
                                 <p className="font-semibold text-[#1a5f6b] truncate">
                                   {booking.user.firstName} {booking.user.lastName}
-                                </p>
-                                <p className="text-sm text-gray-600 truncate">
-                                  Customer ID: {booking.user._id.slice(-6).toUpperCase()}
                                 </p>
                               </div>
                             </div>
@@ -428,7 +436,7 @@ export function BookingListTable() {
                             <p className="text-gray-500">2:30 PM</p>
                             {booking.cancelledAt && (
                               <p className="text-red-600 text-xs">
-                                Cancelled: {booking.cancelledAt.toLocaleDateString()}
+                                Cancelled: {new Date(booking.cancelledAt).toLocaleDateString()}
                               </p>
                             )}
                           </div>

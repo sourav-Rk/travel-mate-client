@@ -309,7 +309,7 @@ export function EditPackage({ className }: EditPackageProps) {
                       </TabsList>
 
                       <TabsContent value="basic-details">
-                        <BasicDetailsForm  packageId={packageId!} />
+                        <BasicDetailsForm  packageId={packageData?._id  !} />
                       </TabsContent>
 
                       <TabsContent value="itinerary">

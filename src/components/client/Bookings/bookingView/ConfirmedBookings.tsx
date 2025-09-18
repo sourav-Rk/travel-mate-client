@@ -12,16 +12,15 @@ import {
   Clock,
   Star,
   MessageCircle,
-  Navigation,
   Camera,
   Share2,
-  Heart,
   MapIcon,
   FileText,
   CreditCard,
   Shield
 } from 'lucide-react';
 import type { BookingListDTO } from '@/types/bookingType';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ConfirmedBookingsProps {
@@ -30,23 +29,11 @@ interface ConfirmedBookingsProps {
 }
 
 const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], searchQuery = '' }:{bookings : BookingListDTO[];searchQuery : string}) => {
-  const [favoriteBookings, setFavoriteBookings] = useState<Set<string>>(new Set());
+  const navigate = useNavigate()
   const [expandedBooking, setExpandedBooking] = useState<string | null>(null);
 
-  const toggleFavorite = (bookingId: string): void => {
-    setFavoriteBookings(prev => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(bookingId)) {
-        newFavorites.delete(bookingId);
-      } else {
-        newFavorites.add(bookingId);
-      }
-      return newFavorites;
-    });
-  };
-
-  const handleViewDetails = (bookingId: string): void => {
-    setExpandedBooking(expandedBooking === bookingId ? null : bookingId);
+  const handleViewDetails = (bookingId : string,packageId : string): void => {
+     navigate(`/pvt/bookings/${bookingId}/${packageId}`)
   };
 
   const handleDownloadPDF = (bookingId: string): void => {
@@ -80,16 +67,7 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
       day: 'numeric'
     });
   };
-
-  const formatTime = (timeString: string): string => {
-    if (!timeString) return '';
-    const time = new Date(`2024-01-01T${timeString}`);
-    return time.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-  };
+;
 
   const getDaysUntilTrip = (dateString: string): number => {
     const tripDate = new Date(dateString);
@@ -156,7 +134,6 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
       <div className="grid gap-4 lg:gap-6">
         {filteredBookings.map((booking, index) => {
           const daysLeft = getDaysUntilTrip(booking.advancePayment?.dueDate + "");
-          const isFavorite = favoriteBookings.has(booking.id);
           const isExpanded = expandedBooking === booking.id;
 
           return (
@@ -197,24 +174,12 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
 
                   {/* Action Buttons Overlay */}
                   <div className="absolute bottom-4 left-4 right-4 flex justify-between">
-                    <button 
-                      onClick={() => toggleFavorite(booking.id)}
-                      className={`w-10 h-10 rounded-full backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 ${
-                        isFavorite ? 'bg-red-500/80 text-white' : 'bg-white/20 text-white hover:bg-white/30'
-                      }`}
-                    >
-                      <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                    </button>
-                    
                     <div className="flex gap-2">
                       <button 
                         onClick={() => handleShare(booking)}
                         className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 border border-white/20"
                       >
                         <Share2 className="w-4 h-4" />
-                      </button>
-                      <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 border border-white/20">
-                        <Navigation className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -229,10 +194,6 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
                         <h3 className="text-xl font-bold text-gray-800 group-hover:text-green-600 transition-colors line-clamp-2">
                           {booking.package?.name}
                         </h3>
-                        <div className="flex items-center gap-1 ml-4 flex-shrink-0">
-                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                          <span className="text-sm font-semibold text-gray-700">{ '4.8'}</span>
-                        </div>
                       </div>
                       
                       <div className="flex items-center text-gray-600 mb-3">
@@ -246,7 +207,7 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
                           <Calendar className="w-4 h-4 text-green-500 flex-shrink-0" />
                           <div>
                             <p className="text-gray-500 text-xs">Travel Date</p>
-                            <p className="font-medium text-gray-800">{new Date(booking.package?.startDate + "").toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                            <p className="font-medium text-gray-800">{new Date(booking.package?.startDate + "").toLocaleDateString('en-US', { month: 'short', day: 'numeric' ,year : 'numeric'})}</p>
                           </div>
                         </div>
                         
@@ -285,7 +246,7 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
                             </div>
                             <div className="text-right">
                               <p className="text-xs text-gray-500">Booking ID</p>
-                              <p className="font-mono text-sm font-bold text-gray-800">{booking.id}</p>
+                              <p className="font-mono text-sm font-bold text-gray-800">{booking.bookingId}</p>
                             </div>
                           </div>
                           
@@ -310,25 +271,13 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
                       <div className="flex-1 flex flex-col justify-end">
                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                           <button 
-                            onClick={() => handleViewDetails(booking.id)}
+                            onClick={() => handleViewDetails(booking.id,booking.package?.packageId?.packageId!)}
                             className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-3 rounded-xl hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium"
                           >
                             <Eye className="w-4 h-4" />
                             View Details
                           </button>
                           
-                          <button 
-                            onClick={() => handleDownloadPDF(booking.id)}
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3 rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium"
-                          >
-                            <Download className="w-4 h-4" />
-                            Download
-                          </button>
-
-                          <button className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-4 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium">
-                            <MessageCircle className="w-4 h-4" />
-                            Support
-                          </button>
                         </div>
 
                         {/* Additional Info */}

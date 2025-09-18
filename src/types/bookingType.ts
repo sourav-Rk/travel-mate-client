@@ -16,6 +16,7 @@ export interface ClientBookingDetailDto {
 // booking.dto.ts
 export interface BookingListDTO {
   id: string;
+  bookingId : string;
   userId: string;
   status: string;
   isWaitlisted: boolean;
@@ -33,6 +34,7 @@ export interface BookingListDTO {
   };
   package?: {
     id: string;
+    packageId ?: {packageId : string};
     images?: string;
     name: string;
     price: number;
@@ -47,6 +49,7 @@ export interface BookingListDTO {
 //booking list vendor side
 export interface BookingListVendorDto {
   _id: string;
+  bookingId ?: string;
   status: string;
   isWaitlisted: boolean;
   cancelledAt?: Date;
@@ -61,7 +64,15 @@ export interface BookingListVendorDto {
 
 export interface BookingDetailsDto {
   _id?: string
-  userId: string
+  bookingId ?: string
+  userId: {
+    _id : string;
+    firstName : string;
+    lastName : string;
+    phone : string;
+    email : string;
+    gender : string;
+  }
   packageId: string
   status: string 
   advancePayment?: {
@@ -81,3 +92,18 @@ export interface BookingDetailsDto {
   cancelledAt?: Date
 }
 
+
+// bookingTypes.ts
+export interface AdvancePayment {
+  amount: number
+  dueDate: Date | string | null
+  paid: boolean
+  paidAt?: string | Date | null   // allow null to be safe
+}
+
+export interface FullPayment {
+  amount: number
+  dueDate: Date | string | null
+  paid: boolean
+  paidAt?: string | Date | null
+}

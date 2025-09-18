@@ -350,7 +350,7 @@ export function PackagesTable() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-48">
-                              <DropdownMenuItem onClick={() => handleViewPackage(pkg._id)} className="cursor-pointer">
+                              <DropdownMenuItem onClick={() => handleViewPackage(pkg.packageId!)} className="cursor-pointer">
                                 <Eye className="h-4 w-4 mr-2" />
                                 View Details
                               </DropdownMenuItem>

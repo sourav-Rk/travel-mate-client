@@ -11,29 +11,14 @@ import { Routes, Route } from "react-router-dom";
 const GuideRouter = () => {
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<NoAuthGuideRoute element={<GuideLogin />} />}
-      />
-
+      <Route path="/login" element={<NoAuthGuideRoute element={<GuideLogin />} />}/>
       <Route path="/reset-password" element={<PasswordResetPage />} />
-      <Route
-        path="/"
-        element={
-          <AuthGuideRoute element={<GuideLayout />} allowedRoles={["guide"]} />
-        }
-      >
-        <Route
-          path="/dashboard"
-          element={
-            <AuthGuideRoute
-              allowedRoles={["guide"]}
-              element={<GuideDashboard />}
-            />
-          }
-        />
-        <Route path="profile" element={<GuideProfilePage/>}/>
-        <Route path="change-password" element={<GuidePasswordChangePage/>}/>
+
+      {/* Protected routes with layout */}
+      <Route path="/" element={ <AuthGuideRoute element={<GuideLayout />} allowedRoles={["guide"]} />}>
+      <Route path="/dashboard" element={<AuthGuideRoute allowedRoles={["guide"]} element={<GuideDashboard />}/>}/>
+      <Route path="profile" element={<GuideProfilePage/>}/>
+      <Route path="change-password" element={<GuidePasswordChangePage/>}/>
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

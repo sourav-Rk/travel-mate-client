@@ -1,10 +1,10 @@
 import  { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar,
   MapPin,
   Clock,
-  Download,
   Eye,
   CheckCircle,
   XCircle,
@@ -16,14 +16,13 @@ import UpcomingBookingsTabs from "./bookingView/UpcomingBookingTabs";
 import type { BookingListDTO } from "@/types/bookingType";
 import { useGetBookingsQuery } from "@/hooks/client/useBooking";
 
-
 const BookingsView = () => {
   const [activeTab, setActiveTab] = useState<string>("applied");
   const [bookingData, setBookingData] = useState<BookingListDTO[]>([]);
 
     // Define status categories for each main tab
   const statusCategories = {
-    upcoming: ["applied", "pending", "confirmed", "advance_pending", "advance_paid", "waitlisted"],
+    upcoming: ["applied", "pending", "confirmed", "advance_pending", "fully_paid", "waitlisted"],
     completed: ["completed"],
     cancelled: ["cancelled", "expired"]
   };
@@ -89,6 +88,7 @@ const getStatusColor = (status: string) => {
   }
 };
   const BookingCard = ({ booking, index }: { booking: BookingListDTO; index: any }) => (
+    
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -155,7 +155,7 @@ const getStatusColor = (status: string) => {
                 <div className="text-right">
                   <p className="text-xs text-gray-400 mb-0.5">ID</p>
                   <p className="font-mono text-sm font-semibold text-gray-700">
-                    {booking.id}
+                    {booking.bookingId}
                   </p>
                 </div>
               </div>
@@ -177,16 +177,14 @@ const getStatusColor = (status: string) => {
                 </div>
 
                 {/* Compact Action Buttons */}
+                <Link to={`/pvt/bookings/${booking.id}/${booking.package?.packageId?.packageId}`}>
                 <div className="flex gap-2">
                   <button className="flex-1 bg-gradient-to-r from-[#2CA4BC] to-[#2CA4BC]/80 text-white px-3 py-2 rounded-xl hover:shadow-lg hover:shadow-[#2CA4BC]/25 transition-all duration-300 flex items-center justify-center gap-1 text-xs font-medium group-hover:scale-105">
                     <Eye className="w-3 h-3" />
                     View
                   </button>
-                  <button className="flex-1 bg-white border border-gray-200 text-gray-600 px-3 py-2 rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-1 text-xs font-medium">
-                    <Download className="w-3 h-3" />
-                    PDF
-                  </button>
                 </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -241,7 +239,6 @@ const getStatusColor = (status: string) => {
           </div>
         </motion.div>
 
-        {/* Content */}
         {/* Content */}
         <AnimatePresence mode="wait">
           <motion.div

@@ -73,8 +73,8 @@ const Advance_Pending_Booking: React.FC<AdvancePendingBookingsProps> = ({ bookin
     return () => clearInterval(timer);
   }, [bookings]);
 
-   const handleViewDetails = (bookingId : string): void => {
-     navigate(`/pvt/bookings/${bookingId}`)
+   const handleViewDetails = (bookingId : string,packageId : string): void => {
+     navigate(`/pvt/bookings/${bookingId}/${packageId}`)
   };
 
   const formatDate = (dateString: string): string => {
@@ -293,7 +293,7 @@ const Advance_Pending_Booking: React.FC<AdvancePendingBookingsProps> = ({ bookin
                             </div>
                             <div className="text-right">
                               <p className="text-xs text-gray-500">Booking ID</p>
-                              <p className="font-mono text-sm font-bold text-gray-800">{booking.id}</p>
+                              <p className="font-mono text-sm font-bold text-gray-800">{booking.bookingId}</p>
                             </div>
                           </div>
                           
@@ -313,30 +313,9 @@ const Advance_Pending_Booking: React.FC<AdvancePendingBookingsProps> = ({ bookin
 
                       {/* Right Section - Actions */}
                       <div className="flex-1 flex flex-col justify-end">
-                        <div className="grid grid-cols-2 gap-3">
-                          <button 
-                            className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-3 rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium"
-                            disabled={isRefreshing}
-                          >
-                            <Clock className="w-4 h-4" />
-                            Please Wait
-                          </button>
-                          
-                          <button 
-                            className="bg-white border border-gray-200 text-gray-700 px-4 py-3 rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium"
-                          >
-                            <Download className="w-4 h-4" />
-                            Download
-                          </button>
-                        </div>
 
-                        <div className="grid grid-cols-2 gap-3 mt-3">
-                          <button className="bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 px-4 py-3 rounded-xl hover:bg-gray-100 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium border border-gray-200">
-                            <MessageSquare className="w-4 h-4" />
-                            Contact
-                          </button>
-                          
-                          <button onClick={() => handleViewDetails(booking.id)}  className="bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 px-4 py-3 rounded-xl hover:bg-blue-100 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium border border-blue-200">
+                        <div className="grid grid-cols-2 gap-3 mt-3">                          
+                          <button onClick={() => handleViewDetails(booking.id,booking.package?.packageId?.packageId!)}  className="bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 px-4 py-3 rounded-xl hover:bg-blue-100 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium border border-blue-200">
                             <Eye className="w-4 h-4" />
                             Details
                           </button>

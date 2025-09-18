@@ -19,100 +19,47 @@ import PackageDetailsPage from "@/pages/user/PackageDetailsPage";
 import VolunteeringLanding from "@/components/client/VolunteeringLanding";
 import BookingsView from "@/components/client/Bookings/BookingView";
 import BookingDetailsViewClientPage from "@/pages/user/BookingDetailsViewClientPage";
+import CheckoutPage from "@/pages/user/CheckoutPage";
+import PaymentCancelledPage from "@/pages/user/PaymentCancelledPage";
+import WishlistPageClient from "@/pages/user/WishlistPage";
 
 const ClientRouter = () => {
   return (
     <div>
       <Routes>
-
-        <Route
-          path="/"
-          element={<ClientLayout />} >
-           <Route path="/" element={<TravelHomePage />} />
+       
+       {/* No auth needed - landing */}
+        <Route path="/" element={<ClientLayout />} >
+          <Route path="/" element={<TravelHomePage />} />
           <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
           <Route path="packages" element={<PackagesListingPage/>} />
-
           <Route path="volunteering" element={<VolunteeringLanding/>}/>
         </Route>
         
-        <Route
-          path="/login"
-          element={<NoAuthRoute element={<UserLogin />} />}
-        />
-        <Route
-          path="/signup"
-          element={<NoAuthRoute element={<UserSignup />} />}
-        />
-        <Route
-          path="/otp/verify"
-          element={<NoAuthRoute element={<OtpVerification />} />}
-        />
-
+        {/* authentication routes */}
+        <Route path="/login" element={<NoAuthRoute element={<UserLogin />} />} />
+        <Route path="/signup" element={<NoAuthRoute element={<UserSignup />} />} />
+        <Route path="/otp/verify" element={<NoAuthRoute element={<OtpVerification />} />}/>
         <Route  path="/forgot-password/sendmail" element={<ForgotPasswordForm/>}/>
         <Route  path="reset-password" element={<PasswordResetForm/>}/>
-
-
-        <Route
-          path="/profile-edit"
-          element={
-            <AuthRoute
-              allowedRoles={["client"]}
-              element={<ProfileEditPage />}
-            />
-          }
-        />
-        <Route
-          path="/change-password"
-          element={
-            <AuthRoute
-              allowedRoles={["client"]}
-              element={<UserPasswordChangePage />}
-            />
-          }
-        />
+        <Route path="/change-password" element={<AuthRoute allowedRoles={["client"]} element={<UserPasswordChangePage />}/>}/>
 
         {/* Protected routes with layout */}
-        <Route
-          path="/"
-          element={
-            <AuthRoute allowedRoles={["client"]} element={<ClientLayout />} />
-          }
-        >
+        <Route path="/" element={<AuthRoute allowedRoles={["client"]} element={<ClientLayout />} />}>
           <Route path="/home" element={<TravelHomePage />} />
-
-         
+          <Route path="/packages/checkout/:bookingId/:packageId" element={<CheckoutPage/>}/>
         </Route>
 
-        {/*  */}
-
-       <Route
-        path="/pvt"
-        element={
-          <AuthRoute allowedRoles={["client"]} element={<ClientLayoutProfile/>}/>
-        }
-       >
-            <Route
-          path="profile"
-          element={
-           <ProfilePage/>}
-          
-        />
-
-        <Route
-          path="profile-edit"
-          element={
-            <AuthRoute
-              allowedRoles={["client"]}
-              element={<ProfileEditPage />}
-            />
-          }
-        />
-
+        {/* Protected routes client profile layout  */}
+       <Route path="/pvt" element={ <AuthRoute allowedRoles={["client"]} element={<ClientLayoutProfile/>}/>}>
+        <Route path="profile"element={<ProfilePage/>}/>
+        <Route path="profile-edit" element={<AuthRoute allowedRoles={["client"]} element={<ProfileEditPage />}/>}/>
         <Route path="bookings" element={<AuthRoute allowedRoles={["client"]} element={<BookingsView/>}/>}/>
-        
-        <Route path="bookings/:bookingId" element={<AuthRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
-         
+        <Route path="bookings/:bookingId/:packageId" element={<AuthRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
+        <Route path="wishlist" element={<WishlistPageClient/>}/>
        </Route>
+
+        <Route path="/cancel" element={<PaymentCancelledPage/>}/>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

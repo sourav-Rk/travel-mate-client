@@ -25,6 +25,7 @@ interface FullPayment {
 
 interface BookingDetailsProps {
   _id: string;
+  bookingId : string;
   packageId: string;
   userId: string;
   isWaitlisted: boolean;
@@ -174,6 +175,7 @@ const PaymentCard: React.FC<{
 
 export const BookingDetailsView: React.FC<BookingDetailsProps> = ({
   _id,
+  bookingId,
   packageId,
   userId,
   isWaitlisted,
@@ -206,7 +208,7 @@ export const BookingDetailsView: React.FC<BookingDetailsProps> = ({
                   <Package className="h-8 w-8 text-blue-600" />
                   Booking Details
                 </h1>
-                <p className="text-gray-600 mt-1">Booking ID: {_id}</p>
+                <p className="text-gray-600 mt-1">Booking ID: {bookingId}</p>
               </div>
               <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${statusConfig.color}`}>
                 <StatusIcon className="w-5 h-5" />
@@ -352,7 +354,7 @@ export const BookingDetailsView: React.FC<BookingDetailsProps> = ({
               
               <div className="flex justify-between items-center py-3 border-b border-gray-100">
                 <span className="text-gray-600">Booking ID:</span>
-                <span className="font-medium text-gray-800 font-mono text-sm">{_id}</span>
+                <span className="font-medium text-gray-800 font-mono text-sm">{bookingId}</span>
               </div>
             </div>
           </div>
