@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { Calendar, Users, DollarSign, Star } from "lucide-react"
-import type { TravelPackage } from "@/types/packageType"
+import { Calendar, Users, DollarSign, Star } from "lucide-react";
+import type { TravelPackage } from "@/types/packageType";
 
 interface PackageQuickStatsProps {
-  packageData: TravelPackage
+  packageData: TravelPackage;
 }
 
 export function PackageQuickStats({ packageData }: PackageQuickStatsProps) {
@@ -28,17 +28,31 @@ export function PackageQuickStats({ packageData }: PackageQuickStatsProps) {
       color: "from-purple-500 to-purple-600",
     },
     {
-      icon: Star,
-      label: "Rating",
-      value: "5★ (10)",
+      icon: Calendar,
+      label: "start Date",
+      value: new Date(packageData.startDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
       color: "from-yellow-500 to-yellow-600",
     },
-  ]
+    {
+      icon: Calendar,
+      label: "End Date",
+      value: new Date(packageData.endDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      color: "from-yellow-500 to-yellow-600",
+    },
+  ];
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {stats.map((stat, index) => {
-        const Icon = stat.icon
+        const Icon = stat.icon;
         return (
           <div
             key={index}
@@ -49,14 +63,16 @@ export function PackageQuickStats({ packageData }: PackageQuickStatsProps) {
             />
             <div className="relative z-10">
               <Icon className="h-6 w-6 text-[#2CA4BC] mb-3 group-hover:scale-110 transition-transform duration-300" />
-              <p className="text-xs text-gray-500 mb-1 font-medium">{stat.label}</p>
+              <p className="text-xs text-gray-500 mb-1 font-medium">
+                {stat.label}
+              </p>
               <p className="text-sm font-bold text-[#1a5f6b] group-hover:text-[#2CA4BC] transition-colors duration-300">
                 {stat.value}
               </p>
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
