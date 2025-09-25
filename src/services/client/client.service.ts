@@ -4,7 +4,7 @@ import type { AxiosResponse } from "@/services/auth/authService";
 import qs from "qs";
 import { server } from "../server";
 import type { IResponse } from "@/types/Response";
-import type { GuideDetailsForClientDto, IGetGuideDetailsClient } from "@/types/api/client";
+import type {  IGetGuideDetailsClient } from "@/types/api/client";
 
 
 export type Client = {
