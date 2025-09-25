@@ -81,6 +81,7 @@ export function BookingListTable() {
      if(!data) return;
      setBookings(data?.bookings);
      setTotalPages(data.totalPages);
+     setCurrentPage(data.currentPage);
      console.log(data)
   }, [debouncedSearchTerm, statusFilter,data])
 

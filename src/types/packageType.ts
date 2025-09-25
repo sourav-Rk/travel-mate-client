@@ -126,6 +126,7 @@ export interface TravelPackage {
   createdAt: Date;
   itineraryDetails: ItineraryDetails;
   itineraryId : string;
+  minGroupSize : number;
 }
 
 //day dto edit

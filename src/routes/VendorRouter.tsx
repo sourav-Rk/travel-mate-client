@@ -1,8 +1,8 @@
 import VendorSignup from "@/pages/vendor/VendorSignup";
 import VendorLogin from "@/pages/vendor/VendorLogin";
 import { Route, Routes } from "react-router-dom";
-import { NoAuthVendorRoute } from "@/protected/PubliceRoute";
-import { AuthVendorRoute } from "@/protected/ProtectedRoute";
+import { NoAuthRoute } from "@/protected/PubliceRoute";
+import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import VendorLockedPage from "@/components/vendor/VendorLockedPage";
 import VendorSignupFlow from "@/components/vendor/VendorSignupFlow";
 import VendorLayout from "@/components/layouts/VendorLayout";
@@ -20,24 +20,26 @@ import { PackageDetailsPage } from "@/pages/vendor/PackageDetailsPage";
 import { EditPackage } from "@/components/vendor/package/editPackage/EditPackage";
 import { BookingListTable } from "@/components/vendor/booking/BookingTable"; 
 import BookingDetailsVendorPage from "@/pages/vendor/BookingDetailsVendorPage";
+import GuideAssignmentPage from "@/components/vendor/guideAssignment/GuideAssignment";
 
 const VendorRouter = () => {
   return (
     <div>
       <Routes>
-        <Route path="/signup" element={<NoAuthVendorRoute element={<VendorSignup />} />}/>
-        <Route index element={<NoAuthVendorRoute element={<VendorLogin />} />} />
-        <Route path="/signup/step/" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorSignupFlow />} /> } />
-        <Route path="/locked" element={ <AuthVendorRoute allowedRoles={["vendor"]} element={<VendorLockedPage />} />} />
-       <Route path="/" element={<AuthVendorRoute element={<VendorLayout/>} allowedRoles={["vendor"]}/> }>
-       <Route path="dashboard" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<DashboardPage />}/>}/>
-       <Route path="profile" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorProfilePage/>}/>}/>
-       <Route path="profile/edit" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorProfileEditPage/>}/>}/>
-       <Route path="change-password" element={<AuthVendorRoute allowedRoles={["vendor"]} element={<VendorPasswordChangePage/>}/>}/>
+        <Route path="/signup" element={<NoAuthRoute element={<VendorSignup />} />}/>
+        <Route index element={<NoAuthRoute element={<VendorLogin />} />} />
+        <Route path="/signup/step/" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorSignupFlow />} /> } />
+        <Route path="/locked" element={ <ProtectedRoute allowedRoles={["vendor"]} element={<VendorLockedPage />} />} />
+       <Route path="/" element={<ProtectedRoute element={<VendorLayout/>} allowedRoles={["vendor"]}/> }>
+       <Route path="dashboard" element={<ProtectedRoute allowedRoles={["vendor"]} element={<DashboardPage />}/>}/>
+       <Route path="profile" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorProfilePage/>}/>}/>
+       <Route path="profile/edit" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorProfileEditPage/>}/>}/>
+       <Route path="change-password" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorPasswordChangePage/>}/>}/>
        <Route path="guide" element={<GuideListPage/>}/>
        <Route path="guide/:id" element={<GuideDetailsPage/>}/>
        <Route path="guide/add" element={<AddGuideForm/>}/>
        <Route path="packages/edit/:packageId" element={<EditPackage/>}/>
+       <Route path="packages/:packageId/assign-guide" element={<GuideAssignmentPage/>}/>
        <Route path="packages/:packageId" element={<PackageDetailsPage/>}/>
        <Route path="packages/add" element={<AddPackageForm/>}/>
        <Route path="packages" element={<PackagesTable/>}/>

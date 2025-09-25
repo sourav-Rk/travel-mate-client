@@ -13,8 +13,12 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+ 
+
+  console.log("current page number :",currentPage)
+  console.log("totla pages:",totalPages)
   const pageNumbers = [];
-  console.log(totalPages, "total pages");
+
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }

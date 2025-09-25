@@ -1,19 +1,37 @@
-
-const InputField = ({ label, name, type = 'text', placeholder, icon: Icon, formik, ...props }) => (
+const InputField = ({
+  label,
+  name,
+  type = "text",
+  placeholder,
+  icon: Icon,
+  formik,
+  ...props
+}: {
+  label: any;
+  name: any;
+  placeholder: any;
+  icon: any;
+  formik: any;
+  type: string;
+}) => (
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      {label}
+    </label>
     <div className="relative">
       {Icon && <Icon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />}
       <input
         type={type}
         name={name}
-        value={formik.values[name] || ''}
+        value={formik.values[name] || ""}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className={`w-full ${Icon ? 'pl-10' : 'pl-4'} pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-          formik.touched[name] && formik.errors[name] 
-            ? 'border-red-500 bg-red-50' 
-            : 'border-gray-300 hover:border-gray-400'
+        className={`w-full ${
+          Icon ? "pl-10" : "pl-4"
+        } pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+          formik.touched[name] && formik.errors[name]
+            ? "border-red-500 bg-red-50"
+            : "border-gray-300 hover:border-gray-400"
         }`}
         placeholder={placeholder}
         {...props}
@@ -25,4 +43,4 @@ const InputField = ({ label, name, type = 'text', placeholder, icon: Icon, formi
   </div>
 );
 
-export default InputField
+export default InputField;

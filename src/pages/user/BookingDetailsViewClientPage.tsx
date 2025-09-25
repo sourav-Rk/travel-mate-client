@@ -18,7 +18,6 @@ interface BookingDetails {
   _id: string;
   bookingId ?: string;
   packageId: string;
-  userId: string;
   isWaitlisted: boolean;
   status: string;
   advancePayment: Payment | null;
@@ -47,7 +46,6 @@ export default function BookingDetailsViewClientPage() {
       _id: data.bookingDetails._id!,
       bookingId : data.bookingDetails.bookingId!,
       packageId: data.bookingDetails.packageId,
-      userId: data.bookingDetails.userId._id,
       status: data.bookingDetails.status,
       isWaitlisted: data.bookingDetails.isWaitlisted!,
       advancePayment : data.bookingDetails.advancePayment ?? null,

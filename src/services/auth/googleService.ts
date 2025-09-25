@@ -1,4 +1,4 @@
-import { authAxiosInstance } from "@/api/auth.axios";
+import { travelMateBackend } from "@/api/instance";
 import type { AuthResponse } from "./authService";
 
 export const googleAuth = async ({
@@ -11,8 +11,8 @@ export const googleAuth = async ({
   role: string;
 }): Promise<AuthResponse> => {
   try {
-    const response = await authAxiosInstance.post<AuthResponse>(
-      "/google-auth",
+    const response = await travelMateBackend.post<AuthResponse>(
+      "/auth/google-auth",
       {
         credential,
         client_id,

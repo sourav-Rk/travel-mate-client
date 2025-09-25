@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLogout } from "@/hooks/auth/useLogout";
-import { logoutVendor } from "@/services/auth/authService";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { vendorLogout } from "@/store/slices/vendor.slice";
@@ -42,6 +41,7 @@ import {
   markNotificationReadVendor,
 } from "@/services/vendor/vendorService";
 import { NotificationModal } from "../NotificationModal";
+import { logoutUser } from "@/store/slices/userSlice";
 
 interface NavItem {
   id: string;
@@ -56,7 +56,7 @@ const VendorSidebar: React.FC = () => {
   const [notifications, setNotifications] = useState<INotificationEntity[]>([]);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const { firstname, email } = useSelector(
-    (state: RootState) => state.vendor.vendor
+    (state: RootState) => state.user.user
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -102,7 +102,7 @@ const VendorSidebar: React.FC = () => {
     { id: "profile", label: "Profile", icon: User, path: "/vendor/profile" },
   ];
 
-  const { mutate: logout } = useLogout(logoutVendor);
+  const { mutate: logout } = useLogout();
 
   useEffect(() => {
     if (notifData) setNotifications(notifData.notifications || []);
@@ -135,7 +135,7 @@ const VendorSidebar: React.FC = () => {
     logout(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`);
-        dispatch(vendorLogout());
+        dispatch(logoutUser());
         navigate("/vendor");
       },
       onError: (error: any) => {

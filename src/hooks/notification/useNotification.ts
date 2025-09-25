@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type {  QueryFunction, UseMutationResult } from "@tanstack/react-query";
+import type {  QueryFunction, UseMutationResult, UseQueryOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
 export const useGetNotifications = <T>(
   queryKey: string[],
-  queryFn: QueryFunction<T>
+  queryFn: QueryFunction<T>,
+  options?: any
 ) => {
   return useQuery<T>({
     queryKey,
     queryFn,
+    ...options
   });
 };
 

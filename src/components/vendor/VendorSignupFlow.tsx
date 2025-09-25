@@ -14,7 +14,7 @@ import { useSelector } from "react-redux"
 import type { RootState } from "@/store/store"
 import type { StatusPayload } from "@/types/authTypes"
 import { useDispatch } from "react-redux"
-import { setVendorStatus } from "@/store/slices/vendor.slice"
+import { setVendorStatus } from "@/store/slices/userSlice"
 
 interface AddressData {
   street: string
@@ -41,7 +41,7 @@ export default function VendorSignupFlow() {
   const [addressData, setAddressData] = useState<AddressData | null>(null)
   const [kycData, setKYCData] = useState<KYCData | null>(null);
   const [isUpdating,setIsUpdating] = useState(false);
-  const vendorId = useSelector((state : RootState) => state.vendor.vendor?.id);
+  const vendorId = useSelector((state : RootState) => state.user.user?.id);
 
   const navigate = useNavigate();
   const  {mutateAsync : addAddres} = useAddVendorAddressMutation();

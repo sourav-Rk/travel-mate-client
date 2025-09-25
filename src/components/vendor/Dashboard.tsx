@@ -24,7 +24,6 @@ import {
 } from 'lucide-react';
 import {  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Area, AreaChart } from 'recharts';
 import { useLogout } from '@/hooks/auth/useLogout';
-import { logoutVendor } from '@/services/auth/authService';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -46,7 +45,7 @@ const VendorDashboard: React.FC = () => {
   const navigate  = useNavigate()
   const [notifications, setNotifications] = useState(5);
   const dispatch = useDispatch();
-const {mutate : logout} = useLogout(logoutVendor)
+const {mutate : logout} = useLogout();
   const handleLogout = () =>{
     logout(undefined,{
         onSuccess : (response)=>{

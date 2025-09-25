@@ -4,7 +4,7 @@ import OtpVerification from "@/components/auth/Otp";
 import UserSignup from "@/pages/user/UserSignup";
 import UserLogin from "@/pages/user/UserLogin";
 import { NoAuthRoute } from "@/protected/PubliceRoute";
-import { AuthRoute } from "@/protected/ProtectedRoute";
+import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import ClientLayout from "@/components/layouts/ClientLayout";
 import NotFoundPage from "@/components/NotFound";
 import { ProfilePage } from "@/components/client/Profile";
@@ -22,6 +22,7 @@ import BookingDetailsViewClientPage from "@/pages/user/BookingDetailsViewClientP
 import CheckoutPage from "@/pages/user/CheckoutPage";
 import PaymentCancelledPage from "@/pages/user/PaymentCancelledPage";
 import WishlistPageClient from "@/pages/user/WishlistPage";
+import GuideDetailsPage from "@/pages/user/GuideDetailsPage";
 
 const ClientRouter = () => {
   return (
@@ -42,21 +43,22 @@ const ClientRouter = () => {
         <Route path="/otp/verify" element={<NoAuthRoute element={<OtpVerification />} />}/>
         <Route  path="/forgot-password/sendmail" element={<ForgotPasswordForm/>}/>
         <Route  path="reset-password" element={<PasswordResetForm/>}/>
-        <Route path="/change-password" element={<AuthRoute allowedRoles={["client"]} element={<UserPasswordChangePage />}/>}/>
+        <Route path="/change-password" element={<ProtectedRoute allowedRoles={["client"]} element={<UserPasswordChangePage />}/>}/>
 
         {/* Protected routes with layout */}
-        <Route path="/" element={<AuthRoute allowedRoles={["client"]} element={<ClientLayout />} />}>
+        <Route path="/" element={<ProtectedRoute allowedRoles={["client"]} element={<ClientLayout />} />}>
           <Route path="/home" element={<TravelHomePage />} />
           <Route path="/packages/checkout/:bookingId/:packageId" element={<CheckoutPage/>}/>
         </Route>
 
         {/* Protected routes client profile layout  */}
-       <Route path="/pvt" element={ <AuthRoute allowedRoles={["client"]} element={<ClientLayoutProfile/>}/>}>
+       <Route path="/pvt" element={ <ProtectedRoute allowedRoles={["client"]} element={<ClientLayoutProfile/>}/>}>
         <Route path="profile"element={<ProfilePage/>}/>
-        <Route path="profile-edit" element={<AuthRoute allowedRoles={["client"]} element={<ProfileEditPage />}/>}/>
-        <Route path="bookings" element={<AuthRoute allowedRoles={["client"]} element={<BookingsView/>}/>}/>
-        <Route path="bookings/:bookingId/:packageId" element={<AuthRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
+        <Route path="profile-edit" element={<ProtectedRoute allowedRoles={["client"]} element={<ProfileEditPage />}/>}/>
+        <Route path="bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<BookingsView/>}/>}/>
+        <Route path="bookings/:bookingId/:packageId" element={<ProtectedRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
         <Route path="wishlist" element={<WishlistPageClient/>}/>
+        <Route path="guide/:guideId" element={<GuideDetailsPage/>}/>
        </Route>
 
         <Route path="/cancel" element={<PaymentCancelledPage/>}/>

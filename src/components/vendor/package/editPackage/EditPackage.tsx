@@ -77,29 +77,52 @@ export function EditPackage({ className }: EditPackageProps) {
   const [isPreviewMode, setIsPreviewMode] = useState(false)
   const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId,"vendor");
 
-  const initialValues = {
-    basicDetails: {
-      packageName: "",
-      title: "",
-      description: "",
-      category: "",
-      tags: [],
-      meetingPoint: "",
-      maxGroupSize: 1,
-      minGroupSize : 1,
-      price: 0,
-      startDate: null,
-      endDate: null,
-      duration: { days: 1, nights: 0 },
-      inclusions: [],
-      exclusions: [],
-      cancellationPolicy: "",
-      termsAndConditions: "",
-      images: [],
-    },
-    itinerary: [],
-    activities: [],
-  }
+// Replace your initialValues declaration with this:
+const initialValues = packageData ? {
+  basicDetails: {
+    packageName: packageData.packageName || "",
+    title: packageData.title || "",
+    description: packageData.description || "",
+    category: packageData.category || "",
+    tags: packageData.tags || [],
+    meetingPoint: packageData.meetingPoint || "",
+    maxGroupSize: packageData.maxGroupSize || 1,
+    minGroupSize: packageData.minGroupSize|| 1,
+    price: packageData.price || 0,
+    startDate: packageData.startDate ? new Date(packageData.startDate) : null,
+    endDate: packageData.endDate ? new Date(packageData.endDate) : null,
+    duration: packageData.duration || { days: 1, nights: 0 },
+    inclusions: packageData.inclusions || [],
+    exclusions: packageData.exclusions || [],
+    cancellationPolicy: packageData.cancellationPolicy || "",
+    termsAndConditions: packageData.termsAndConditions || "",
+    images: packageData.images || [],
+  },
+  itinerary: packageData.itineraryDetails?.days || [],
+  activities: [],
+} : {
+  basicDetails: {
+    packageName: "",
+    title: "",
+    description: "",
+    category: "",
+    tags: [],
+    meetingPoint: "",
+    maxGroupSize: 1,
+    minGroupSize: 1,
+    price: 0,
+    startDate: null,
+    endDate: null,
+    duration: { days: 1, nights: 0 },
+    inclusions: [],
+    exclusions: [],
+    cancellationPolicy: "",
+    termsAndConditions: "",
+    images: [],
+  },
+  itinerary: [],
+  activities: [],
+}
 
   useEffect(() => {
     if (packageId && data?.packages) {
@@ -109,7 +132,7 @@ export function EditPackage({ className }: EditPackageProps) {
   }, [packageId, data])
 
 
-  if (isLoading) return <Spinner />
+  if (isLoading || (!packageData && data)) return <Spinner />
   if (isError) return <div>Error: {error.message}</div>
 
     if (packageData && packageData.status !== "draft") {
@@ -213,37 +236,37 @@ export function EditPackage({ className }: EditPackageProps) {
         }
 
         // Initialize form with package data
-        const initializeForm = () => {
-          if (packageData) {
-            setFieldValue("basicDetails", {
-              packageName: packageData.packageName,
-              title: packageData.title,
-              description: packageData.description,
-              category: packageData.category ||"",
-              tags: packageData.tags || [],
-              meetingPoint: packageData.meetingPoint,
-              maxGroupSize: packageData.maxGroupSize,
-              price: packageData.price,
-              startDate: new Date(packageData.startDate),
-              endDate: new Date(packageData.endDate),
-              duration: packageData.duration,
-              inclusions: packageData.inclusions || [],
-              exclusions: packageData.exclusions || [],
-              cancellationPolicy: packageData.cancellationPolicy,
-              termsAndConditions: packageData.termsAndConditions,
-              images: packageData.images || [],
-            })
-            setFieldValue("itinerary", packageData.itineraryDetails?.days || []);
-          }
-        }
+        // const initializeForm = () => {
+        //   if (packageData) {
+        //     setFieldValue("basicDetails", {
+        //       packageName: packageData.packageName,
+        //       title: packageData.title,
+        //       description: packageData.description,
+        //       category: packageData.category ||"",
+        //       tags: packageData.tags || [],
+        //       meetingPoint: packageData.meetingPoint,
+        //       maxGroupSize: packageData.maxGroupSize,
+        //       price: packageData.price,
+        //       startDate: new Date(packageData.startDate),
+        //       endDate: new Date(packageData.endDate),
+        //       duration: packageData.duration,
+        //       inclusions: packageData.inclusions || [],
+        //       exclusions: packageData.exclusions || [],
+        //       cancellationPolicy: packageData.cancellationPolicy,
+        //       termsAndConditions: packageData.termsAndConditions,
+        //       images: packageData.images || [],
+        //     })
+        //     setFieldValue("itinerary", packageData.itineraryDetails?.days || []);
+        //   }
+        // }
 
         useEffect(() => {
           autoUpdateItinerary()
         }, [values.basicDetails.startDate, values.basicDetails.endDate])
 
-        useEffect(() => {
-          initializeForm()
-        }, [packageData])
+        // useEffect(() => {
+        //   initializeForm()
+        // }, [packageData])
 
         // If in preview mode, show the preview component
         if (isPreviewMode) {

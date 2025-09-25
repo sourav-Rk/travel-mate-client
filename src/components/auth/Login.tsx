@@ -21,6 +21,7 @@ import { useLoginMutation } from "@/hooks/auth/useLogin";
 import type { LoginType } from "@/types/authTypes";
 import { dispatchUserByRole } from "@/utils/roleDispatcher";
 import { useDispatch } from "react-redux";
+import { loginUser } from "@/store/slices/userSlice";
 
 interface LoginProps {
   userType: "client" | "vendor" | "admin" | "guide";
@@ -92,10 +93,9 @@ export default function LoginForm({ userType }: LoginProps) {
     login(payloadWithRole, {
       onSuccess: (response) => {
         toast.success(`${response.message}`);
+        dispatch(loginUser(response.user));
         dispatchUserByRole({
           userType,
-          user: response.user,
-          dispatch,
           navigate,
         });
       },

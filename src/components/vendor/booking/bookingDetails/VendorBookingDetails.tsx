@@ -100,7 +100,7 @@ export function VendorBookingDetails() {
 
   const currency = "INR";
   const {
-    userId,
+    user,
     packageId,
     status,
     advancePayment,
@@ -146,11 +146,11 @@ export function VendorBookingDetails() {
             />
 
             <BookingInformation
-              userId={userId._id || ""}
-              name={`${userId.firstName} ${userId.lastName}`.toUpperCase()}
-              email={userId.email}
-              phone={userId.phone}
-              gender={userId.gender}
+              user={user._id || ""}
+              name={`${user.firstName} ${user.lastName}`.toUpperCase()}
+              email={user.email}
+              phone={user.phone}
+              gender={user.gender}
               bookingStatus={status || "Unknown"}
               waitlistStatus={!!isWaitlisted}
               appliedAt={appliedAt}

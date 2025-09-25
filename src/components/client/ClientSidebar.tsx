@@ -198,11 +198,10 @@ import {
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
 import { useLogout } from "@/hooks/auth/useLogout";
-import { logoutClient } from "@/services/auth/authService";
 import toast from "react-hot-toast";
-import { clientLogout } from "@/store/slices/clientSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { logoutUser } from "@/store/slices/userSlice";
 
 const ClientSidebar = ({
   user = {
@@ -216,13 +215,13 @@ const ClientSidebar = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { mutate: logoutClientMutate } = useLogout(logoutClient);
+  const { mutate: logoutClientMutate } = useLogout();
 
-  const logoutUser = () => {
+  const logout = () => {
     logoutClientMutate(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`);
-        dispatch(clientLogout());
+        dispatch(logoutUser());
         setIsOpen(false);
         navigate("/");
       },
@@ -232,7 +231,7 @@ const ClientSidebar = ({
     });
   };
 
-  const { firstName } = useSelector((state: RootState) => state.client.client);
+  const {firstName} = useSelector((state: RootState) => state.user.user);
 
   const navigationItems = [
     { title: "Profile", href: "/pvt/profile", icon: User },
@@ -368,7 +367,7 @@ const ClientSidebar = ({
         {/* Enhanced Logout Section */}
         <div className="p-6">
           <button
-            onClick={logoutUser}
+            onClick={logout}
             className="w-full flex items-center gap-4 rounded-2xl px-5 py-4 text-sm font-medium text-red-600 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 hover:shadow-lg hover:shadow-red-100/50 hover:scale-[1.01] transition-all duration-300 group relative overflow-hidden bg-white/50 border border-red-200/50 hover:border-red-300"
           >
             {/* Icon Container */}

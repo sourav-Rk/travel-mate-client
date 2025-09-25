@@ -69,7 +69,6 @@ export function BasicDetailsForm({ packageId }: BasicDetailsFormProps) {
       },
     })
 
-    // Check if there are validation errors in basic details
     if (validationErrors?.basicDetails) {
       toast.error("Please fix the validation errors before saving")
       return

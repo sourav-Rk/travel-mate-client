@@ -189,7 +189,7 @@ export function VendorBookingDetails() {
 
   const currency = "INR"
 
-  const { _id, userId, packageId, status, advancePayment, fullPayment, isWaitlisted, appliedAt, cancelledAt } =
+  const { _id, user, packageId, status, advancePayment, fullPayment, isWaitlisted, appliedAt, cancelledAt } =
     booking.bookingDetails || {}
 
   const advancePaid = !!advancePayment?.paid
@@ -234,7 +234,7 @@ export function VendorBookingDetails() {
             <div className="flex items-center gap-2">
               <User className="h-4 w-4 text-slate-500" aria-hidden="true" />
               <span className="truncate">
-                User ID: <span className="font-medium text-foreground">{userId}</span>
+                User ID: <span className="font-medium text-foreground">{user._id}</span>
               </span>
             </div>
             <div className="flex items-center gap-2">

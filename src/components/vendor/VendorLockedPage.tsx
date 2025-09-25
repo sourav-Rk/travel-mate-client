@@ -429,11 +429,11 @@ import {
 // IMPORTANT: Uncomment your original imports when using this code in your project.
 import { useVendorProfileQuery } from '@/hooks/vendor/useVendorProfile';
 import { useLogout } from '@/hooks/auth/useLogout';
-import { logoutVendor } from '@/services/auth/authService';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setVendorStatus, vendorLogout } from '@/store/slices/vendor.slice';
+import { logoutUser, setVendorStatus } from "@/store/slices/userSlice";
+
 
 
 
@@ -461,7 +461,7 @@ const VendorLockedPage: React.FC = () => {
   const [showSuccess, setShowSuccess] = useState<boolean>(false)
   const navigate = useNavigate()
   const { data, isLoading, error } = useVendorProfileQuery()
-  const { mutate: logout } = useLogout(logoutVendor)
+  const { mutate: logout } = useLogout()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -474,7 +474,7 @@ const VendorLockedPage: React.FC = () => {
     logout(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`)
-        dispatch(vendorLogout())
+        dispatch(logoutUser())
         navigate("/vendor/login")
       },
       onError: (error: any) => {

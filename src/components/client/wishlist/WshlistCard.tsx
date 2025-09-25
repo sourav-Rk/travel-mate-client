@@ -59,7 +59,7 @@ export function WishlistCard({ package: pkg, index }: WishlistCardProps) {
   }
 
   const handleViewDetails = () => {
-     navigate(`/packages/${pkg._id}`)
+     navigate(`/packages/${pkg.packageId!}`)
   }
 
   const handleShare = () => {

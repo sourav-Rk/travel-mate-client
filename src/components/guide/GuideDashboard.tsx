@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Spinner } from "../Spinner"
 import { useLogout } from "@/hooks/auth/useLogout"
-import { logoutGuide } from "@/services/auth/authService"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
-import { guideLogout } from "@/store/slices/guideSlice"
 import { useNavigate } from "react-router-dom"
+import { logoutUser } from "@/store/slices/userSlice"
 
 
 
@@ -21,12 +20,12 @@ export default function GuideDashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-   const {mutate : logoutAdminMutate,isPending} = useLogout(logoutGuide);
+   const {mutate : logoutAdminMutate,isPending} = useLogout();
   const handleLogout = ()=>{
     logoutAdminMutate(undefined,{
       onSuccess :(response) =>{
         toast.success(`${response.message}`);
-        dispatch(guideLogout())
+        dispatch(logoutUser())
         navigate("/guide")
       },
       onError : (error : any) =>{

@@ -5,7 +5,7 @@ import type { RootState } from "@/store/store";
 import { useFcmToken } from "@/hooks/useFcmToken";
 
 function VendorLayout() {
-  const user = useSelector((state: RootState) => state.vendor.vendor);
+  const user = useSelector((state: RootState) => state.user.user);
 
   useFcmToken(user, "vendor");
 

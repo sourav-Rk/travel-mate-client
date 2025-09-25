@@ -1,11 +1,10 @@
-import { adminAxiosInstance } from "@/api/admin.axios";
-import { authAxiosInstance } from "@/api/auth.axios";
-import { clientAxiosInstance } from "@/api/client.axios";
-import { guideAxiosInstance } from "@/api/guide.axios";
-import { vendorAxiosInstance } from "@/api/vendor.axios";
+
+import { travelMateBackend } from "@/api/instance";
 import type { OtpVerifyType, ResendOtptType, ResetFormType } from "@/types/authTypes";
 import type { UserDto } from "@/types/User";
 import type { UserRole } from "@/types/UserRole";
+
+
 
 export interface AuthResponse {
   success: boolean;
@@ -15,7 +14,7 @@ export interface AuthResponse {
     firstName: string;
     lastName: string;
     email: string;
-    role: "client" | "admin" | "vendor";
+    role: "client" | "admin" | "vendor" | "guide";
   };
 }
 
@@ -33,7 +32,7 @@ export type LoginType = {
 //signup api
 export const signupApi = async (email: string): Promise<AxiosResponse> => {
   try {
-    const response = await authAxiosInstance.post("/signup", { email });
+    const response = await travelMateBackend.post("/auth/signup", { email });
     console.log(response.data);
     return response.data;
   } catch (error: any) {
@@ -44,7 +43,7 @@ export const signupApi = async (email: string): Promise<AxiosResponse> => {
 //send-otp api
 export const sendOtp = async (data: UserDto): Promise<AxiosResponse> => {
   try {
-    const response = await authAxiosInstance.post("/send-otp", data);
+    const response = await travelMateBackend.post("/auth/send-otp", data);
     return response.data;
   } catch (error: any) {
     throw error?.response.data.message || error;
@@ -56,7 +55,7 @@ export const verifyOtp = async (
   data: OtpVerifyType
 ): Promise<AxiosResponse> => {
   try {
-    const response = await authAxiosInstance.post("/verify-otp", data);
+    const response = await travelMateBackend.post("/auth/verify-otp", data);
     return response.data;
   } catch (error: any) {
     throw error?.response.data.message || error;
@@ -68,7 +67,7 @@ export const resendOtp = async (
   data: ResendOtptType
 ): Promise<AxiosResponse> => {
   try {
-    const response = await authAxiosInstance.post("/resend-otp", data);
+    const response = await travelMateBackend.post("/auth/resend-otp", data);
     return response.data;
   } catch (error: any) {
     throw error?.response.data.message || error;
@@ -78,7 +77,7 @@ export const resendOtp = async (
 //login api
 export const loginApi = async (data: LoginType): Promise<AuthResponse> => {
   try {
-    const response = await authAxiosInstance.post("/login", data);
+    const response = await travelMateBackend.post("/auth/login", data);
     return response.data;
   } catch (error: any) {
     throw error?.response.data.message || error;
@@ -87,51 +86,23 @@ export const loginApi = async (data: LoginType): Promise<AuthResponse> => {
 
 //------forgot password send email api-------------
 export const forgotPasswordSendMail = async(email : string) =>{
-  const response = await authAxiosInstance.post('/forgot-password/mail',{email});
+  const response = await travelMateBackend.post('/forgot-password/mail',{email});
   return response.data;
 }
 
 
 //------forgot password reset api----------------
 export const forgotPasswordReset = async(data : ResetFormType) =>{
-        const response = await authAxiosInstance.post("/forgot-password/reset",data);
+        const response = await travelMateBackend.post("/forgot-password/reset",data);
         return response.data;
 }
 
 //logout api
-export const logoutClient = async (): Promise<AxiosResponse> => {
+export const logoutUser = async (): Promise<AxiosResponse> => {
   try {
-    const response = await clientAxiosInstance.post("/_cl/client/logout");
+    const response = await travelMateBackend.post("/auth/logout");
     return response.data;
   } catch (error: any) {
     return error?.response?.data.message || error;
   }
 };
-
-
-export const logoutAdmin = async (): Promise<AxiosResponse> => {
-  try {
-    const response = await adminAxiosInstance.post("/_ad/admin/logout");
-    return response.data;
-  } catch (error: any) {
-    return error?.response?.data.message || error;
-  }
-};
-
-export const logoutVendor = async (): Promise<AxiosResponse> => {
-  try {
-    const response = await vendorAxiosInstance.post("/_ve/vendor/logout");
-    return response.data;
-  } catch (error: any) {
-    return error?.response?.data.message || error;
-  }
-};
-
-export const logoutGuide = async() : Promise<AxiosResponse> =>{
-  try{
-    const response = await guideAxiosInstance.post("/_gu/guide/logout");
-    return response.data
-  }catch(error : any){
-    return error?.response?.data.message || error;
-  }
-}

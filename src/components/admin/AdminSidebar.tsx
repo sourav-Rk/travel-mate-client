@@ -17,11 +17,10 @@ import {
   MoreHorizontal,
 } from "lucide-react"
 import { useLogout } from "@/hooks/auth/useLogout"
-import { logoutAdmin } from "@/services/auth/authService"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { adminLogout } from "@/store/slices/adminSlice"
+import { logoutUser } from "@/store/slices/userSlice"
 
 interface NavItem {
   id: string
@@ -36,13 +35,13 @@ const AdminSidebar: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string>("dashboard")
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { mutate: logoutAdminMutate } = useLogout(logoutAdmin)
+  const { mutate: logoutAdminMutate } = useLogout()
 
   const handleLogout = () => {
     logoutAdminMutate(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`)
-        dispatch(adminLogout())
+        dispatch(logoutUser())
         navigate("/admin")
       },
       onError: (error: any) => {

@@ -23,6 +23,7 @@ export function GuideListTable() {
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const [filterStatus, setFilterStatus] = useState<GuideStatus>("all")
+  const [currentPage,setCurrentPage] = useState(1)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
@@ -41,7 +42,8 @@ export function GuideListTable() {
     if (!data) return
     setGuides(data.users)
     setTotalPages(data.totalPages)
-  }, [data, filterStatus])
+    setCurrentPage(data.currentPage)
+  }, [data, filterStatus,page])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
@@ -187,7 +189,7 @@ export function GuideListTable() {
       </div>
       {/* Enhanced Pagination */}
       <div className="flex justify-center mt-6">
-        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setPage} />
       </div>
     </div>
   )

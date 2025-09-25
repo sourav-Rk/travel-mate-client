@@ -24,10 +24,11 @@ export const useApplyPackageMutation = () => {
 };
 
 //get booking details query
-export const useGetBookingDetails = (packageId: string) => {
+export const useGetBookingDetails = (packageId: string,isLoggedIn : boolean) => {
   return useQuery({
     queryKey: ["client-package-booking", packageId],
     queryFn: () => getBookingDetails(packageId),
+    enabled : isLoggedIn
   });
 };
 
@@ -37,7 +38,7 @@ export const useGetBookingsQuery = (
 ) => {
   return useQuery({
     queryKey: ["bookings-client", status],
-    queryFn: () => getBookingsBasedOnStatus({ status }),
+    queryFn: () => getBookingsBasedOnStatus(status),
     placeholderData: (prevData) => prevData
   });
 };

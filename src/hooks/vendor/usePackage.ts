@@ -34,6 +34,7 @@ export interface PackageDetails {
   termsAndConditions: string;
   status: string;
   isBlocked: boolean;
+  guideId ?: string;
 }
 
 interface FetchPackagesParams {

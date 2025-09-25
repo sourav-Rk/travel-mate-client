@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, X, Filter } from "lucide-react";
+import { Check, } from "lucide-react";
 import { useState } from "react";
 import type { INotificationEntity } from "@/types/notificationType";
 
@@ -106,7 +106,7 @@ export function NotificationModal({
             </div>
           ) : displayNotifications?.length ? (
             <div className="divide-y divide-gray-100">
-              {displayNotifications.map((notification, index) => (
+              {displayNotifications.map((notification) => (
                 <div
                   key={
                     notification._id ||

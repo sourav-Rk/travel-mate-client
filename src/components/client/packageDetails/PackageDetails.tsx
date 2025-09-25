@@ -30,6 +30,8 @@ import BookingConfirmationModal from "./BookingConfirmationModal";
 import CelebrationAnimation from "./CelebrationAnimation";
 import { useAddToWishlistMutation, useGetWishlistQuery, useRemoveFromWishlistMutation } from "@/hooks/wishlist/useWishlist";
 import type { WishlistDto } from "../wishlist/WishlistPage";
+import { useClientAuth } from "@/hooks/auth/useAuth";
+import { showToast } from "@/components/CustomToast";
 export default function PackageDetails() {
   const { packageId } = useParams<{ packageId: string }>();
   if (!packageId) return <div>No PackageId</div>;
@@ -58,10 +60,11 @@ export default function PackageDetails() {
     content: string;
   }>({ type: null, content: "" });
   const navigate = useNavigate();
+  const {isLoggedIn} = useClientAuth();
   const { data, isLoading } = useGetPackageDetailsQuery(packageId);
-  const { data: bookingData } = useGetBookingDetails(packageId);
+  const { data: bookingData } = useGetBookingDetails(packageId,isLoggedIn);
   const { mutate: applyToPackage } = useApplyPackageMutation();
-  const {data : wishlistData,isLoading : wishlistDataLoading} = useGetWishlistQuery();
+  const {data : wishlistData,isLoading : wishlistDataLoading} = useGetWishlistQuery(isLoggedIn);
   const {mutate : addToWishlist,isPending} = useAddToWishlistMutation();
   const {mutate : removeFromWishlist,isPending : removePending} = useRemoveFromWishlistMutation();
 
@@ -102,14 +105,47 @@ export default function PackageDetails() {
     }
   }, [packageData?.images?.length]);
 
-  const isInWishlist = wishlistDetails?.packages?.some((pkg : any) => pkg?._id === packageId);
+  const isInWishlist = wishlistDetails?.packages?.some((pkg : any) => pkg?.packageId === packageId);
+
+
+  const handleWishlistClick = () => {
+  if (!isLoggedIn) {
+  showToast.custom(
+    {type : "info",
+     title : "Please Login to continue",
+     description : " You need to be signed in to access this feature",
+     duration:3000}
+    )
+    navigate("/login");
+    return;
+  }
+  if (isInWishlist) {
+    handleRemoveFromWishlist();
+  } else {
+    handleAddToWishlist();
+  }
+};
+
+const handleBookingClick = () => {
+  if (!isLoggedIn) {
+    showToast.custom(
+    {type : "info",
+     title : "Please Login to continue",
+     description : " You need to be signed in to access this feature",
+     duration:3000}
+    )
+    navigate("/login");
+    return;
+  }
+  handleBooking();
+};
   
 
   //add to wishlist
   const handleAddToWishlist = () => {
     addToWishlist(packageId,{
       onSuccess :(response) =>{
-        toast.success(response.message);
+        showToast.success(response.message);
       },
       onError :(error : any) => {
         toast.error(error?.response?.data.message);
@@ -120,7 +156,7 @@ export default function PackageDetails() {
  const handleRemoveFromWishlist = () => {
   removeFromWishlist(packageId, {
     onSuccess: (response) => {
-      toast.success(response.message);
+      showToast.success(response.message);
     },
     onError: (error: any) => {
       console.error("Error object:", error); 
@@ -394,7 +430,7 @@ default:
   return (
     <div className="space-y-3">
       <Button
-        onClick={handleBooking}
+        onClick={handleBookingClick}
         className="w-full bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white"
         size="lg"
       >
@@ -405,7 +441,7 @@ default:
         <Button disabled className="w-full">Checking Wishlist...</Button>
       ) : isInWishlist ? (
         <Button
-          onClick={handleRemoveFromWishlist}
+          onClick={handleWishlistClick}
           variant="destructive"
           className="w-full"
           size="lg"
@@ -415,7 +451,7 @@ default:
         </Button>
       ) : (
         <Button
-          onClick={handleAddToWishlist}
+          onClick={handleWishlistClick}
           variant="outline"
           className="w-full border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent"
           size="lg"

@@ -111,10 +111,14 @@ export function AdminPackagesView() {
     switch (status) {
       case "active":
         return { label: "Active", className: "bg-green-900/20 text-green-400 border-green-400/30" }
+      case "completed":
+        return { label: "Active", className: "bg-green-900/20 text-green-400 border-green-400/30" }
       case "ongoing":
         return { label: "Ongoing", className: "bg-blue-900/20 text-blue-700 border-green-400/30" }
-      case "inactive":
-        return { label: "Inactive", className: "bg-red-900/20 text-red-400 border-red-400/30" }
+      case "cancelled":
+        return { label: "Cancelled", className: "bg-red-900/20 text-red-400 border-red-400/30" }
+      case "applications_closed":
+        return { label: "Applications closed", className: "bg-red-900/20 text-red-400 border-red-400/30" }
       case "draft":
         return { label: "Draft", className: "bg-yellow-900/20 text-yellow-400 border-yellow-400/30" }
       default:
@@ -376,7 +380,7 @@ export function AdminPackagesView() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-48 bg-white border-gray-200">
                               <DropdownMenuItem
-                                onClick={() => handleViewPackageDetails(pkg._id)}
+                                onClick={() => handleViewPackageDetails(pkg.packageId!)}
                                 className="cursor-pointer text-gray-700 hover:text-gray-900 hover:bg-gray-100"
                               >
                                 <Eye className="h-4 w-4 mr-2" />

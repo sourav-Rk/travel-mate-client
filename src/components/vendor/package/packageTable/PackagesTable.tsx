@@ -13,7 +13,7 @@ import {
   Search,
   Eye,
   Edit,
-  Trash2,
+  UserRoundPlus,
   Plus,
   MapPin,
   Calendar,
@@ -22,6 +22,8 @@ import {
   Star,
   MoreHorizontal,
   Send,
+  CheckCircle,
+  XCircle,
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -33,7 +35,7 @@ import { Spinner } from "@/components/Spinner"
 import _ from "lodash"
 import toast from "react-hot-toast"
 
-type PackageStatus = "all" | "active" | "ongoing" | "draft" | "completed" | "blocked"
+type PackageStatus = "all" | "active" | "ongoing" | "draft" | "completed" | "blocked" | "applications_closed"
 type PackageCategory = "all" | "nature" | "beach" | "adventure" | "heritage" | "cultural"
 
 export function PackagesTable() {
@@ -87,6 +89,10 @@ export function PackagesTable() {
       })
   }
 
+  const handleNavigateToAssignGuide = (packageId : string) => {
+    navigate(`/vendor/packages/${packageId}/assign-guide`);
+  }
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
     debouncedSearch(e.target.value)
@@ -108,6 +114,10 @@ export function PackagesTable() {
         return { label: "Inactive", className: "bg-red-100 text-red-800 border-red-200" }
       case "draft":
         return { label: "Draft", className: "bg-yellow-100 text-yellow-800 border-yellow-200" }
+      case "ongoing":
+        return { label: "Ongoing", className: "bg-yellow-100 text-yellow-800 border-yellow-200" }
+      case "applications_closed":
+        return { label: "Applications Closed", className: "bg-yellow-100 text--800 border-yellow-200" }
       default:
         return { label: "Unknown", className: "bg-gray-100 text-gray-800 border-gray-200" }
     }
@@ -229,9 +239,10 @@ export function PackagesTable() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="ongoing">Ongoing</SelectItem>
                     <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="applications_closed">Applications Closed</SelectItem>
+                    <SelectItem value="ongoing">Ongoing</SelectItem>
                     <SelectItem value="completed">Completed</SelectItem>
                     <SelectItem value="blocked">Blocked</SelectItem>
                   </SelectContent>
@@ -267,8 +278,7 @@ export function PackagesTable() {
                     <TableHead className="text-[#1a5f6b] font-semibold">Duration</TableHead>
                     <TableHead className="text-[#1a5f6b] font-semibold">Price</TableHead>
                     <TableHead className="text-[#1a5f6b] font-semibold">Status</TableHead>
-                    <TableHead className="text-[#1a5f6b] font-semibold">Bookings</TableHead>
-                    <TableHead className="text-[#1a5f6b] font-semibold">Rating</TableHead>
+                    <TableHead className="text-[#1a5f6b] font-semibold">Guide Assigned</TableHead>
                     <TableHead className="w-[100px] text-[#1a5f6b] font-semibold">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -334,13 +344,11 @@ export function PackagesTable() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <p className="font-medium text-[#1a5f6b]">{""}</p>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                            <span className="font-medium text-[#1a5f6b]">{"N/A"}</span>
-                          </div>
+                          {pkg.guideId ? (
+                            <CheckCircle className="text-green-600 w-5 h-5" />
+                          ) : (
+                            <XCircle className="text-red-600 w-5 h-5" />
+                          )}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
@@ -364,9 +372,9 @@ export function PackagesTable() {
                                   Publish Package
                                 </DropdownMenuItem>
                               )}
-                              <DropdownMenuItem className="cursor-pointer text-red-600">
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Delete Package
+                              <DropdownMenuItem disabled={pkg.status !== "applications_closed"} onClick={() => handleNavigateToAssignGuide(pkg.packageId!)} className="cursor-pointer text-blue-900">
+                                <UserRoundPlus className="h-4 w-4 mr-2" />
+                                Assign Guide
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>

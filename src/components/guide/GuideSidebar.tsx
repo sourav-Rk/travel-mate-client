@@ -3,16 +3,14 @@
 import * as React from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { User, Calendar, Users, Star, Bell, MessageCircle, LogOut, Menu, X } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { useLogout } from "@/hooks/auth/useLogout"
-import { logoutGuide } from "@/services/auth/authService"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
-import { guideLogout } from "@/store/slices/guideSlice"
+import { logoutUser } from "@/store/slices/userSlice"
 
 interface GuideSidebarProps {
   guide?: {
@@ -26,7 +24,7 @@ interface GuideSidebarProps {
 const navigationItems = [
   {
     title: "Assigned Trips",
-    href: "/guide/trips",
+    href: "/guide/assigned-trips",
     icon: Calendar,
   },
   {
@@ -72,12 +70,12 @@ export function GuideSidebar({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-   const {mutate : logoutAdminMutate} = useLogout(logoutGuide);
+   const {mutate : logoutAdminMutate} = useLogout();
   const handleLogout = ()=>{
     logoutAdminMutate(undefined,{
       onSuccess :(response) =>{
         toast.success(`${response.message}`);
-        dispatch(guideLogout())
+        dispatch(logoutUser())
         navigate("/guide/login")
       },
       onError : (error : any) =>{

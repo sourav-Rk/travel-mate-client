@@ -348,12 +348,11 @@ import { useDispatch } from "react-redux"
 import { useClientAuth } from "@/hooks/auth/useAuth"
 
 import toast from "react-hot-toast"
-import { clientLogout } from "@/store/slices/clientSlice"
 import { useLogout } from "@/hooks/auth/useLogout"
-import { logoutClient } from "@/services/auth/authService"
 import { useGetNotifications, useMarkAllNotificationsRead, useMarkNotificationRead } from "@/hooks/notification/useNotification"
 import { getNotificationsClient, markAllNotificationReadClient, markNotificationReadClient } from "@/services/client/client.service"
 import { NotificationModal } from "../NotificationModal"
+import { logoutUser } from "@/store/slices/userSlice"
 
 const navItems = [
   { name: "Holidays", href: "/packages", icon: Home },
@@ -365,7 +364,7 @@ const navItems = [
 const loginRoles = [
   { name: "User", href: "/login", description: "Book packages and explore" },
   { name: "Vendor", href: "/vendor", description: "Manage your business" },
-  { name: "Guide", href: "/guide", description: "Lead adventures" },
+  { name: "Guide", href: "/guide/login", description: "Lead adventures" },
 ]
 
 interface Client {
@@ -389,13 +388,16 @@ export function ClientHeader({ client }: ClientHeaderProps) {
   const dispatch = useDispatch()
 
   const { isLoggedIn, clientInfo } = useClientAuth()
-  const { mutate: logoutClientMutate } = useLogout(logoutClient)
+  const { mutate: logoutClientMutate } = useLogout();
   const {mutate : markRead} = useMarkNotificationRead(markNotificationReadClient);
   const {mutate : markAllRead} = useMarkAllNotificationsRead(markAllNotificationReadClient);
  
   const { data: notifData, isLoading: notifLoading } = useGetNotifications<NotificationResponse>(
     ["notifications-client"],
-    getNotificationsClient
+    getNotificationsClient,
+    {
+      enabled : isLoggedIn
+    }
   );
 
   
@@ -423,11 +425,11 @@ export function ClientHeader({ client }: ClientHeaderProps) {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })))
   }
 
-  const logoutUser = () => {
+  const logout = () => {
     logoutClientMutate(undefined, {
       onSuccess: (response) => {
         toast.success(`${response.message}`)
-        dispatch(clientLogout())
+        dispatch(logoutUser());
         navigate("/")
       },
       onError: (error: any) => {
@@ -539,7 +541,7 @@ export function ClientHeader({ client }: ClientHeaderProps) {
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={logoutUser} className="cursor-pointer text-red-600">
+                  <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600">
                     <LogOut className="w-4 h-4 mr-2" />
                     Log out
                   </DropdownMenuItem>

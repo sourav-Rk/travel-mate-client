@@ -72,7 +72,7 @@ export const useGetPackageDetailsQuery = (packageId: string) => {
 //get related packages
 export const useGetRelatedPackagesQuery = (packageId: string) => {
   return useQuery({
-    queryFn: () => getRelatedPackages({ packageId }),
+    queryFn: () => getRelatedPackages( packageId ),
     queryKey: ["related-packages", packageId],
   });
 };

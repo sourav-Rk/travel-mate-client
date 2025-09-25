@@ -6,10 +6,11 @@ import {
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 //get wishlist
-export const useGetWishlistQuery = () => {
+export const useGetWishlistQuery = (isLoggedIn : boolean) => {
   return useQuery({
     queryKey: ["wishlist"],
     queryFn: getWishlist,
+    enabled : isLoggedIn
   });
 };
 

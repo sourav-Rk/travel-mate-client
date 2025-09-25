@@ -65,7 +65,7 @@ export interface BookingListVendorDto {
 export interface BookingDetailsDto {
   _id?: string
   bookingId ?: string
-  userId: {
+  user: {
     _id : string;
     firstName : string;
     lastName : string;

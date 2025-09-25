@@ -1,8 +1,8 @@
 "use client"
 
-import { WishlistHeader } from "./wishlistHeader"
-import { WishlistGrid } from "./wishlistGrid"
-import { WishlistStats } from "./wishlistStats"
+import { WishlistHeader } from "./WishlistHeader"
+import { WishlistGrid } from "./WishlistGrid"
+import { WishlistStats } from "./WishlistStats"
 import { EmptyWishlist } from "./EmptyWishlist"
 
 export interface PackageDetailsWishlistDto {

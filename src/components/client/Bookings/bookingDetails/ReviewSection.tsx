@@ -29,6 +29,7 @@ interface PackageReviewSectionProps {
   totalReviews?: number
   onSubmitReview?: (rating: number, comment: string) => void
   isSubmitting?: boolean
+  canReviewPackage ?: boolean
 }
 
 export default function PackageReviewSection({
@@ -38,6 +39,7 @@ export default function PackageReviewSection({
   totalReviews = 0,
   onSubmitReview,
   isSubmitting = false,
+  canReviewPackage = true
 }: PackageReviewSectionProps) {
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [userRating, setUserRating] = useState(0)
@@ -124,7 +126,7 @@ export default function PackageReviewSection({
           </div>
 
           {/* Write Review Button */}
-          {canReview ? (
+          {canReview && canReviewPackage ? (
             <Button
               onClick={() => setShowReviewModal(true)}
               className="bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white px-6 py-3 rounded-lg font-medium"

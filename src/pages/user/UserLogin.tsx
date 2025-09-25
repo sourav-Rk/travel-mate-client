@@ -9,6 +9,7 @@ import type { CredentialResponse } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { clientLogin } from "@/store/slices/clientSlice";
+import { loginUser } from "@/store/slices/userSlice";
 
 export default function UserLogin() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function UserLogin() {
       {
         onSuccess: (data) => {
           toast.success(data.message);
-          dispatch(clientLogin(data.user));
+          dispatch(loginUser(data.user));
         },
         onError: (error: any) => {
           toast.error(error.response.data.message);

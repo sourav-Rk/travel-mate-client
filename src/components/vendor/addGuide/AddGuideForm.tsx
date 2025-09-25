@@ -127,7 +127,7 @@ export default function AddGuideForm() {
         onSuccess: (response) => {
           setIsUploading(false);
           toast.success(response.message);
-          navigate("/vendor/dashboard");
+          navigate("/vendor/guide");
         },
         onError: (error: any) => {
           setIsUploading(false);

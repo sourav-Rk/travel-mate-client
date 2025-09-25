@@ -1,4 +1,8 @@
-import { addGuide, getGuideDetails } from "@/services/vendor/vendorService";
+import {
+  addGuide,
+  assignGuide,
+  getGuideDetails,
+} from "@/services/vendor/vendorService";
 import type { IResponse } from "@/types/Response";
 import type { IGuide } from "@/types/User";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -8,6 +12,11 @@ interface FetchUserParams {
   limit: number;
   searchTerm: string;
   status: string;
+  minExperience?: number;
+  maxExperience?: number;
+  gender?: string;
+  languages?: string[];
+  availability?: "free" | "inTrip";
 }
 
 type UsersResponse = {
@@ -15,6 +24,11 @@ type UsersResponse = {
   totalPages: number;
   currentPage: number;
 };
+
+interface AssignGuideParams {
+  guideId: string;
+  packageId: string;
+}
 
 //add guide
 export const useAddGuideMutation = () => {
@@ -26,23 +40,55 @@ export const useAddGuideMutation = () => {
 //get guide details
 export const useGuideDetailsQuery = (id: string) => {
   return useQuery({
-    queryKey: ["guide-details", id], 
-    queryFn: () => getGuideDetails(id), 
+    queryKey: ["guide-details", id],
+    queryFn: () => getGuideDetails(id),
     enabled: !!id,
   });
 };
-//get all guide
 
+//get all guide
 export const useAllGuidesQuery = (
   queryFunc: (params: FetchUserParams) => Promise<UsersResponse>,
   page: number,
   limit: number,
   searchTerm: string,
-  status: string
+  status: string,
+  languages?: string[],
+  minExperience?: number,
+  maxExperience?: number,
+  gender?: string
 ) => {
   return useQuery({
-    queryKey: ["guides", page, limit, searchTerm, status],
-    queryFn: () => queryFunc({ page, limit, status, searchTerm }),
+    queryKey: [
+      "guides",
+      page,
+      limit,
+      searchTerm,
+      status,
+      minExperience,
+      languages,
+      minExperience,
+      maxExperience,
+      gender,
+    ],
+    queryFn: () =>
+      queryFunc({
+        page,
+        limit,
+        status,
+        searchTerm,
+        languages,
+        minExperience,
+        maxExperience,
+        gender,
+      }),
     placeholderData: (prevData: any) => prevData,
+  });
+};
+
+export const useAssignGuideMutation = () => {
+  return useMutation({
+    mutationFn: ({ guideId, packageId }: AssignGuideParams) =>
+      assignGuide(guideId, packageId),
   });
 };

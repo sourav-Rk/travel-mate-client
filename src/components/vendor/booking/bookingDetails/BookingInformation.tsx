@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card"
 import { User, CheckCircle2, CircleAlert, Clock, AlertTriangle } from "lucide-react"
 
 interface BookingInformationProps {
-  userId: string
+  user: string
   name?: string
   email : string;
   phone : string;
@@ -53,7 +53,7 @@ function getStatusColor(status: string, waitlisted: boolean) {
 }
 
 export function BookingInformation({
-  userId,
+  user,
   name,
   phone,
   email,
@@ -79,7 +79,7 @@ export function BookingInformation({
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm text-slate-600 dark:text-slate-400">User ID</span>
-              <span className="font-mono text-sm font-medium text-slate-900 dark:text-slate-100">{userId || "—"}</span>
+              <span className="font-mono text-sm font-medium text-slate-900 dark:text-slate-100">{user || "—"}</span>
             </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600 dark:text-slate-400">Name</span>

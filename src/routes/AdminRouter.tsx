@@ -8,16 +8,16 @@ import DashboardPage from "@/pages/admin/DashboardPage"
 import { PackageDetailsPageAdmin } from "@/pages/admin/PackageDetailsPageAdmin"
 import UserManagementPage from "@/pages/admin/UserManagementPage"
 import VendorManagementPage from "@/pages/admin/VendorManagement"
-import { AuthAdminRoute } from "@/protected/ProtectedRoute"
-import { NoAdminAuthRoute } from "@/protected/PubliceRoute"
+import { ProtectedRoute } from "@/protected/ProtectedRoute"
+import { NoAuthRoute } from "@/protected/PubliceRoute"
 import { Route, Routes } from "react-router-dom"
 
 const AdminRouter = () => {
     return(
        <div>
         <Routes>
-            <Route path="/" element={<NoAdminAuthRoute element={<AdminLogin/>}/>}/>
-            <Route path="/ad_pvt" element={<AuthAdminRoute allowedRoles={["admin"]} element={<AdminLayout/>}/>}>
+            <Route path="/" element={<NoAuthRoute element={<AdminLogin/>}/>}/>
+            <Route path="/ad_pvt" element={<ProtectedRoute allowedRoles={["admin"]} element={<AdminLayout/>}/>}>
             <Route index element={<DashboardPage/>}/>
             <Route path="packages/:packageId" element={<PackageDetailsPageAdmin/>}/>
             <Route path="packages" element={<AdminPackagesTableViewPage/>}/>

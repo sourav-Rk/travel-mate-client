@@ -7,7 +7,6 @@ interface BookingProgressProps {
   paidAmount: number
   totalAmount: number
   pendingAmount: number
-  userId: string
   isWaitlisted: boolean
   status: string
 }
@@ -23,7 +22,6 @@ export function BookingProgress({
   paidAmount,
   totalAmount,
   pendingAmount,
-  userId,
   isWaitlisted,
   status,
 }: BookingProgressProps) {
@@ -78,13 +76,6 @@ export function BookingProgress({
         </h2>
 
         <div className="space-y-4">
-          <div className="flex justify-between items-center py-3 border-b border-gray-100">
-            <span className="text-gray-600 flex items-center gap-2">
-              <User className="h-4 w-4" />
-              User ID:
-            </span>
-            <span className="font-medium text-gray-800 font-mono text-sm">{userId}</span>
-          </div>
 
           <div className="flex justify-between items-center py-3 border-b border-gray-100">
             <span className="text-gray-600">Booking Status:</span>
