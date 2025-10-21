@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { sendOtp } from "@/services/auth/authService";
-import type { User } from "@/types/User";
+import type { SignupFormValues } from "@/types/authTypes";
 
 
 export const useSendOTPMutation = () => {
     return useMutation({
-        mutationFn : (data : User) => sendOtp(data),
+        mutationFn : (data : SignupFormValues) => sendOtp(data),
     })
 }

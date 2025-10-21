@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Clock, MapPin, Users } from "lucide-react";
-import type { PackageDetails } from "@/hooks/vendor/usePackage";
 import { useGetAvailbalePackagesQuery } from "@/hooks/client/useClientPackage";
 import Pagination from "@/components/Pagination";
 import { getAvailablePackages } from "@/services/client/client.service";
 import { useNavigate } from "react-router-dom";
+import type { PackageListingUserSideDto } from "@/types/packageType";
 
 interface PackageListingProps {
   filters?: {
@@ -25,7 +25,7 @@ export default function PackageListingUpdated({
   filters,
 }: PackageListingProps) {
   const navigate = useNavigate();
-  const [packages, setPackages] = useState<PackageDetails[]>([]);
+  const [packages, setPackages] = useState<PackageListingUserSideDto[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);

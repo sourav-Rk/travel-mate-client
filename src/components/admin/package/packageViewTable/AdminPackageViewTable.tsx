@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom"
 import { useUpdatePackageBlockMutation } from "@/hooks/admin/usePackage"
 import toast from "react-hot-toast"
 import ConfirmationModal from "@/components/modals/ConfirmationModal"
+import type { IGetAllPackagesListAdminResponse } from "@/types/api/admin"
 
 
 type PackageStatus = "all" | "active" | "inactive" | "draft" | "ongoing"
@@ -54,7 +55,7 @@ export function AdminPackagesView() {
 
   const {mutate : updateBlock} = useUpdatePackageBlockMutation();
 
-  const { data, isLoading } = useGetPackagesQuery(
+  const { data, isLoading } = useGetPackagesQuery<IGetAllPackagesListAdminResponse>(
     getAllPackages,
     page,
     limit,

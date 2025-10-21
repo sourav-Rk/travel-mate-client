@@ -1,9 +1,14 @@
 import VendorManagement from "@/components/admin/vendorManagement/VendorManagement";
-
-export default function VendorManagementPage(){
-    return(
-        <>
-        <VendorManagement/>
-        </>
-    )
+import { motion } from "framer-motion";
+export default function VendorManagementPage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-white"
+    >
+      <VendorManagement />
+    </motion.div>
+  );
 }

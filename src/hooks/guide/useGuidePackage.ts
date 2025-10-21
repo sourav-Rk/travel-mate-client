@@ -2,8 +2,7 @@ import {
   getPackageDetailsGuide,
   updatePackageStatusGuide,
 } from "@/services/guide/guide.service";
-import type { IGetAllAssignedPackages } from "@/types/api/guide";
-import type { IResponse } from "@/types/Response";
+import type { IGetAllAssignedPackagesResponse } from "@/types/api/guide";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 interface FetchPackagesParams {
@@ -14,7 +13,7 @@ interface FetchPackagesParams {
 }
 
 export const useGetAssignedPackagesQuery = (
-  queryFunc: (params: FetchPackagesParams) => Promise<IGetAllAssignedPackages>,
+  queryFunc: (params: FetchPackagesParams) => Promise<IGetAllAssignedPackagesResponse>,
   page: number,
   limit: number,
   searchTerm: string,

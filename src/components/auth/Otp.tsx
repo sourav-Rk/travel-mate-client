@@ -42,7 +42,7 @@ export default function OtpVerification() {
             }
         }, 
         onError :(error : any) =>{
-            toast.error(error);
+            toast.error(error?.response?.data.message);
             console.log(error)
             setIsVerifying(false);
         }

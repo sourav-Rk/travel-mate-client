@@ -1,5 +1,5 @@
 import { getBookingDetailsGuide } from "@/services/guide/guide.service";
-import type { IGetBookingsGuide } from "@/types/api/guide";
+import type { IGetBookingsGuideResponse } from "@/types/api/guide";
 import { useQuery } from "@tanstack/react-query";
 
 interface FetchBookingsParams {
@@ -13,7 +13,7 @@ interface FetchBookingsParams {
 
 //get bookings for a package
 export const useGetBookingsGuideQuery = (
-  queryFunc: (params: FetchBookingsParams) => Promise<IGetBookingsGuide>,
+  queryFunc: (params: FetchBookingsParams) => Promise<IGetBookingsGuideResponse>,
   packageId: string,
   page: number,
   limit: number,

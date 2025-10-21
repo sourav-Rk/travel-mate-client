@@ -53,14 +53,14 @@ export default function PackageContent({ packageData, openDays, toggleDay, forma
               <Calendar className="w-6 h-6 text-[#2CA4BC]" />
               <div>
                 <p className="font-semibold text-gray-900">Start Date</p>
-                <p className="text-gray-600">{formatDate(packageData?.startDate)}</p>
+                <p className="text-gray-600">{formatDate(packageData?.startDate!)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
               <Calendar className="w-6 h-6 text-[#2CA4BC]" />
               <div>
                 <p className="font-semibold text-gray-900">End Date</p>
-                <p className="text-gray-600">{formatDate(packageData?.endDate)}</p>
+                <p className="text-gray-600">{formatDate(packageData?.endDate!)}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg md:col-span-2">

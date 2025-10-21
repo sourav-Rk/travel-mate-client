@@ -121,8 +121,8 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                       packageData.packageId!,
                       packageData.packageName,
                       packageData.title,
-                      packageData.startDate.toString(),
-                      packageData.endDate.toString(),
+                      packageData.startDate!.toString(),
+                      packageData.endDate!.toString(),
                       packageData.meetingPoint,
                       packageData.status
                     )

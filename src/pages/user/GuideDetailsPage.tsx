@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 export default function GuideDetailsPage() {
-    const {guideId} = useParams<{guideId : string}>();
+    const {guideId,bookingId} = useParams<{guideId : string;bookingId : string}>();
     const [guide,setGuide] = useState<GuideDetailsForClientDto>()
     const {data,isLoading} = useGetGuideDetailsQuery(guideId!);
 
@@ -30,7 +30,7 @@ export default function GuideDetailsPage() {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-white"
     >
-      {guide &&<GuideDetailsComponent guide={guide!}/>}
+      {guide &&<GuideDetailsComponent guide={guide!} bookingId={bookingId!}/>}
     </motion.div>
   )
 }

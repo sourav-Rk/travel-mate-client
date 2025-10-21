@@ -18,3 +18,9 @@ export interface WishlistDto {
     userId : string;
     packages : PackageDetailsWishlistDto[];
 }
+
+
+export interface IGetWishListDto{
+    success : string;
+    data : WishlistDto
+}

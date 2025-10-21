@@ -4,9 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { GuideDetailsForClientDto } from '@/types/api/client';
+import { useNavigate } from 'react-router-dom';
 
 interface GuideDetailsComponentProps {
   guide: GuideDetailsForClientDto;
+  bookingId : string;
   onMessageGuide?: () => void;
   onCallGuide?: (phoneNumber: string) => void;
   className?: string;
@@ -14,10 +16,14 @@ interface GuideDetailsComponentProps {
 
 const GuideDetailsComponent: React.FC<GuideDetailsComponentProps> = ({
   guide,
+  bookingId,
   onMessageGuide,
   onCallGuide,
   className = "",
 }) => {
+  
+  const navigate = useNavigate();
+
   const handleCall = (phoneNumber: string) => {
     if (onCallGuide) {
       onCallGuide(phoneNumber);
@@ -28,12 +34,7 @@ const GuideDetailsComponent: React.FC<GuideDetailsComponentProps> = ({
   };
 
   const handleMessage = () => {
-    if (onMessageGuide) {
-      onMessageGuide();
-    } else {
-      // Default behavior - could redirect to messaging page
-      console.log('Message guide:', guide._id);
-    }
+     navigate(`/chat/${guide._id}/${bookingId}`)
   };
 
   return (

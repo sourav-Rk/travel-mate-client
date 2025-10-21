@@ -3,15 +3,22 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import BookingDetailsView, {
-  type PackageDetails,
 } from "@/components/client/Bookings/bookingDetails/BookingDetailsView";
 import { useGetPackageDetailsQuery } from "@/hooks/client/useClientPackage";
+import type { UnifiedPackage } from "@/types/packageType";
 
 interface Payment {
   amount: number;
   dueDate: Date | string | null;
   paid: boolean;
   paidAt?: string | Date | null;
+}
+
+interface CancellationRequest {
+  requestedAt: string;
+  reason: string;
+  calculatedRefund: number;
+  approvedAt?: string;
 }
 
 interface BookingDetails {
@@ -22,11 +29,14 @@ interface BookingDetails {
   status: string;
   advancePayment: Payment | null;
   fullPayment: Payment | null;
+  cancelledAt?: string;
+  refundAmount?: number;
+  cancellationRequest?: CancellationRequest;
 }
 
 export default function BookingDetailsViewClientPage() {
   const [bookingDetails, setBookingDetails] = useState<BookingDetails>();
-  const [packageDetails, setPackageDetails] = useState<PackageDetails>();
+  const [packageDetails, setPackageDetails] = useState<UnifiedPackage>();
   const params = useParams();
   const bookingId =
     (params as any)?.bookingId ??
@@ -49,7 +59,10 @@ export default function BookingDetailsViewClientPage() {
       status: data.bookingDetails.status,
       isWaitlisted: data.bookingDetails.isWaitlisted!,
       advancePayment : data.bookingDetails.advancePayment ?? null,
-      fullPayment : data.bookingDetails.fullPayment ?? null
+      fullPayment : data.bookingDetails.fullPayment ?? null,
+      cancelledAt: data.bookingDetails.cancelledAt,
+      refundAmount: data.bookingDetails.refundAmount,
+      cancellationRequest: data.bookingDetails.cancellationRequest,
     });
 
     setPackageDetails(packageData.packages);

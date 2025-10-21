@@ -3,6 +3,7 @@ import {
   assignGuide,
   getGuideDetails,
 } from "@/services/vendor/vendorService";
+import type { IGetAllGuidesVendorResponse } from "@/types/api/vendor";
 import type { IResponse } from "@/types/Response";
 import type { IGuide } from "@/types/User";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -18,12 +19,6 @@ interface FetchUserParams {
   languages?: string[];
   availability?: "free" | "inTrip";
 }
-
-type UsersResponse = {
-  users: [];
-  totalPages: number;
-  currentPage: number;
-};
 
 interface AssignGuideParams {
   guideId: string;
@@ -48,7 +43,7 @@ export const useGuideDetailsQuery = (id: string) => {
 
 //get all guide
 export const useAllGuidesQuery = (
-  queryFunc: (params: FetchUserParams) => Promise<UsersResponse>,
+  queryFunc: (params: FetchUserParams) => Promise<IGetAllGuidesVendorResponse>,
   page: number,
   limit: number,
   searchTerm: string,

@@ -2,10 +2,6 @@ import {createSlice} from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { User } from "@/types/UserRole";
 
-interface UserState{
-    user : User | null;
-}
-
 const initialState = {
     user : JSON.parse(localStorage.getItem("authSession") || "null"),
 };

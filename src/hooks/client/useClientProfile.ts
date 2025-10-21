@@ -1,4 +1,5 @@
-import { getClientDetails, updateClientDetails, type Client } from "@/services/client/client.service"
+import { getClientDetails, updateClientDetails, type Client, type ClientResponse } from "@/services/client/client.service"
+import { getClientDetailsForGuide } from "@/services/guide/guide.service"
 import type { IResponse } from "@/types/Response"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
@@ -16,3 +17,11 @@ export  const useClientProfileMutation = () =>{
         onSuccess : () => queryClient.invalidateQueries({queryKey : ["client-profile"]})
     })
 }
+
+export const useClientDetailsForGuideQuery = (clientId: string, enabled = true) => {
+  return useQuery<ClientResponse>({
+    queryKey: ["client-details-guide", clientId],
+    queryFn: () => getClientDetailsForGuide(clientId),
+    enabled: enabled && !!clientId, 
+  });
+};

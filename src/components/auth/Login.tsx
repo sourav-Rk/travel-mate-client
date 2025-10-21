@@ -29,6 +29,7 @@ interface LoginProps {
 
 export default function LoginForm({ userType }: LoginProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [serverError,setServerError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { mutate: login } = useLoginMutation();
@@ -44,7 +45,7 @@ export default function LoginForm({ userType }: LoginProps) {
           iconBg: "bg-gradient-to-br from-blue-500 to-teal-500",
           accent: "text-blue-600 hover:text-blue-800",
         };
-       case "vendor":
+      case "vendor":
         return {
           gradient: "bg-[#2CA4BC]", 
           hoverGradient: "bg-cyan-700", 
@@ -53,16 +54,20 @@ export default function LoginForm({ userType }: LoginProps) {
           iconBg: "bg-[#2CA4BC]",
           accent: "text-cyan-700 hover:text-cyan-800",
         }
-      case "admin":
+         case "admin":
         return {
-          gradient: "from-[#FFD700] to-[#F5C518]",
-          hoverGradient: "from-[#F5C518] to-[#FFD700]",
+          // Admin: distinctive royal theme (not black/dark)
+          gradient: "from-indigo-500 to-purple-600",
+          hoverGradient: "from-indigo-600 to-purple-700",
           icon: Shield,
-          cardBg: "bg-gradient-to-br from-[#141E30]/90 to-[#243B55]/90",
-          iconBg: "bg-gradient-to-br from-[#FFD700] to-[#F5C518]",
-          descriptionTextColor: "text-white",
-          inputTextColor: "text-white",
-          accent: "text-yellow-400 hover:text-yellow-500",
+          cardBg: "bg-gradient-to-br from-indigo-50/90 to-purple-50/90",
+          iconBg: "bg-gradient-to-r from-indigo-500 to-purple-600",
+          descriptionTextColor: "text-slate-600",
+          inputTextColor: "text-slate-900",
+          labelTextColor: "text-slate-700",
+          titleTextColor: "text-slate-900",
+          signupTextColor: "text-slate-600",
+          accent: "text-indigo-600 hover:text-indigo-800",
         };
 
        case "guide":
@@ -100,8 +105,8 @@ export default function LoginForm({ userType }: LoginProps) {
         });
       },
       onError: (error: any) => {
-        console.log(error,"--.login")
-        toast.error(error);
+        toast.error(error.response.data.message);
+        setServerError(error?.response?.data.message || "Login failed");
         formik.setSubmitting(false);
       },
     });
@@ -147,6 +152,7 @@ export default function LoginForm({ userType }: LoginProps) {
         <CardDescription className={theme.descriptionTextColor}>
           Sign in to continue your journey with Travel Mate as {userType}
         </CardDescription>
+         {serverError && <p className="text-sm text-red-500">{serverError}</p>} 
       </CardHeader>
 
       <CardContent className="space-y-4">

@@ -29,7 +29,7 @@ import {
   Edit,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { TravelPackage } from "@/types/packageType"
+import type { PackageDetails, TravelPackage } from "@/types/packageType"
 import { useNavigate, useParams } from "react-router-dom"
 import { useGetPackageDetailsQuery } from "@/hooks/vendor/usePackage"
 import { Spinner } from "@/components/Spinner"
@@ -44,7 +44,7 @@ export function PackageDetails({className }: PackageDetailsProps) {
   const [activeTab, setActiveTab] = useState("itinerary")
   const [expandedDays, setExpandedDays] = useState<number[]>([1])
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [packageData,setPackageData] = useState<TravelPackage>();
+  const [packageData,setPackageData] = useState<TravelPackage >();
   const navigate = useNavigate();
   
   if(!packageId){
@@ -54,7 +54,7 @@ export function PackageDetails({className }: PackageDetailsProps) {
 
   useEffect(() =>{
     if(!data) return ;
-    setPackageData(data.packages);
+    setPackageData(data.packages as TravelPackage);
   },[packageId,data]);
   
   console.log(data)

@@ -1,8 +1,9 @@
-
-import { travelMateBackend } from "@/api/instance";
-import type { OtpVerifyType, ResendOtptType, ResetFormType } from "@/types/authTypes";
-import type { UserDto } from "@/types/User";
+import type { OtpVerifyType, ResendOtptType, ResetFormType, SignupFormValues } from "@/types/authTypes";
 import type { UserRole } from "@/types/UserRole";
+import { server } from "../server";
+import { AUTH_API } from "@/constants/api/auth.api";
+import type { IResponse } from "@/types/Response";
+import type { LoginResponse } from "@/types/api/auth";
 
 
 
@@ -30,79 +31,29 @@ export type LoginType = {
 };
 
 //signup api
-export const signupApi = async (email: string): Promise<AxiosResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/signup", { email });
-    console.log(response.data);
-    return response.data;
-  } catch (error: any) {
-    throw error?.response.data.message || error;
-  }
-};
+export const signupApi = async (email: string) => server.post<IResponse,{email : string}>(AUTH_API.SIGNUP,{email});
 
 //send-otp api
-export const sendOtp = async (data: UserDto): Promise<AxiosResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/send-otp", data);
-    return response.data;
-  } catch (error: any) {
-    throw error?.response.data.message || error;
-  }
-};
+export const sendOtp = async (data: SignupFormValues) => server.post<IResponse,SignupFormValues>(AUTH_API.SEND_OTP,data);
 
 //verify otp api
-export const verifyOtp = async (
-  data: OtpVerifyType
-): Promise<AxiosResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/verify-otp", data);
-    return response.data;
-  } catch (error: any) {
-    throw error?.response.data.message || error;
-  }
-};
+export const verifyOtp = async (data: OtpVerifyType) => server.post<IResponse,OtpVerifyType>(AUTH_API.VERIFY_OTP,data);
+
 
 //resend otp
-export const resendOtp = async (
-  data: ResendOtptType
-): Promise<AxiosResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/resend-otp", data);
-    return response.data;
-  } catch (error: any) {
-    throw error?.response.data.message || error;
-  }
-};
+export const resendOtp = async (data: ResendOtptType) => server.post<IResponse,ResendOtptType>(AUTH_API.RESEND_OTP,data)
 
 //login api
-export const loginApi = async (data: LoginType): Promise<AuthResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/login", data);
-    return response.data;
-  } catch (error: any) {
-    throw error?.response.data.message || error;
-  }
-};
+export const loginApi = async (data: LoginType) => server.post<LoginResponse,LoginType>(AUTH_API.LOGIN,data);
 
-//------forgot password send email api-------------
-export const forgotPasswordSendMail = async(email : string) =>{
-  const response = await travelMateBackend.post('/forgot-password/mail',{email});
-  return response.data;
-}
-
-
-//------forgot password reset api----------------
-export const forgotPasswordReset = async(data : ResetFormType) =>{
-        const response = await travelMateBackend.post("/forgot-password/reset",data);
-        return response.data;
-}
 
 //logout api
-export const logoutUser = async (): Promise<AxiosResponse> => {
-  try {
-    const response = await travelMateBackend.post("/auth/logout");
-    return response.data;
-  } catch (error: any) {
-    return error?.response?.data.message || error;
-  }
-};
+export const logoutUser = async () => server.post<IResponse>(AUTH_API.LOGOUT)
+
+
+//------forgot password send email api-------------
+export const forgotPasswordSendMail = async(email : string) => server.post<IResponse,{email : string}>(AUTH_API.FORGOT_PASSWORD_SEND_MAIL,{email})
+
+//------forgot password reset api----------------
+export const forgotPasswordReset = async(data : ResetFormType) => server.post<IResponse,ResetFormType>(AUTH_API.FORGOT_PASSWORD_RESET,data);
+

@@ -1,15 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { PackageDetails } from "@/hooks/vendor/usePackage";
+import type { UnifiedPackage } from "@/types/packageType";
 
 interface TravelPopularProps {
-  popularTours: PackageDetails[]
+  popularTours: UnifiedPackage[]
 }
 
 export default function TravelPopular({popularTours} : TravelPopularProps) {
 
 
   return (
+    
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">

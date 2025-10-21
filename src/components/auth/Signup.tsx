@@ -25,6 +25,7 @@ export default function SignupForm({userType} : SignupProps) {
   
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [serverError,setServerError] = useState("");
 
   const {mutate : signup,isPending} = useSendOTPMutation();
 
@@ -39,7 +40,8 @@ export default function SignupForm({userType} : SignupProps) {
         navigate('/otp/verify',{state : {email : values.email}})
       },
       onError : (error : any)=>{
-        toast.error(error )
+        toast.error(error?.response?.data.message || "Signup failed")
+        setServerError(error?.response?.data.message || "Registration failed");
       }
     })
 
@@ -93,6 +95,7 @@ export default function SignupForm({userType} : SignupProps) {
         <CardDescription className="text-gray-600">
           Create your account and start your journey
         </CardDescription>
+        {serverError && <p className="text-sm text-red-500">{serverError}</p>}
       </CardHeader>
 
       <CardContent className="space-y-4">

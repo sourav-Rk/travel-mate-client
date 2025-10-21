@@ -21,6 +21,10 @@ import { EditPackage } from "@/components/vendor/package/editPackage/EditPackage
 import { BookingListTable } from "@/components/vendor/booking/BookingTable"; 
 import BookingDetailsVendorPage from "@/pages/vendor/BookingDetailsVendorPage";
 import GuideAssignmentPage from "@/components/vendor/guideAssignment/GuideAssignment";
+import VendorWalletPage from "@/pages/vendor/VendorWalletPage";
+import CancellationRequestsPage from "@/pages/vendor/CancellationRequestsPage";
+import CancellationbookingView from "@/components/vendor/CancellationRequestView";
+import CancellationBookingViewPage from "@/pages/vendor/CancellationBookingViewPages";
 
 const VendorRouter = () => {
   return (
@@ -44,7 +48,10 @@ const VendorRouter = () => {
        <Route path="packages/add" element={<AddPackageForm/>}/>
        <Route path="packages" element={<PackagesTable/>}/>
        <Route path="bookings/:packageId" element={<BookingListTable/>}/>
+       <Route path="bookings/cancellations" element={<CancellationRequestsPage/>}/>
+       <Route path="bookings/cancellations/:bookingId" element={<CancellationBookingViewPage/>}/>
        <Route path="bookings/users/:bookingId" element={<BookingDetailsVendorPage/>}/>
+       <Route path="wallet" element={<VendorWalletPage/>}/>
        </Route>
         <Route path="*" element={<NotFoundPage />} /> 
       </Routes>

@@ -23,6 +23,10 @@ import CheckoutPage from "@/pages/user/CheckoutPage";
 import PaymentCancelledPage from "@/pages/user/PaymentCancelledPage";
 import WishlistPageClient from "@/pages/user/WishlistPage";
 import GuideDetailsPage from "@/pages/user/GuideDetailsPage";
+import ClientGuideChatPage from "@/pages/user/ClientGuideChatPage";
+import { ChatSidebar } from "@/components/chat/chatSideBar/ChatSidebar";
+import ChatPage from "@/pages/chatSidebar/ChatSidebarPage";
+import ClientWalletPage from "@/pages/user/ClientWalletPage";
 
 const ClientRouter = () => {
   return (
@@ -58,9 +62,11 @@ const ClientRouter = () => {
         <Route path="bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<BookingsView/>}/>}/>
         <Route path="bookings/:bookingId/:packageId" element={<ProtectedRoute allowedRoles={["client"]} element={<BookingDetailsViewClientPage/>}/>}/>
         <Route path="wishlist" element={<WishlistPageClient/>}/>
-        <Route path="guide/:guideId" element={<GuideDetailsPage/>}/>
+        <Route path="guide/:guideId/:bookingId" element={<GuideDetailsPage/>}/>
+        <Route path="wallet" element={<ClientWalletPage/>}/>
        </Route>
-
+         <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
+        <Route path="/chat/:guideId/:bookingId" element={<ProtectedRoute allowedRoles={["client"]} element={<ClientGuideChatPage/>}/> }/>
         <Route path="/cancel" element={<PaymentCancelledPage/>}/>
 
         <Route path="*" element={<NotFoundPage />} />

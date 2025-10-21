@@ -9,6 +9,7 @@ import {User,Mail,Phone,Users,FileText,Briefcase,Languages,CalendarDays,FileChec
 import { useNavigate, useParams } from "react-router-dom"
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import { useGuideDetailsQuery } from "@/hooks/vendor/useGuide"
+import type { IGuide } from "@/types/User"
 
 interface Guide {
   id: string
@@ -39,10 +40,24 @@ const getFileType = (url: string): "image" | "pdf" | "other" => {
   return "other"
 }
 
+const formatDate = (date: string | Date) => {
+  const parsedDate = typeof date === "string" ? new Date(date) : date;
+
+  if (isNaN(parsedDate.getTime())) {
+    return "Invalid Date";
+  }
+
+  return parsedDate.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export function GuideDetails() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [guide, setGuide] = useState<Guide | null>(null)
+  const [guide, setGuide] = useState<IGuide | null>(null)
   const [viewingDocument, setViewingDocument] = useState<{ url: string } | null>(null)
 
   const { data, isLoading, isError } = useGuideDetailsQuery(id || "")
@@ -81,7 +96,7 @@ export function GuideDetails() {
     }
   }
 
-  const statusConfig = getStatusConfig(guide.status)
+  const statusConfig = getStatusConfig(guide.status!)
   const StatusIcon = statusConfig.icon
 
   return (
@@ -193,7 +208,9 @@ export function GuideDetails() {
                     <CalendarDays className="h-4 w-4 text-[#2CA4BC]" />
                     <div>
                       <p className="text-xs text-slate-500 uppercase tracking-wide font-medium">Date of Birth</p>
-                      <p className="text-[#1a5f6b] font-medium">{guide.dob}</p>
+                     <p className="text-[#1a5f6b] font-medium">
+                        {guide.dob ? formatDate(guide.dob!) : "Not specified"}
+                      </p>
                     </div>
                   </div>
                 </div>

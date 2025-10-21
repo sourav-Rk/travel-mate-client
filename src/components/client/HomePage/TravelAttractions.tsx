@@ -5,10 +5,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star, Clock, Users } from "lucide-react"
 import { motion } from "framer-motion"
-import type { PackageDetails } from "@/hooks/vendor/usePackage"
+import type { UnifiedPackage } from "@/types/packageType"
 
 interface PopularDestinationsProps {
-  topAttractions: PackageDetails[]
+  topAttractions: UnifiedPackage[]
 }
 
 export default function TravelAttractions({ topAttractions }: PopularDestinationsProps) {

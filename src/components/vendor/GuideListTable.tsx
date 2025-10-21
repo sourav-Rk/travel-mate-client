@@ -15,11 +15,12 @@ import { getAllGuides } from "@/services/vendor/vendorService"
 import Pagination from "../Pagination"
 import { Spinner } from "../Spinner"
 import { useNavigate } from "react-router-dom"
+import type { GuideListVendorDto } from "@/types/guide"
 
 type GuideStatus = "all" | "verified" | "pending"
 
 export function GuideListTable() {
-  const [guides, setGuides] = useState([])
+  const [guides, setGuides] = useState<GuideListVendorDto[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const [filterStatus, setFilterStatus] = useState<GuideStatus>("all")

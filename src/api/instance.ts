@@ -6,7 +6,6 @@ export const travelMateBackend = axios.create({
   withCredentials: true,
 });
 
-
 let isRefreshing = false;
 let failedQueue: any[] = [];
 
@@ -28,7 +27,20 @@ travelMateBackend.interceptors.response.use(
       error.response?.data
     );
 
-   console.log(originalRequest.url,"-->")
+    if (
+      error.response?.status === 401 &&
+      [
+        "Token time out, Please loggin again",
+        "Authorization token is required",
+      ].includes(error.response.data.message)
+    ) {
+      {
+        localStorage.removeItem("authSession");
+        window.location.href = "/";
+        toast.error("Please login again");
+        return Promise.reject(error);
+      }
+    }
 
     if (
       error.response?.status === 401 &&

@@ -1,5 +1,5 @@
 "use client";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { BookingHeader } from "@/components/vendor/booking/bookingDetails/BookingHeader";
@@ -24,6 +24,7 @@ function LoadingCard() {
 }
 
 export function GuideBookingDetails() {
+  const navigate = useNavigate();
   const params = useParams();
   const bookingIdentifier =
     (params as any)?.bookingId ??
@@ -38,6 +39,10 @@ export function GuideBookingDetails() {
     error,
     isLoading,
   } = useGetBookingDetailsGuide(bookingIdentifier);
+
+  const handleChat = () =>{
+      navigate(`/guide/chat/${user._id}/${booking?.bookingDetails.bookingId}`)
+  }
 
   if (!hasId) {
     return (
@@ -123,6 +128,9 @@ export function GuideBookingDetails() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2
+        onClick={handleChat}
+        >message</h2>
         <div className="space-y-6">
           <BookingHeader
             bookingId={bookingId!}

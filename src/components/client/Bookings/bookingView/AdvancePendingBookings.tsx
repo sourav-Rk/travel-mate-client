@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar,
   MapPin,
-  Download,
   Eye,
   Loader,
   IndianRupee,
@@ -12,7 +11,6 @@ import {
   Clock,
   AlertTriangle,
   RefreshCw,
-  MessageSquare,
 } from 'lucide-react';
 import type { BookingListDTO } from '@/types/bookingType';
 import { useNavigate } from 'react-router-dom';

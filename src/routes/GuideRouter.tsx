@@ -5,11 +5,13 @@ import NotFoundPage from "@/components/NotFound";
 import AssignedTripsPage from "@/pages/guide/AssignedTripsPage";
 import BookingDetailsGuidePage from "@/pages/guide/BookingDetailsGuidePage";
 import BookingListGuidePage from "@/pages/guide/BookingListPage";
+import GuideClientChatPage from "@/pages/guide/GuideClientChatPage";
 import GuideLogin from "@/pages/guide/GuideLogin";
 import GuidePackageDetailsPage from "@/pages/guide/GuidePackageDetailsPage";
 import { GuidePasswordChangePage } from "@/pages/guide/GuidePasswordChangePage";
 import GuideProfilePage from "@/pages/guide/GuideProfilePage";
 import PasswordResetPage from "@/pages/guide/PasswordResetPage";
+import ClientGuideChatPage from "@/pages/user/ClientGuideChatPage";
 import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import { NoAuthRoute } from "@/protected/PubliceRoute";
 import { Routes, Route } from "react-router-dom";
@@ -41,6 +43,7 @@ const GuideRouter = () => {
         <Route path="package/:packageId" element={<GuidePackageDetailsPage />} />
         <Route path="bookings/users/:bookingId" element={<BookingDetailsGuidePage/>}/>
         <Route path="bookings/:packageId" element={<BookingListGuidePage/>}/>   
+        <Route path="chat/:clientId/:bookingId" element={<GuideClientChatPage/>}/>   
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

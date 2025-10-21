@@ -1,11 +1,26 @@
 import { travelMateBackend } from "@/api/instance";
+
 import type { PasswordChangeFormType } from "@/types/authTypes";
 import type { AxiosResponse } from "@/services/auth/authService";
 import qs from "qs";
 import { server } from "../server";
 import type { IResponse } from "@/types/Response";
-import type {  IGetGuideDetailsClient } from "@/types/api/client";
-
+import type {
+  IGetAllNotificationsClientResponse,
+  IGetAvailabalePackagesResponse,
+  IGetBookingsClientResponse,
+  IGetClientBookingDetailsOfPackageResponse,
+  IGetClientBookingDetailsResponse,
+  IGetGuideDetailsClient,
+  IGetPackageDetailsClient,
+  IGetTrendingPackagesResponse,
+  IGetWalletResponse,
+  IGetWalletTransactionsResponse,
+  IPaymentResponse,
+  IReviewsResponse,
+} from "@/types/api/client";
+import { CLIENT_API } from "@/constants/api/client.api";
+import type { IGetWishListDto } from "@/types/wishlistType";
 
 export type Client = {
   _id: string;
@@ -33,21 +48,24 @@ export type ClientResponse = {
 // ================== CLIENT PROFILE ==================
 
 //------------Get client details------------
-export const getClientDetails = async() => server.get<ClientResponse>("/client/details");
-
+export const getClientDetails = async () =>
+  server.get<ClientResponse>(CLIENT_API.GET_DETAILS);
 
 //------------Update client profile details------------
-export const updateClientDetails = async(data: Partial<Client>) => server.put("/client/details",data);
-
+export const updateClientDetails = async (data: Partial<Client>) =>
+  server.put<IResponse, Partial<Client>>(CLIENT_API.UPDATE_DETAILS, data);
 
 //------------Update client password-------------
-export const updateClientPassword = async(data: PasswordChangeFormType) =>server.put<IResponse, PasswordChangeFormType>("/client/update-password",data);
-
+export const updateClientPassword = async (data: PasswordChangeFormType) =>
+  server.put<IResponse, PasswordChangeFormType>(
+    CLIENT_API.UPDATE_PASSWORD,
+    data
+  );
 
 // ================== PACKAGES ==================
 
 //------------- Get available packages list with filters & pagination-------------
-export const getAvailablePackages = async({
+export const getAvailablePackages = async ({
   page = 1,
   limit = 10,
   search,
@@ -64,115 +82,200 @@ export const getAvailablePackages = async({
   duration: string;
   sortBy: string;
 }) =>
-  server.get("/client/packages", {
-    params: {
-      page,
-      limit,
-      search,
-      categories,
-      priceRange,
-      duration,
-      sortBy,
-    },
-    paramsSerializer: (params) =>
-      qs.stringify(params, { arrayFormat: "repeat" }),
-  });
-
+  server.get<IGetAvailabalePackagesResponse>(
+    CLIENT_API.GET_AVAILABLE_PACKAGES,
+    {
+      params: {
+        page,
+        limit,
+        search,
+        categories,
+        priceRange,
+        duration,
+        sortBy,
+      },
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    }
+  );
 
 //-------------Get details of a single package-------------
-export const getPackageDetails = async (packageId: string) =>server.get(`/client/packages/${packageId}`);
-
+export const getPackageDetails = async (packageId: string) =>
+  server.get<IGetPackageDetailsClient>(
+    CLIENT_API.GET_PACKAGE_DETAILS(packageId)
+  );
 
 //-------------Get related packages for a given package-------------
-export const getRelatedPackages = async (packageId: string) =>server.get(`/client/packages/related/`, { params: { packageId } });
-
+export const getRelatedPackages = async (packageId: string) =>
+  server.get<IGetTrendingPackagesResponse>(CLIENT_API.GET_RELATED_PACKAGES, {
+    params: { packageId },
+  });
 
 //-------------Get trending packages-------------
-export const getTrendingPackages = async () =>server.get("/client/packages/trending");
-
-
+export const getTrendingPackages = async () =>
+  server.get<IGetTrendingPackagesResponse>(CLIENT_API.GET_TRENDING_PACKAGES);
 
 //================== BOOKINGS ==================
 
 //-------------Apply for a package booking-------------
-export const applyPackage = async (packageId: string) =>server.post("/client/booking/apply", { packageId });
-
+export const applyPackage = async (packageId: string) =>
+  server.post<IResponse, { packageId: string }>(CLIENT_API.APPLY_PACKAGE, {
+    packageId,
+  });
 
 //-------------Get booking details by packageId (for client view)-------------
-export const getBookingDetails = async (packageId: string) =>server.get(`/client/booking/package/${packageId}`);
-
+export const getBookingDetails = async (packageId: string) =>
+  server.get<IGetClientBookingDetailsOfPackageResponse>(
+    CLIENT_API.GET_BOOKING_BY_PACKAGE(packageId)
+  );
 
 //-------------Get booking details by bookingId (for vendor view)-------------
-export const getBookingDetailsVendor = async (bookingId: string) =>server.get(`/client/booking/${bookingId}`);
+export const getBookingDetailsVendor = async (bookingId: string) =>
+  server.get<IGetClientBookingDetailsResponse>(
+    CLIENT_API.GET_BOOKING_BY_ID(bookingId)
+  );
 
 //-------------Get all bookings filtered by status-------------
-export const getBookingsBasedOnStatus = async (status: string[]) =>server.get("/client/bookings", { params: { status: status.join(",") } });
-
+export const getBookingsBasedOnStatus = async (status: string[]) =>
+  server.get<IGetBookingsClientResponse>(CLIENT_API.GET_BOOKINGS_BY_STATUS, {
+    params: { status: status.join(",") },
+  });
 
 //-------------Get booking details by bookingId (for client view)-------------
-export const getBookingDetailsClient = async (bookingId: string) =>server.get(`/client/booking/${bookingId}`);
+export const getBookingDetailsClient = async (bookingId: string) =>
+  server.get<IGetClientBookingDetailsResponse>(
+    CLIENT_API.GET_BOOKING_BY_ID(bookingId)
+  );
 
-
+//-------------Cancell a booking-----------------
+export const cancelBooking = async (
+  bookingId: string,
+  cancellationReason: string
+) =>
+  server.post<IResponse, { cancellationReason: string }>(
+    CLIENT_API.CANCELL_BOOKING(bookingId),
+    {
+      cancellationReason,
+    }
+  );
 
 // ================== NOTIFICATIONS ==================
 
-
 //-------------Get all notifications for the client-------------
-export const getNotificationsClient = async () =>server.get("/client/notifications");
-
+export const getNotificationsClient = async () =>
+  server.get<IGetAllNotificationsClientResponse>(CLIENT_API.GET_NOTIFICATIONS);
 
 //-------------Mark a single notification as read----------------
-export const markNotificationReadClient = async (notificationId: string) =>server.patch(`/client/notifications/${notificationId}`, {});
+export const markNotificationReadClient = async (notificationId: string) =>
+  server.patch<IResponse>(
+    CLIENT_API.MARK_NOTIFICATION_READ(notificationId),
+    {}
+  );
 
 //-------------Mark all notifications as read-------------------
-export const markAllNotificationReadClient = async () => server.patch("/client/notifications", {});
-
+export const markAllNotificationReadClient = async () =>
+  server.patch<IResponse>(CLIENT_API.MARK_ALL_NOTIFICATIONS_READ, {});
 
 // ================== PAYMENTS ==================
 
 //--------------Pay advance amount for a booking------------------
-export const payAdvanceAmount = async (bookingId: string, amount: number) =>server.post("/client/payment/advance", { bookingId, amount });
+export const payAdvanceAmount = async (bookingId: string, amount: number) =>
+  server.post<IPaymentResponse, { bookingId: string; amount: number }>(
+    CLIENT_API.PAY_ADVANCE,
+    { bookingId, amount }
+  );
 
 //----------------Pay full amount for a booking------------------
-export const payFullAmount = async (bookingId: string, amount: number) =>server.post("/client/payment/full", { bookingId, amount });
-
+export const payFullAmount = async (bookingId: string, amount: number) =>
+  server.post<IPaymentResponse, { bookingId: string; amount: number }>(
+    CLIENT_API.PAY_FULL,
+    { bookingId, amount }
+  );
 
 // ================== WISHLIST ==================
 
 //-----------------Get client wishlist-----------------
-export const getWishlist = async() => server.get("/client/wishlist");
-
+export const getWishlist = async () =>
+  server.get<IGetWishListDto>(CLIENT_API.GET_WISHLIST);
 
 //----------------Add a package to wishlist-----------------
-export const addToWishlist = async (packageId: string): Promise<AxiosResponse> =>server.put("/client/wishlist", { packageId });
-
+export const addToWishlist = async (
+  packageId: string
+): Promise<AxiosResponse> =>
+  server.put<IResponse, { packageId: string }>(CLIENT_API.ADD_TO_WISHLIST, {
+    packageId,
+  });
 
 //-----------------Remove a package from wishlist-----------------
-export const removeFromWishlist = async (packageId: string): Promise<AxiosResponse> =>server.patch("/client/wishlist/remove", { packageId });
-
+export const removeFromWishlist = async (
+  packageId: string
+): Promise<AxiosResponse> =>
+  server.patch<IResponse, { packageId: string }>(
+    CLIENT_API.REMOVE_FROM_WISHLIST,
+    { packageId }
+  );
 
 // ================== REVIEWS ==================
 
-
 //-----------------Add a review (for package/guide)---------------
-export const addReview = async(data: {
+export const addReview = async (data: {
   targetType: string;
   rating: number;
   comment: string;
   packageId?: string;
   guideId?: string;
-}): Promise<AxiosResponse> => server.post("/client/review", data);
-
+}): Promise<AxiosResponse> =>
+  server.post<IResponse>(CLIENT_API.ADD_REVIEW, data);
 
 //-------------Get reviews for a package-----------------
-export const getPackageReviews = async(packageId: string) =>server.get(`/client/reviews/packages/${packageId}`);
-
+export const getPackageReviews = async (packageId: string) =>
+  server.get<IReviewsResponse>(CLIENT_API.GET_PACKAGE_REVIEWS(packageId));
 
 //-------------Get reviews for a guide------------------
-export const getGuideReviews = async(packageId : string,guideId : string) => server.get(`/client/reviews/guides/${guideId}/${packageId}`);
+export const getGuideReviews = async (packageId: string, guideId: string) =>
+  server.get<IReviewsResponse>(
+    CLIENT_API.GET_GUIDE_REVIEWS(guideId, packageId)
+  );
 
 //-----------------Guide Routes--------------------
-export const getGuideDetailsClient = async(guideId : string) => server.get<IGetGuideDetailsClient>(`/client/guide/${guideId}`);
+export const getGuideDetailsClient = async (guideId: string) =>
+  server.get<IGetGuideDetailsClient>(CLIENT_API.GET_GUIDE_DETAILS(guideId));
+
+// ================== Wallet ==================
+
+//------------ get wallet transactions-------------------
+export const getWalletTransactionsClient = async ({
+  walletId,
+  page = 1,
+  limit = 10,
+  type,
+  searchTerm,
+  sortBy,
+}: {
+  walletId: string;
+  page: number;
+  limit: number;
+  type: string;
+  sortBy: string;
+  searchTerm: string;
+}) =>
+  server.get<IGetWalletTransactionsResponse>(
+    CLIENT_API.GET_WALLET_TRANSACTIONS,
+    {
+      params: {
+        walletId,
+        page,
+        limit,
+        type,
+        searchTerm,
+        sortBy,
+      },
+    }
+  );
+
+//-------------get wallet-------------------
+export const getWalletClient = async () =>
+  server.get<IGetWalletResponse>(CLIENT_API.GET_WALLET);
 
 // ================== IMAGES ==================
 /**
@@ -185,7 +288,7 @@ export const uploadImages = async (
   files.forEach((f) => form.append("image", f));
   try {
     const response = await travelMateBackend.post(
-      "/client/images/upload",
+      CLIENT_API.UPLOAD_IMAGES,
       form,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

@@ -14,12 +14,7 @@ import AppliedBookings from './AppliedBookings';
 import ConfirmedBookings from './ConfirmedBookings';
 import type { BookingListDTO } from '@/types/bookingType';
 import Advance_Pending_Booking from './AdvancePendingBookings';
-// import AdvancePaidBookings from './AdvancePaidBookings';
-// import AdvancePendingBookings from './AdvancePendingBookings';
 
-
-
-type status = 'applied'  | 'confirmed' | 'advance_paid' | 'advance_pending' | 'completed' | 'cancelled' | 'fully_paid';
 
 interface TabData {
   key: string;

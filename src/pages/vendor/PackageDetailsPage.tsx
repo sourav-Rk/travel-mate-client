@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import type { TravelPackage } from "@/types/packageType"
+import type { TravelPackage, UnifiedPackage } from "@/types/packageType"
 import { useGetPackageDetailsQuery } from "@/hooks/vendor/usePackage"
 import { Spinner } from "@/components/Spinner"
 import { PackageDetailsHeader } from "@/components/vendor/package/packageView/PackageDetailsHeader"
@@ -28,7 +28,7 @@ export function PackageDetailsPage({ className }: PackageDetailsProps) {
       </div>
     )
   }
-  const [packageData, setPackageData] = useState<TravelPackage>()
+  const [packageData, setPackageData] = useState<UnifiedPackage>()
   const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId,"vendor");
 
   useEffect(() => {
@@ -72,13 +72,13 @@ export function PackageDetailsPage({ className }: PackageDetailsProps) {
       <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8">
         <PackageDetailsHeader packageId={packageData.packageId!} status={packageData.status} />
 
-        <PackageMainInfo packageData={packageData} />
+        <PackageMainInfo packageData={packageData as TravelPackage} />
 
         <PackageHighlights />
 
         <PackageAbout description={packageData.description} />
 
-        <PackageTabsSection packageData={packageData} />
+        <PackageTabsSection packageData={packageData as TravelPackage} />
       </div>
     </div>
   )

@@ -24,7 +24,7 @@ const BookingsView = () => {
   const statusCategories = {
     upcoming: ["applied", "pending", "confirmed", "advance_pending", "fully_paid", "waitlisted"],
     completed: ["completed"],
-    cancelled: ["cancelled", "expired"]
+    cancelled: ["cancelled", "expired","cancellation_requested"]
   };
 
 const { data } = useGetBookingsQuery(
@@ -57,6 +57,7 @@ const { data } = useGetBookingsQuery(
       return <CheckCircle className="w-4 h-4 text-blue-500" />;
     case "cancelled":
     case "expired":
+    case "cancellation_requested" : 
       return <XCircle className="w-4 h-4 text-red-500" />;
     case "waitlisted":
       return <Clock className="w-4 h-4 text-gray-500" />;
@@ -80,6 +81,7 @@ const getStatusColor = (status: string) => {
       return "bg-green-100 text-green-800 border-green-200";
     case "cancelled":
     case "expired":
+    case "cancellation_requested":
       return "bg-red-100 text-red-700 border-red-200";
     case "waitlisted":
       return "bg-gray-100 text-gray-700 border-gray-200";

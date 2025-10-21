@@ -15,7 +15,7 @@ import {
   AlertCircle,
   CreditCard,
 } from "lucide-react";
-import type { TravelPackage } from "@/types/packageType";
+import type {  TravelPackage, UnifiedPackage } from "@/types/packageType";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetPackageDetailsQuery } from "@/hooks/client/useClientPackage";
 import { Spinner } from "@/components/Spinner";
@@ -40,7 +40,7 @@ export default function PackageDetails() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
-  const [packageData, setPackageData] = useState<TravelPackage>();
+  const [packageData, setPackageData] = useState<UnifiedPackage>();
   const [wishlistDetails, setWishlistDetails] = useState<WishlistDto>();
   const [bookingDetails, setBookingDetails] =
     useState<ClientBookingDetailDto>();
@@ -88,7 +88,7 @@ export default function PackageDetails() {
 
     useEffect(() => {
     if (wishlistData) {
-      setWishlistDetails(wishlistData.wishlist);
+      setWishlistDetails(wishlistData.data);
     }
   }, [wishlistData]);
 
@@ -545,7 +545,7 @@ default:
         {/* Left Column - Main Details */}
         <div className="lg:col-span-2 space-y-6">
           <PackageContent
-            packageData={packageData}
+            packageData={packageData as TravelPackage}
             openDays={openDays}
             toggleDay={toggleDay}
             formatDate={formatDate}
@@ -614,7 +614,7 @@ default:
       <BookingConfirmationModal
         isOpen={showConfirmationModal}
         onClose={() => setShowConfirmationModal(false)}
-        packageData={packageData}
+        packageData={packageData as TravelPackage}
         onConfirmBooking={handleConfirmBooking}
         isLoading={isBookingLoading}
         mutationMessage={mutationMessage}

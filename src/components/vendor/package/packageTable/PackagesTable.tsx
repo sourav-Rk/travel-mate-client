@@ -28,19 +28,20 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useNavigate } from "react-router-dom"
-import { useGetPackagesQuery, useUpdatePackageStatusMutation, type PackageDetails } from "@/hooks/vendor/usePackage"
+import { useGetPackagesQuery, useUpdatePackageStatusMutation } from "@/hooks/vendor/usePackage"
 import { getAllPackages } from "@/services/vendor/vendorService"
 import Pagination from "@/components/Pagination"
 import { Spinner } from "@/components/Spinner"
 import _ from "lodash"
 import toast from "react-hot-toast"
+import type { PackageListingVendorDto } from "@/types/packageType"
 
 type PackageStatus = "all" | "active" | "ongoing" | "draft" | "completed" | "blocked" | "applications_closed"
 type PackageCategory = "all" | "nature" | "beach" | "adventure" | "heritage" | "cultural"
 
 export function PackagesTable() {
   const navigate = useNavigate()
-  const [packages, setPackage] = useState<PackageDetails[]>()
+  const [packages, setPackage] = useState<PackageListingVendorDto[]>()
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<PackageStatus>("all")
@@ -367,7 +368,7 @@ export function PackagesTable() {
                                 Edit Package
                               </DropdownMenuItem>
                               {pkg.status === "draft" && (
-                                <DropdownMenuItem onClick={() => handleUpdatePackageStatus(pkg._id,"active")} className="cursor-pointer text-green-600">
+                                <DropdownMenuItem onClick={() => handleUpdatePackageStatus(pkg._id!,"active")} className="cursor-pointer text-green-600">
                                   <Send className="h-4 w-4 mr-2" />
                                   Publish Package
                                 </DropdownMenuItem>

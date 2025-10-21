@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import type { PackageDetails } from "../vendor/usePackage";
 import {
   getPackageDetails,
   getRelatedPackages,
   getTrendingPackages,
 } from "@/services/client/client.service";
+import type { IGetAvailabalePackagesResponse } from "@/types/api/client";
 
 interface FetchPackagesParams {
   page: number;
@@ -16,15 +16,10 @@ interface FetchPackagesParams {
   sortBy: string;
 }
 
-type PackageResponse = {
-  packages: PackageDetails[];
-  totalPages: number;
-  currentPage: number;
-};
 
 //get all available packages query
 export const useGetAvailbalePackagesQuery = (
-  queryFunc: (params: FetchPackagesParams) => Promise<PackageResponse>,
+  queryFunc: (params: FetchPackagesParams) => Promise<IGetAvailabalePackagesResponse>,
   page: number,
   limit: number,
   search: string,

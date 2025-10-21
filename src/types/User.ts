@@ -16,7 +16,7 @@ export interface IClient {
   email: string;
   phone: string;
   password: string;
-  gender: string;
+  gender?: string;
   role: "client";
 }
 
@@ -26,11 +26,13 @@ export interface IVendor {
   email: string;
   phone: string;
   password: string;
-  gender: string;
+  gender?: string;
   role: "vendor";
   agencyName: string;
   description: string;
 }
+
+
 
 export interface IGuide {
   _id ?: string;
@@ -39,14 +41,16 @@ export interface IGuide {
   email: string;
   phone: string;
   alternatePhone: string;
-  gender: string;
-  dob: Date;
+  gender?: string;
+  dob: Date | string;
   yearOfExperience: string;
   languageSpoken: string[];
   role: "guide";
   documents: string[];
   isAvailable ?: boolean;
   profileImage ?: string
+  status ?: "verified" | "pending";
+  bio?: string
 }
 
 export type UserDto = IClient | IVendor | IGuide;
@@ -74,4 +78,34 @@ export interface VendorData {
     registrationNumber: string;
     documents: string[];
   };
+}
+
+
+
+
+
+export interface AdminTableUserDto{
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  profileImage: string
+  isBlocked: boolean
+  createdAt: string
+}
+
+
+type VendorStatus = "pending" | "verified" | "rejected" | "reviewing"
+
+export interface AdminTableVendorDto {
+  _id: string
+  agencyName: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  profileImage: string
+  status: VendorStatus
+  isBlocked?: boolean
 }

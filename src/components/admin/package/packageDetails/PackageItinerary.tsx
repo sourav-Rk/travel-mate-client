@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { ChevronDown, ChevronRight, MapPin, Utensils, Bed, Car, Clock, Tag } from "lucide-react";

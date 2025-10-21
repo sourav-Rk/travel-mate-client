@@ -19,6 +19,7 @@ import {
 } from "@/hooks/vendor/usePackage";
 import AssignedGuideCard from "./AssignedGuideCard";
 
+
 export default function GuideAssignmentPage() {
   const { packageId } = useParams<{ packageId: string }>();
   if (!packageId) return <div>No package id</div>;
@@ -65,7 +66,7 @@ export default function GuideAssignmentPage() {
 
   useEffect(() => {
     if (packageData) {
-      setPackageDetails(packageData.packages);
+      setPackageDetails(packageData.packages as PackageDetails);
     }
   }, [packageData, packageId]);
 

@@ -13,7 +13,7 @@ export const useVendorDetailsQuery = () =>{
     return useQuery({
         queryKey : ["vendor-details"],
         queryFn : getVendorProfile,
-    })
+    })  
 }
 
 

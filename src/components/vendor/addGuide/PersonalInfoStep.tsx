@@ -93,6 +93,7 @@ export function PersonalInfoStep({ formData, setFormData, errors }: PersonalInfo
             onChange={(e) => setFormData({ ...formData, alternatePhone: e.target.value })}
             className="focus-visible:ring-black-500"
           />
+          {errors.alternatePhone && <p className="text-red-500 text-xs mt-1">{errors.alternatePhone}</p>}
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -123,13 +123,13 @@ export default function BookingConfirmationModal({
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Start Date:</span>
                     <span className="font-semibold">
-                      {formatDate(packageData.startDate)}
+                      {formatDate(packageData.startDate!)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">End Date:</span>
                     <span className="font-semibold">
-                      {formatDate(packageData.endDate)}
+                      {formatDate(packageData.endDate!)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">

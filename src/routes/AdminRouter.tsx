@@ -4,6 +4,7 @@ import AdminLayout from "@/components/layouts/AdminLayout"
 import NotFoundPage from "@/components/NotFound"
 import AdminLogin from "@/pages/admin/AdminLogin"
 import AdminPackagesTableViewPage from "@/pages/admin/AdminPackagesTableViewPage"
+import AdminWalletPage from "@/pages/admin/AdminWalletPage"
 import DashboardPage from "@/pages/admin/DashboardPage"
 import { PackageDetailsPageAdmin } from "@/pages/admin/PackageDetailsPageAdmin"
 import UserManagementPage from "@/pages/admin/UserManagementPage"
@@ -24,6 +25,7 @@ const AdminRouter = () => {
             <Route path="vendors" element={<VendorManagementPage/>}/>
             <Route path="users" element={<UserManagementPage/>}/>
             <Route path="vendor/:userId" element={<VendorView/>}/>
+            <Route path="wallet" element={<AdminWalletPage/>}/>
             </Route>
             <Route path="*" element={<NotFoundPage />} /> 
         </Routes>

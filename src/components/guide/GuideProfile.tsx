@@ -30,7 +30,6 @@ import { useGuideProfileQuery } from "@/hooks/guide/useGuideProfile"
 
 // Define the Guide interface based on your provided structure
 interface Guide {
-  id: string
   firstName: string
   lastName: string
   email: string

@@ -1,13 +1,18 @@
 "use client"
 
 import { PinContainer } from "@/components/ui/3d-pin";
-import type { PackageDetails } from "@/hooks/vendor/usePackage";
+import type { UnifiedPackage } from "@/types/packageType";
+import { useNavigate } from "react-router-dom";
 
 interface PopularDestinationsProps {
-   destinations : PackageDetails[]
+   destinations : UnifiedPackage[]
 }
 
 export default function PopularDestinations({destinations} : PopularDestinationsProps) {
+  const navigate = useNavigate();
+  const handleNavigateToPackages = () => {
+    navigate("/packages");
+  }
 
 
   return (
@@ -16,7 +21,7 @@ export default function PopularDestinations({destinations} : PopularDestinations
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
           <h2 className="text-3xl font-bold text-gray-900">Popular destinations</h2>
-          <button className="text-[#2CA4BC] hover:text-[#2CA4BC]/80 font-medium transition-colors duration-200 underline decoration-2 underline-offset-4">
+          <button onClick={handleNavigateToPackages} className="  text-[#2CA4BC] hover:text-[#2CA4BC]/80 font-medium transition-colors duration-200 underline decoration-2 underline-offset-4">
             View all destinations
           </button>
         </div>

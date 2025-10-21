@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Search, Filter, Calendar, MapPin, Delete, X } from "lucide-react";
+import { Search, Filter, Calendar, MapPin, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -17,10 +17,8 @@ import { useGetAssignedPackagesQuery } from "@/hooks/guide/useGuidePackage";
 import Pagination from "@/components/Pagination";
 import { getAssignedPackages } from "@/services/guide/guide.service";
 import _ from "lodash"
-import { useNavigate } from "react-router-dom";
 
 export function AssignedTripsList() {
-  const navigate = useNavigate();
   const [trips, setTrips] = useState<GuidePackageListingTableDto[]>();
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")

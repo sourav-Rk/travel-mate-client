@@ -9,8 +9,8 @@ interface PackageDetails {
   title: string
   meetingPoint: string
   price: number
-  startDate: string
-  endDate: string
+    startDate: string | Date | null;
+  endDate: string | Date | null;
   duration: {
     days: number
     nights: number
@@ -24,13 +24,16 @@ interface PackageInfoCardProps {
   packages: PackageDetails
 }
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
+const formatDate = (date: string | Date | null) => {
+  if (!date) return "-"; // handle null
+  const d = typeof date === "string" ? new Date(date) : date;
+  return d.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  })
-}
+  });
+};
+
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-IN", {

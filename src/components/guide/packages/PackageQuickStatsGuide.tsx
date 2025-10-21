@@ -30,7 +30,7 @@ export function PackageQuickStats({ packageData }: PackageQuickStatsProps) {
     {
       icon: Calendar,
       label: "start Date",
-      value: new Date(packageData.startDate).toLocaleDateString("en-US", {
+      value: new Date(packageData.startDate!).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -40,7 +40,7 @@ export function PackageQuickStats({ packageData }: PackageQuickStatsProps) {
     {
       icon: Calendar,
       label: "End Date",
-      value: new Date(packageData.endDate).toLocaleDateString("en-US", {
+      value: new Date(packageData.endDate!).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",

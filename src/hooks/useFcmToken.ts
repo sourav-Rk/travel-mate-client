@@ -3,12 +3,11 @@ import {
   requestForToken,
   listenForForegroundMessages,
 } from "@/config/firebaseConfig";
-import type { Client } from "@/store/slices/clientSlice";
-import type { Vendor } from "@/store/slices/vendor.slice";
 import { travelMateBackend } from "@/api/instance";
+import type { IClient, IVendor } from "@/types/User";
 
 export const useFcmToken = (
-  user: Client | Vendor | null,
+  user: IClient | IVendor | null,
   userType: "vendor" | "client"
 ) => {
   useEffect(() => {
@@ -31,25 +30,25 @@ export const useFcmToken = (
 
         // Get FCM token
         const token = await requestForToken();
-        console.log("FCM Token:", token);
+       
 
         if (!token) {
-          console.warn("No FCM token generated");
+          
           return;
         }
 
         // Save token to backend
         console.log("Saving token to backend...");
         if (userType === "client") {
-          const res = await travelMateBackend.post("/_cl/client/fcm/save", {
+          const res = await travelMateBackend.post("/client/fcm/save", {
             token,
           });
-          console.log("✅ FCM token saved:", res.data);
+        
         } else if (userType === "vendor") {
-          const res = await travelMateBackend.post("/_ve/vendor/fcm/save", {
+          const res = await travelMateBackend.post("/vendor/fcm/save", {
             token,
           });
-          console.log("✅ FCM token saved:", res.data);
+        
         }
       } catch (error: any) {
         console.error("❌ Failed to save FCM token:", error);

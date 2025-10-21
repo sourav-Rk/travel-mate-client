@@ -27,7 +27,8 @@ import { useLogout } from '@/hooks/auth/useLogout';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { vendorLogout } from '@/store/slices/vendor.slice';
+import { logoutUser } from '@/store/slices/userSlice';
+
 
 interface StatCardProps {
   title: string;
@@ -50,7 +51,7 @@ const {mutate : logout} = useLogout();
     logout(undefined,{
         onSuccess : (response)=>{
             toast.success(`${response.message}`);
-            dispatch(vendorLogout());
+            dispatch(logoutUser());
             navigate("/vendor/login");
         },
         onError:(error : any)=>{

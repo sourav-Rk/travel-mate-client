@@ -8,7 +8,6 @@ import {
   Clock,
   IndianRupee,
   QrCode,
-  Star,
   Info,
   Bookmark,
   Share2

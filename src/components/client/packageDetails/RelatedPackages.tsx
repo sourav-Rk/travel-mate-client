@@ -5,8 +5,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, MapPin, Users, Calendar } from "lucide-react"
-import type { PackageDetails } from "@/hooks/vendor/usePackage";
 import { useGetRelatedPackagesQuery } from "@/hooks/client/useClientPackage"
+import type { UnifiedPackage } from "@/types/packageType"
 
 interface MoreOptionsProps {
   packageId?: string
@@ -15,7 +15,7 @@ interface MoreOptionsProps {
 
 export default function RelatedPackages({ packageId, className = "" }: MoreOptionsProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: string]: number }>({});
-  const [relatedPackages,setRelatedPackages] = useState<PackageDetails[]>([]);
+  const [relatedPackages,setRelatedPackages] = useState<UnifiedPackage[]>([]);
 
   const {data,isLoading} = useGetRelatedPackagesQuery(packageId || "");
 

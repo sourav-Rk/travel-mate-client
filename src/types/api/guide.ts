@@ -1,4 +1,8 @@
 import type { BookingDetailsDto } from "../bookingType";
+import type { ResponseWith } from "../common";
+import type { GuideProfileDto } from "../guide";
+import type { TravelPackage } from "../packageType";
+
 
 export interface GuideListDto {
   _id: string;
@@ -54,22 +58,18 @@ export interface BookingListGuideDto {
 }
 
 
-//assigned packages dto
-export interface IGetAllAssignedPackages {
-  packages: GuidePackageListingTableDto[];
-  totalPages: number;
-  currentPage: number;
-}
 
 
-//booking list dto
-export interface IGetBookingsGuide {
+export type IGetBookingDetailsGuideResponse = ResponseWith<"bookingDetails",BookingDetailsDto>; 
+export type IGetPackgeDetailsGuideResponse = ResponseWith<"packages",TravelPackage>;
+export type IGetGuideProfileResponse = ResponseWith<"guide",GuideProfileDto>
+export type IGetBookingsGuideResponse =  {
   bookings: BookingListGuideDto[];
   totalPages: number;
   currentPage: number;
 }
-
-//booking details response
-export interface IGetBookingDetailsGuideDto{
-  bookingDetails : BookingDetailsDto
+export type IGetAllAssignedPackagesResponse =  {
+  packages: GuidePackageListingTableDto[];
+  totalPages: number;
+  currentPage: number;
 }

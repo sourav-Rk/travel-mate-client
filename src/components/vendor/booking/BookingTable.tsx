@@ -39,7 +39,7 @@ import { getBookingsVendor } from "@/services/vendor/vendorService"
 import ConfirmationModal from "@/components/modals/ConfirmationModal"
 
 // Type definitions
-type BOOKINGSTATUS = "pending" | "confirmed" | "completed" | "cancelled" | "advance_pending" | "all" | "applied" | "waitlisted" | "fully_paid"
+type BOOKINGSTATUS = "pending" | "confirmed" | "completed" | "cancelled" | "advance_pending" | "all" | "applied" | "waitlisted" | "fully_paid" | "cancellation_requested"
 type BookingStatus = "all" | BOOKINGSTATUS
 
 
@@ -154,6 +154,7 @@ export function BookingListTable() {
           icon: <CheckCircle className="h-3 w-3" />
         }
       case "cancelled":
+      case "cancellation_requested":  
         return { 
           label: "Cancelled", 
           className: "bg-red-100 text-red-800 border-red-200",

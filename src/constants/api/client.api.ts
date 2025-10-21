@@ -1,0 +1,66 @@
+export const CLIENT_API = {
+  // ================== CLIENT PROFILE ==================
+  GET_DETAILS: "/client/details",
+  UPDATE_DETAILS: "/client/details",
+  UPDATE_PASSWORD: "/client/update-password",
+
+
+  // ================== PACKAGES ==================
+  GET_AVAILABLE_PACKAGES: "/client/packages",
+  GET_PACKAGE_DETAILS: (packageId: string) => `/client/packages/${packageId}`,
+  GET_RELATED_PACKAGES: "/client/packages/related",
+  GET_TRENDING_PACKAGES: "/client/packages/trending",
+
+
+  // ================== BOOKINGS ==================
+  APPLY_PACKAGE: "/client/booking/apply",
+  GET_BOOKING_BY_PACKAGE: (packageId: string) =>
+    `/client/booking/package/${packageId}`,
+  GET_BOOKING_BY_ID: (bookingId: string) => `/client/booking/${bookingId}`,
+  GET_BOOKINGS_BY_STATUS: "/client/bookings",
+  CANCELL_BOOKING : (bookingId : string) => `/client/booking/cancel/${bookingId}`,
+
+  // ================== NOTIFICATIONS ==================
+  GET_NOTIFICATIONS: "/client/notifications",
+  MARK_NOTIFICATION_READ: (notificationId: string) =>
+    `/client/notifications/${notificationId}`,
+  MARK_ALL_NOTIFICATIONS_READ: "/client/notifications",
+
+
+  // ================== PAYMENTS ==================
+  PAY_ADVANCE: "/client/payment/advance",
+  PAY_FULL: "/client/payment/full",
+
+
+  // ================== WISHLIST ==================
+  GET_WISHLIST: "/client/wishlist",
+  ADD_TO_WISHLIST: "/client/wishlist",
+  REMOVE_FROM_WISHLIST: "/client/wishlist/remove",
+
+
+
+  // ================== REVIEWS ==================
+  ADD_REVIEW: "/client/review",
+  GET_PACKAGE_REVIEWS: (packageId: string) =>
+    `/client/reviews/packages/${packageId}`,
+  GET_GUIDE_REVIEWS: (guideId: string, packageId: string) =>
+    `/client/reviews/guides/${guideId}/${packageId}`,
+
+
+  // ================== GUIDE ==================
+  GET_GUIDE_DETAILS: (guideId: string) => `/client/guide/${guideId}`,
+
+  
+  // ================== CHAT ==================
+  GET_MESSAGES_CLIENT : `/client/messages`,
+  GET_CHAT_HISTORY : `/client/history`,
+  GET_CHATROOM : (chatroomId : string) => `/client/chatroom/${chatroomId}`,
+
+   // ================== WALLET ==================
+   GET_WALLET_TRANSACTIONS : '/client/transactions',
+   GET_WALLET : '/client/wallet',
+
+  // ================== IMAGES ==================
+  UPLOAD_IMAGES: "/client/images/upload",
+  
+};

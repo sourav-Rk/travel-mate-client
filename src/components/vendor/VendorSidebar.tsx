@@ -17,12 +17,12 @@ import {
   Menu,
   X,
   Bell,
+  AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLogout } from "@/hooks/auth/useLogout";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { vendorLogout } from "@/store/slices/vendor.slice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
@@ -89,6 +89,12 @@ const VendorSidebar: React.FC = () => {
       icon: Activity,
       path: "/vendor/actions",
     },
+    { 
+      id: "cancellations", 
+      label: "Cancellations", 
+      icon: AlertCircle, 
+      path: "/vendor/bookings/cancellations" 
+    },
     { id: "reviews", label: "Reviews", icon: Star, path: "/vendor/reviews" },
     {
       id: "queries",
@@ -96,7 +102,7 @@ const VendorSidebar: React.FC = () => {
       icon: MessageSquare,
       path: "/vendor/queries",
     },
-    { id: "sales", label: "Sales", icon: DollarSign, path: "/vendor/sales" },
+    { id: "wallet", label: "Wallet", icon: DollarSign, path: "/vendor/wallet" },
     { id: "groups", label: "Groups", icon: Users2, path: "/vendor/groups" },
     { id: "guide", label: "Guide", icon: MapPin, path: "/vendor/guide" },
     { id: "profile", label: "Profile", icon: User, path: "/vendor/profile" },

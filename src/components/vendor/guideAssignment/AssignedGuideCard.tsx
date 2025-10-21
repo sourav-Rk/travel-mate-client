@@ -28,23 +28,6 @@ const AssignedGuideCard = ({id ,className=""}:{id : string;className : ""}) => {
     }
   },[data,id])
 
-  const calculateAge = (dob: string) => {
-    if (dob === "N/A") return "N/A";
-    try {
-      const birthDate = new Date(dob);
-      const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        return age - 1;
-      }
-      return age;
-    } catch {
-      return "N/A";
-    }
-  };
-
   const getExperienceLevel = (years: number) => {
     if (years >= 10) return { level: "Expert", color: "text-purple-600", bg: "bg-purple-100" };
     if (years >= 5) return { level: "Senior", color: "text-blue-600", bg: "bg-blue-100" };

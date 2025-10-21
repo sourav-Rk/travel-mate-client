@@ -8,6 +8,7 @@ import {
   updatePackageBasicDetails,
   updatePackageStatus,
 } from "@/services/vendor/vendorService";
+import type { IGetAllPackagesVendorResponse } from "@/types/api/vendor";
 import type { BasicDetails, DayDto } from "@/types/packageType";
 import type { IResponse } from "@/types/Response";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,7 +18,6 @@ export interface PackageDetails {
   packageId ?: string;
   packageName: string;
   title: string;
-  slug: string;
   description: string;
   category: string;
   maxGroupSize: number;
@@ -46,11 +46,11 @@ interface FetchPackagesParams {
   userType: string;
 }
 
-type PackagesResponse = {
-  packages: PackageDetails[];
-  totalPages: number;
-  currentPage: number;
-};
+// type PackagesResponse = {
+//   packages: PackageDetails[];
+//   totalPages: number;
+//   currentPage: number;
+// };
 
 //add package
 export const useAddPackageMutation = () => {
@@ -60,8 +60,8 @@ export const useAddPackageMutation = () => {
 };
 
 //get packages
-export const useGetPackagesQuery = (
-  queryFunc: (params: FetchPackagesParams) => Promise<PackagesResponse>,
+export const useGetPackagesQuery = <T extends { packages: any[] }>(
+  queryFunc: (params: FetchPackagesParams) => Promise<T>,
   page: number,
   limit: number,
   searchTerm: string,

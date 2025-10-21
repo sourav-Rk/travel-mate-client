@@ -73,7 +73,7 @@ export function EditPackage({ className }: EditPackageProps) {
   if(!packageId) return <div>No package id</div>
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("basic-details")
-  const [packageData, setPackageData] = useState<TravelPackage | null>(null)
+  const [packageData, setPackageData] = useState<TravelPackage|null>(null)
   const [isPreviewMode, setIsPreviewMode] = useState(false)
   const { data, isLoading, isError, error } = useGetPackageDetailsQuery(packageId,"vendor");
 
@@ -127,7 +127,9 @@ const initialValues = packageData ? {
   useEffect(() => {
     if (packageId && data?.packages) {
       const pkg = data.packages
-      setPackageData(pkg)
+      if ("agencyId" in pkg) {
+     setPackageData(pkg as TravelPackage);
+   }
     }
   }, [packageId, data])
 

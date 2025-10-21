@@ -3,14 +3,16 @@ import { useGetWishlistQuery } from "@/hooks/wishlist/useWishlist";
 import { useEffect, useState } from "react";
 import {motion} from 'framer-motion';
 import WishlistPage from "@/components/client/wishlist/WishlistPage";
+import { useClientAuth } from "@/hooks/auth/useAuth";
 
 export default function WishlistPageClient() {
+  const {isLoggedIn} = useClientAuth()
   const [wishlistData, setWishlistData] = useState<WishlistDto>();
-  const { data, isLoading, error } = useGetWishlistQuery();
+  const { data, isLoading, error } = useGetWishlistQuery(isLoggedIn);
 
   useEffect(() => {
     if (data) {
-      setWishlistData(data.wishlist);
+      setWishlistData(data.data);
     }
   }, [data]);
 

@@ -62,21 +62,68 @@ export default function AddGuideForm() {
     let isValid = true;
 
     switch (stepIndex) {
-      case 0: // Personal Information
-        if (!formData.firstName.trim())
-          currentStepErrors.firstName = "First Name is required";
-        if (!formData.lastName.trim())
-          currentStepErrors.lastName = "Last Name is required";
-        if (!formData.email.trim()) {
-          currentStepErrors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-          currentStepErrors.email = "Invalid email address";
-        }
-        if (!formData.phone.trim())
-          currentStepErrors.phone = "Phone number is required";
-        if (!formData.gender) currentStepErrors.gender = "Gender is required";
-        if (!formData.dob) currentStepErrors.dob = "Date of Birth is required";
-        break;
+case 0: // Personal Information
+  // First Name validation
+  if (!formData.firstName.trim()) {
+    currentStepErrors.firstName = "First Name is required";
+  } else if (formData.firstName.trim().length < 2) {
+    currentStepErrors.firstName = "First Name must be at least 2 characters";
+  } else if (!/^[A-Za-z]+$/.test(formData.firstName.trim())) {
+    currentStepErrors.firstName = "First Name must contain only letters";
+  }
+
+  // Last Name validation
+  if (!formData.lastName.trim()) {
+    currentStepErrors.lastName = "Last Name is required";
+  } else if (formData.lastName.trim().length < 1) {
+    currentStepErrors.lastName = "Last Name must be at least 1 character";
+  } else if (!/^[A-Za-z]+$/.test(formData.lastName.trim())) {
+    currentStepErrors.lastName = "Last Name must contain only letters";
+  }
+
+  // Email validation
+  if (!formData.email.trim()) {
+    currentStepErrors.email = "Email is required";
+  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    currentStepErrors.email = "Invalid email address";
+  }
+
+  // Phone validation
+  if (!formData.phone.trim()) {
+    currentStepErrors.phone = "Phone number is required";
+  } else if (!/^\d{10}$/.test(formData.phone.trim())) {
+    currentStepErrors.phone = "Phone number must be exactly 10 digits";
+  }
+
+  // Alternate Phone validation
+  if (!formData.alternatePhone?.trim()) {
+    currentStepErrors.alternatePhone = "Alternate phone number is required";
+  } else if (!/^\d{10}$/.test(formData.alternatePhone.trim())) {
+    currentStepErrors.alternatePhone = "Alternate phone number must be exactly 10 digits";
+  }
+
+  // Gender validation
+  if (!formData.gender) {
+    currentStepErrors.gender = "Gender is required";
+  }
+
+  // Date of Birth validation
+  if (!formData.dob) {
+    currentStepErrors.dob = "Date of Birth is required";
+  } else {
+    const dobDate = new Date(formData.dob);
+    const today = new Date();
+    
+    // Check if date is valid
+    if (isNaN(dobDate.getTime())) {
+      currentStepErrors.dob = "Invalid date format";
+    } 
+    // Check if date is in the future
+    else if (dobDate > today) {
+      currentStepErrors.dob = "Date of Birth cannot be in the future";
+    }
+  }
+  break;
 
       case 1: // Professional Information
         if (!formData.yearOfExperience)

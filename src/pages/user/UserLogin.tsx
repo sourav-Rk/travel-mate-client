@@ -8,7 +8,6 @@ import { useGoogleMutation } from "@/hooks/auth/useGoogle";
 import type { CredentialResponse } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { clientLogin } from "@/store/slices/clientSlice";
 import { loginUser } from "@/store/slices/userSlice";
 
 export default function UserLogin() {
