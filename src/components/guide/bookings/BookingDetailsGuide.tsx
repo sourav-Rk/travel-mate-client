@@ -7,6 +7,7 @@ import { PaymentSummary } from "@/components/vendor/booking/bookingDetails/Payme
 import { PaymentInformation } from "@/components/vendor/booking/bookingDetails/PaymentInformation";
 import { BookingInformation } from "@/components/vendor/booking/bookingDetails/BookingInformation";
 import { useGetBookingDetailsGuide } from "@/hooks/guide/useGuideBookings";
+import { MessageCircle } from "lucide-react";
 
 function LoadingCard() {
   return (
@@ -128,10 +129,33 @@ export function GuideBookingDetails() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <h2
-        onClick={handleChat}
-        >message</h2>
         <div className="space-y-6">
+           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">
+                Booking Details
+              </h1>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                View and manage your booking information
+              </p>
+            </div>
+            
+            {/* Modern Message Button */}
+            <button
+              onClick={handleChat}
+              className="group relative inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+            >
+              {/* Animated background shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              {/* Button content */}
+              <MessageCircle className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+              <span className="relative z-10 text-sm sm:text-base">Message User</span>
+              
+              {/* Pulse effect on hover */}
+              <span className="absolute inset-0 rounded-xl bg-white opacity-0 group-hover:opacity-20 group-hover:animate-ping"></span>
+            </button>
+          </div>
           <BookingHeader
             bookingId={bookingId!}
             status={status || "Unknown"}

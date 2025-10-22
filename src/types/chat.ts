@@ -1,19 +1,19 @@
-import type { PaginatedResponseData, ResponseWithData } from "./common"
+import type { PaginatedResponseData } from "./common";
 
-export type ParticipantType = "client" | "guide" | "vendor"
+export type ParticipantType = "client" | "guide" | "vendor";
 
-export type ContextType = "guide_client" | "client_client" | "vendor_client"
+export type ContextType = "guide_client" | "client_client" | "vendor_client";
 
 export type Participant = {
-  id: string
-  type: ParticipantType
-  name: string
-  avatarUrl?: string
-  online?: boolean
-}
+  id: string;
+  type: ParticipantType;
+  name: string;
+  avatarUrl?: string;
+  online?: boolean;
+};
 
 export type ChatMessage = {
-   _id: string;
+  _id: string;
   message: string;
   senderId: string;
   senderType: "client" | "guide" | "vendor";
@@ -22,21 +22,18 @@ export type ChatMessage = {
   readAt?: string;
   deliveredTo?: string[];
   chatRoomId?: string;
-}
-
+};
 
 export type SendMessagePayload = {
-  chatRoomId: string
-  senderId: string
-  senderType: ParticipantType
-  receiverId: string
-  receiverType: ParticipantType
-  message: string
-  contextType: ContextType
-  contextId: string
-}
-
-
+  chatRoomId: string;
+  senderId: string;
+  senderType: ParticipantType;
+  receiverId: string;
+  receiverType: ParticipantType;
+  message: string;
+  contextType: ContextType;
+  contextId: string;
+};
 
 export interface PeerDTO {
   userId: string;
@@ -45,17 +42,20 @@ export interface PeerDTO {
 
 export interface PeerInfoDTO {
   firstName: string;
-  profileImage?: string; 
+  profileImage?: string;
 }
 
 export interface ChatListItemDTO {
   roomId: string;
   peer: PeerDTO;
   peerInfo: PeerInfoDTO;
+  contextType: "vendor_client" | "guide_client" | "client_client";
+  contextId?: string;
   lastMessage?: string;
   lastMessageStatus?: "sent" | "delivered" | "read";
-  lastMessageReadAt?: string; 
-  lastMessageAt?: string; 
+  lastMessageReadAt?: string;
+  lastMessageAt?: string;
 }
 
-export type IPaginatedChatHistoryResponseDto = PaginatedResponseData<ChatListItemDTO>
+export type IPaginatedChatHistoryResponseDto =
+  PaginatedResponseData<ChatListItemDTO>;

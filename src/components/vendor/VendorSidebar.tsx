@@ -4,9 +4,6 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import {
   Package,
-  Users,
-  Zap,
-  Activity,
   Star,
   MessageSquare,
   DollarSign,
@@ -80,14 +77,6 @@ const VendorSidebar: React.FC = () => {
       label: "Packages",
       icon: Package,
       path: "/vendor/packages",
-    },
-    { id: "users", label: "Users", icon: Users, path: "/vendor/users" },
-    { id: "trams", label: "Trams", icon: Zap, path: "/vendor/trams" },
-    {
-      id: "actions",
-      label: "Actions",
-      icon: Activity,
-      path: "/vendor/actions",
     },
     { 
       id: "cancellations", 

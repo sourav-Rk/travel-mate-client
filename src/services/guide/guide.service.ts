@@ -3,9 +3,8 @@ import { server } from "../server";
 import type { IGetAllAssignedPackagesResponse, IGetBookingDetailsGuideResponse, IGetBookingsGuideResponse, IGetGuideProfileResponse, IGetPackgeDetailsGuideResponse } from "@/types/api/guide";
 import type { IResponse } from "@/types/Response";
 import { GUIDE_API } from "@/constants/api/guide.api";
-import qs from "qs";
-import type { IGetMessagesResponse } from "@/types/api/client";
 import type { ClientResponse } from "../client/client.service";
+import type { CreateInstructionDto } from "@/types/instructionType";
 
 
 //----------------Get Guide Profile--------------------
@@ -63,13 +62,7 @@ export const getBookingDetailsGuide = async (bookingId : string) => server.get<I
 //=======================CLIENT DETAILS================================
 export const getClientDetailsForGuide = async (clientId : string) => server.get<ClientResponse>(GUIDE_API.GET_CLIENT_DETAILS(clientId));
 
-//=======================CHAT================================
-// export const getMessagesGuideAndClient = async({chatroomId ,limit=20,before}:{chatroomId : string;limit:number;before?:string}) => server.get<IGetMessagesResponse>(GUIDE_API.GET_MESSAGES,{
-//   params:{
-//     chatroomId,
-//     limit,
-//     before
-//   },
-//       paramsSerializer: (params) =>
-//       qs.stringify(params, { arrayFormat: "repeat" }),
-// })
+
+
+//=====================Instructions=========================
+export const createInstruction = async(instructionData : CreateInstructionDto) => server.post<IResponse>(GUIDE_API.CREATE_INSTRUCTION,instructionData);

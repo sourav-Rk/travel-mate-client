@@ -34,7 +34,7 @@ const GuideDetailsComponent: React.FC<GuideDetailsComponentProps> = ({
   };
 
   const handleMessage = () => {
-     navigate(`/chat/${guide._id}/${bookingId}`)
+     navigate(`/pvt/guide-chat/${guide._id}/${bookingId}`)
   };
 
   return (

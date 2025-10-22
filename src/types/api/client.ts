@@ -1,6 +1,7 @@
 import type { BookingDetailsClientDto, BookingListDTO, ClientBookingDetailDto, PaymentResponseDto } from "../bookingType";
 import type { ChatMessage } from "../chat";
 import type { PaginatedResponse, PaginatedResponseData, ResponseWith, ResponseWithData } from "../common";
+import type { IGuideInstructionDto } from "../instructionType";
 import type { INotificationEntity } from "../notificationType";
 import type { PackageDetails, PackageListingUserSideDto } from "../packageType";
 import type { ReviewListDto } from "../reviewType";
@@ -18,6 +19,18 @@ export interface GuideDetailsForClientDto{
   yearOfExperience : string;
   languageSpoken : string[];
   totalTrips : number;
+}
+
+
+export interface VendorDetailsForClientDto {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  agencyName: string;
+  description?: string;
+  profileImage?: string | null;
 }
 
 
@@ -39,3 +52,5 @@ export type IReviewsResponse = ResponseWith<"reviews",ReviewListDto[]>;
 export type IGetMessagesResponse = PaginatedResponseData<ChatMessage>;
 export type IGetWalletResponse =ResponseWithData<GetWalletDto>;
 export type IGetWalletTransactionsResponse = PaginatedResponseData<WalletTransactions>;
+export type IGetInstructionsClientResponse = ResponseWith<"data",IGuideInstructionDto>
+export type IGetVendorDetailsForClientResponse = ResponseWith<"data",VendorDetailsForClientDto>;

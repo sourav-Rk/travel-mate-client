@@ -12,8 +12,10 @@ import type {
   IGetClientBookingDetailsOfPackageResponse,
   IGetClientBookingDetailsResponse,
   IGetGuideDetailsClient,
+  IGetInstructionsClientResponse,
   IGetPackageDetailsClient,
   IGetTrendingPackagesResponse,
+  IGetVendorDetailsForClientResponse,
   IGetWalletResponse,
   IGetWalletTransactionsResponse,
   IPaymentResponse,
@@ -276,6 +278,24 @@ export const getWalletTransactionsClient = async ({
 //-------------get wallet-------------------
 export const getWalletClient = async () =>
   server.get<IGetWalletResponse>(CLIENT_API.GET_WALLET);
+
+
+
+//===============Guide instructions====================
+
+//-------------get all instructions----------------
+export const getInstructionsClient = async () => 
+  server.get<IGetInstructionsClientResponse>(CLIENT_API.GET_INSTRUCTIONS)
+
+//------------mark a single instruction read-------------
+export const markSingleInstructionRead = async (instructionId : string) => server.put<IResponse>(CLIENT_API.MARK_READ_INSTRUCTION(instructionId))
+
+//-----------mark all instructions read---------------
+export const markAllInstructionsRead = async () => server.put<IResponse>(CLIENT_API.MARK_ALL_INSTRUCTIONS_READ);
+
+//==================Vendor details======================
+export const getVendorDetailsClient = async (vendorId : string) => server.get<IGetVendorDetailsForClientResponse>(CLIENT_API.GET_VENDOR_DETAILS(vendorId));
+
 
 // ================== IMAGES ==================
 /**

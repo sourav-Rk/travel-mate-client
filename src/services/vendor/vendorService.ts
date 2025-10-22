@@ -14,6 +14,7 @@ import type {
   IGetBookingDetailsVendorResponse,
   IGetCancellationRequestsResponse,
   IGetCancelledBookingDetailsResponse,
+  IGetClientDetailsVendorResponse,
   IGetGuideDetailsVendorResponse,
   IGetNotificationsVendorResponse,
   IGetPackageDetailsVendorResponse,
@@ -301,6 +302,10 @@ export const getWalletTransactionsVendor = async ({
 //-------------get wallet-------------------
 export const getWalletVendor = async () =>
   server.get<IGetWalletResponse>(VENDOR_API.GET_WALLET);
+
+
+//---------------------client deails--------------------- 
+export const getClientDetailsVendor = async (clientId : string) => server.get<IGetClientDetailsVendorResponse>(VENDOR_API.GET_CLIENT_DETAILS(clientId));
 
 //--------- upload images -------------
 

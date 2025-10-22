@@ -17,6 +17,9 @@ export const GUIDE_API = {
   // ================== CLIENT DETAILS ==================
   GET_CLIENT_DETAILS: (clientId: string) => `/guide/client/${clientId}`,
 
+  //===================INSTRUCTIONS=====================
+  CREATE_INSTRUCTION : `/guide/instructions`,
+
   // ================== CHAT ==================
   GET_MESSAGES: "/guide/messages",
   GET_CHAT_HISTORY: "/guide/history",

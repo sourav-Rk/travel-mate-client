@@ -32,33 +32,28 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [socket, setSocket] = useState(getSocket());
 
   useEffect(() => {
-    const currentUserId = user?.clientInfo?.id || null;
+    const currentUserId = user?.clientInfo?.id || user?.clientInfo?.role|| null;
     
-    console.log("🔄 SocketProvider triggered, user ID:", currentUserId);
+    console.log(" SocketProvider triggered, user ID:", currentUserId);
 
     if (currentUserId) {
-      console.log("👤 User detected, connecting socket...");
       const newSocket = connectSocket();
       setSocket(newSocket);
 
-      // Subscribe to connection state changes
       const unsubscribe = onConnectionChange((connected) => {
         setIsConnected(connected);
         setSocket(getSocket());
       });
 
       return () => {
-        console.log(" Cleaning up SocketProvider...");
         unsubscribe();
-        // Don't disconnect here - let the auth logic handle it
       };
     } else {
-      console.log("👤 No user, disconnecting socket");
       disconnectSocket();
       setIsConnected(false);
       setSocket(null);
     }
-  }, [user?.clientInfo?.id]); // Only depend on user ID
+  }, [user?.clientInfo?.id,user?.clientInfo?.role]); 
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>

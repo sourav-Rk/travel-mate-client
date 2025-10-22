@@ -6,7 +6,7 @@ export const useAddReviewMutation = () => {
   return useMutation({
     mutationFn: addReview,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages-reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["packages-reviews","guide-reviews"] });
     },
   });
 };

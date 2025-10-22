@@ -32,6 +32,7 @@ import { useAddToWishlistMutation, useGetWishlistQuery, useRemoveFromWishlistMut
 import type { WishlistDto } from "../wishlist/WishlistPage";
 import { useClientAuth } from "@/hooks/auth/useAuth";
 import { showToast } from "@/components/CustomToast";
+import { KnowMoreButton } from "./KnowMoreButton";
 export default function PackageDetails() {
   const { packageId } = useParams<{ packageId: string }>();
   if (!packageId) return <div>No PackageId</div>;
@@ -53,6 +54,7 @@ export default function PackageDetails() {
     | "expired"
     | "advance_pending"
     | "fully_paid"
+    | "cancellation_requested"
     | "none"
   >("none");
   const [mutationMessage, setMutationMessage] = useState<{
@@ -595,6 +597,12 @@ default:
               {renderBookingStatus()}
 
               <Separator className="my-6" />
+
+              <KnowMoreButton
+                vendorId={packageData?.agencyId} 
+                packageId={packageId}
+                className="mb-6"
+              />
 
               <div className="space-y-3">
                 <h4 className="font-bold text-gray-900">Need Help?</h4>

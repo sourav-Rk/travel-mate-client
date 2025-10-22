@@ -60,6 +60,14 @@ export const CLIENT_API = {
    GET_WALLET_TRANSACTIONS : '/client/transactions',
    GET_WALLET : '/client/wallet',
 
+   //===================GUIDE INSTRUCTIONS=============
+   GET_INSTRUCTIONS : '/client/instructions',
+   MARK_READ_INSTRUCTION : (instructionId : string) => `/client/instructions/${instructionId}`,
+   MARK_ALL_INSTRUCTIONS_READ : `/client/instructions`,
+
+   //===================VENDOR DETAILS=============
+   GET_VENDOR_DETAILS : (vendorId : string) => `/client/vendor/${vendorId}`,
+
   // ================== IMAGES ==================
   UPLOAD_IMAGES: "/client/images/upload",
   

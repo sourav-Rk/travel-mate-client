@@ -25,6 +25,7 @@ import VendorWalletPage from "@/pages/vendor/VendorWalletPage";
 import CancellationRequestsPage from "@/pages/vendor/CancellationRequestsPage";
 import CancellationbookingView from "@/components/vendor/CancellationRequestView";
 import CancellationBookingViewPage from "@/pages/vendor/CancellationBookingViewPages";
+import VendorClientChatPage from "@/pages/vendor/VendorClientChatPage";
 
 const VendorRouter = () => {
   return (
@@ -53,6 +54,7 @@ const VendorRouter = () => {
        <Route path="bookings/users/:bookingId" element={<BookingDetailsVendorPage/>}/>
        <Route path="wallet" element={<VendorWalletPage/>}/>
        </Route>
+        <Route path="queries" element={<VendorClientChatPage/>}/>
         <Route path="*" element={<NotFoundPage />} /> 
       </Routes>
     </div>

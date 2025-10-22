@@ -8,7 +8,7 @@ import type { GuideDetailsForClientDto } from "@/types/api/client";
 import type { Participant, ChatMessage } from "@/types/chat";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { ChatSidebar } from "@/components/chat/chatSideBar/ChatSidebar";
+
 
 export default function ClientGuideChatPage() {
   const { bookingId, guideId } = useParams<{
@@ -20,7 +20,8 @@ export default function ClientGuideChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [chatRoomId, setChatRoomId] = useState<string | null>(null);
-  const [hasStartedChat, setHasStartedChat] = useState(false);
+  const hasStartedChatRef = useRef(false);
+  const startChatTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   const { data: guideData, isLoading: guideLoading } = useGetGuideDetailsQuery(
@@ -36,62 +37,69 @@ export default function ClientGuideChatPage() {
     setGuide(guideData.guide);
   }, [guideData]);
 
-  // 🔥 FIX: Separate socket event listeners from chat initiation
   useEffect(() => {
     if (!socket) return;
 
-    console.log("🎯 Setting up chat_joined listener...");
+    console.log("Setting up chat_joined listener...");
 
     const handleChatJoined = (data: any) => {
-      console.log("✅ Chat joined successfully:", data);
       setChatRoomId(data.chatRoomId);
     };
 
     const handleChatError = (err: any) => {
-      console.error("❌ Chat error:", err);
+      console.error("Chat error:", err);
     };
 
     socket.on("chat_joined", handleChatJoined);
     socket.on("chat_error", handleChatError);
 
-    // Cleanup only on unmount
     return () => {
-      console.log("🧹 Cleaning up socket listeners");
       socket.off("chat_joined", handleChatJoined);
       socket.off("chat_error", handleChatError);
     };
-  }, [socket]); // Only depend on socket
+  }, [socket]); 
 
-  // 🔥 FIX: Separate chat initiation logic
   useEffect(() => {
-    if (!socket || !isConnected || !user?.clientInfo?.id || hasStartedChat) {
-      console.log("⏸️ Skipping chat initiation:", {
-        socket: !!socket,
-        isConnected,
-        hasStartedChat,
-        userId: user?.clientInfo?.id,
-      });
+    if (!socket || !isConnected || !user?.clientInfo?.id || hasStartedChatRef.current) {
       return;
     }
 
-    console.log("📡 Emitting start_chat...");
-    socket.emit("start_chat", {
-      receiverId: guideId,
-      receiverType: "guide",
-      contextType: "guide_client",
-      contextId: bookingId,
-    });
-    setHasStartedChat(true);
+    // Clear any existing timeout
+    if (startChatTimeoutRef.current) {
+      clearTimeout(startChatTimeoutRef.current);
+    }
+
+    // Debounce the start_chat emission
+    startChatTimeoutRef.current = setTimeout(() => {
+      if (hasStartedChatRef.current) {
+        return; // Double-check to prevent race conditions
+      }
+
+      console.log("Emitting start_chat...");
+      hasStartedChatRef.current = true;
+      
+      socket.emit("start_chat", {
+        receiverId: guideId,
+        receiverType: "guide",
+        contextType: "guide_client",
+        contextId: bookingId,
+      });
+    }, 100); // 100ms debounce
+
+    return () => {
+      if (startChatTimeoutRef.current) {
+        clearTimeout(startChatTimeoutRef.current);
+      }
+    };
   }, [
     socket,
     isConnected,
     user?.clientInfo?.id,
     guideId,
     bookingId,
-    hasStartedChat,
   ]);
 
-  // Fetch messages only when chatRoomId is available
+
   const { data: messageData, isLoading: messageLoading } = useGetMessagesQuery(
     {
       chatroomId: chatRoomId || "",
@@ -106,8 +114,6 @@ export default function ClientGuideChatPage() {
   // Handle initial messages load
   useEffect(() => {
     if (!messageData?.data || initialLoadComplete) return;
-
-    console.log("📥 Initial messages loaded:", messageData.data.length);
     setMessages(messageData.data);
     setInitialLoadComplete(true);
 
@@ -120,10 +126,7 @@ export default function ClientGuideChatPage() {
   useEffect(() => {
     if (!socket || !chatRoomId) return;
 
-    console.log("🎯 Setting up new_message listener for chatRoom:", chatRoomId);
-
     const handleNewMessage = (msg: any) => {
-      console.log("📩 New message received:", msg);
       setMessages((prev) => {
         const exists = prev.some((m) => m._id === msg._id);
         if (exists) return prev;
@@ -144,18 +147,16 @@ export default function ClientGuideChatPage() {
     socket.on("new_message", handleNewMessage);
 
     return () => {
-      console.log("🧹 Cleaning up new_message listener");
       socket.off("new_message", handleNewMessage);
     };
   }, [socket, chatRoomId]);
 
-  // Load more messages for pagination
+  // Load more messages 
   const handleLoadMore = useCallback(
     async (before: string): Promise<ChatMessage[]> => {
       if (!chatRoomId || !hasMore || isLoadingMoreRef.current) return [];
 
       isLoadingMoreRef.current = true;
-      console.log("🔄 Loading more messages...");
 
       try {
         const response = await getMessages({
@@ -166,7 +167,6 @@ export default function ClientGuideChatPage() {
         });
 
         const olderMessages = response.data;
-        console.log("📥 Older messages loaded:", olderMessages.length);
 
         setMessages((prev) => {
           const existingIds = new Set(prev.map((m) => m._id));
@@ -225,40 +225,6 @@ export default function ClientGuideChatPage() {
   }
 
   return (
-  <div className="flex h-screen bg-[#f5f7fa] overflow-hidden">
-    {/* Sidebar - Fixed width on desktop, hidden on mobile */}
-    <div className="hidden md:flex md:w-80 lg:w-96 flex-shrink-0">
-      <ChatSidebar
-        role={user.clientInfo.role}
-        selectedRoomId={chatRoomId}
-        className="w-full h-full border-r border-gray-200 bg-white"
-      />
-    </div>
-
-    {/* Chat window - Takes remaining space */}
-    <div className="flex-1 flex flex-col min-w-0">
-      {chatRoomId ? (
-        <ChatWindow
-          self={currentUser}
-          other={otherUser}
-          chatRoomId={chatRoomId}
-          contextType="guide_client"
-          contextId={bookingId!}
-          initialMessages={messages}
-          onLoadMore={handleLoadMore}
-          hasMore={hasMore}
-          showHeader={true}
-        />
-      ) : (
-        <div className="flex items-center justify-center h-full text-gray-500">
-          Select a chat to start messaging
-        </div>
-      )}
-    </div>
-  </div>
-);
-
-  return (
     <div className="flex h-screen bg-[#f5f7fa] overflow-hidden">
       <main className="flex-1 md:ml-80 flex flex-col h-full">
         <ChatWindow
@@ -275,4 +241,39 @@ export default function ClientGuideChatPage() {
       </main>
     </div>
   );
+
+  //   return (
+//   <div className="flex h-screen bg-[#f5f7fa] overflow-hidden">
+//     {/* Sidebar - Fixed width on desktop, hidden on mobile */}
+//     <div className="hidden md:flex md:w-80 lg:w-96 flex-shrink-0">
+//       <ChatSidebar
+//         role={user.clientInfo.role}
+//         selectedRoomId={chatRoomId}
+//         className="w-full h-full border-r border-gray-200 bg-white"
+//       />
+//     </div>
+
+//     {/* Chat window - Takes remaining space */}
+//     <div className="flex-1 flex flex-col min-w-0">
+//       {chatRoomId ? (
+//         <ChatWindow
+//           self={currentUser}
+//           other={otherUser}
+//           chatRoomId={chatRoomId}
+//           contextType="guide_client"
+//           contextId={bookingId!}
+//           initialMessages={messages}
+//           onLoadMore={handleLoadMore}
+//           hasMore={hasMore}
+//           showHeader={true}
+//         />
+//       ) : (
+//         <div className="flex items-center justify-center h-full text-gray-500">
+//           Select a chat to start messaging
+//         </div>
+//       )}
+//     </div>
+//   </div>
+// );
+
 }

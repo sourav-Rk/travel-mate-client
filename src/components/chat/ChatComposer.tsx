@@ -78,7 +78,6 @@ export default function ChatComposer({
 
 
      if (value.trim().length > 0) {
-      // User is typing - emit start_typing
       socket.emit("start_typing", {
         chatRoomId,
         userId: self.id,
@@ -92,7 +91,7 @@ export default function ChatComposer({
         });
       }, 2000);
     } else {
-      // User cleared the input - emit stop_typing
+
       socket.emit("stop_typing", {
         chatRoomId,
         userId: self.id,

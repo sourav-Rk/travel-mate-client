@@ -32,6 +32,17 @@ interface VendorProfileDto {
   };
 }
 
+//client details for vendor
+export interface ClientDetailsForVendorDto {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profileImage?: string;
+}
+
+
 interface VendorDetailsForStatusDto {
   _id: string;
   status: "pending" | "rejected" | "reviewing" | "approved";
@@ -77,3 +88,4 @@ export type IBookingsVendorResponse = {
 
 export type IGetCancellationRequestsResponse = PaginatedResponseData<CancellationRequestsListDto>;
 export type IGetCancelledBookingDetailsResponse = ResponseWithData<CancelledBookingDetailsWithUserAndPackageDetailsDto>;
+export type IGetClientDetailsVendorResponse = ResponseWithData<ClientDetailsForVendorDto>;

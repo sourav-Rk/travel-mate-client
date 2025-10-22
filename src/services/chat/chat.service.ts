@@ -5,6 +5,7 @@ import { CLIENT_API } from "@/constants/api/client.api";
 import { GUIDE_API } from "@/constants/api/guide.api";
 import type { IPaginatedChatHistoryResponseDto } from "@/types/chat";
 import type { IGetChatroomResponseDto } from "@/types/chatroomType";
+import { VENDOR_API } from "@/constants/api/vendor.api";
 
 type GetMessagesParams = {
   chatroomId: string;
@@ -29,6 +30,10 @@ export const getMessages = async ({
     case "guide":
       endpoint = GUIDE_API.GET_MESSAGES;
       break;
+
+    case "vendor":
+      endpoint = VENDOR_API.GET_MESSAGES;
+      break;  
 
     default:
       throw new Error(`Invalid role provided: ${role}`);
@@ -63,6 +68,9 @@ export const getChatHistory = async ({
     case "guide":
       endpoint = GUIDE_API.GET_CHAT_HISTORY;
       break;
+    case "vendor":
+      endpoint = VENDOR_API.GET_CHAT_HISTORY;  
+      break;
     default:
       throw new Error(`Invalid role provided: ${role}`);
   }
@@ -88,6 +96,9 @@ export const getChatroom = async ({ chatroomId, role }: GetChatroomParams) => {
     case "guide":
       endpoint = GUIDE_API.GET_CHATROOM(chatroomId);
       break;
+    case "vendor":
+      endpoint = GUIDE_API.GET_CHATROOM(chatroomId);
+      break;  
     default:
       throw new Error(`Invalid role provided: ${role}`);
   }

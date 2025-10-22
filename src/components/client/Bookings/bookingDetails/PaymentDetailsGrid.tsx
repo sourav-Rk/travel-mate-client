@@ -1,6 +1,6 @@
 "use client";
 
-import type { AdvancePayment, FullPayment } from "@/types/bookingType";
+import type { AdvancePayment, BOOKINGSTATUS, FullPayment } from "@/types/bookingType";
 import { motion } from "framer-motion";
 import { CreditCard, CheckCircle, Clock, ArrowRight, Wallet } from "lucide-react";
 
@@ -9,6 +9,7 @@ interface PaymentDetailsGridProps {
   fullPayment: FullPayment | null;
   onPayAdvance?: () => void;
   onPayRemaining?: () => void;
+  status : BOOKINGSTATUS
   isProcessingPayment?: boolean;
 }
 
@@ -201,6 +202,7 @@ export function PaymentDetailsGrid({
   fullPayment,
   onPayAdvance,
   onPayRemaining,
+  status,
   isProcessingPayment = false,
 }: PaymentDetailsGridProps) {
   // Determine payment button logic
@@ -209,7 +211,9 @@ export function PaymentDetailsGrid({
    !!( advancePayment?.paid && 
     fullPayment && 
     !fullPayment.paid && 
-    onPayRemaining)
+    onPayRemaining)&&
+    status !== "cancellation_requested" &&
+    status !== "cancelled"
 
   return (
     <motion.div

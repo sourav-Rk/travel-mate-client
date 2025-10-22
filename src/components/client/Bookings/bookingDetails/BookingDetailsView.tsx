@@ -5,6 +5,7 @@ import { PaymentSummary } from "./PaymentSummary";
 import { PaymentDetailsGrid } from "./PaymentDetailsGrid";
 import { BookingProgress } from "./BookingProgress";
 import {
+  BOOKINGSTATUS,
   type AdvancePayment,
   type CancellationRequest,
   type FullPayment,
@@ -252,6 +253,7 @@ export default function BookingDetailsView({
             fullPayment={fullPayment}
             onPayAdvance={handlePay}
             onPayRemaining={handlePay}
+            status={bookingDetails.status as BOOKINGSTATUS}
           />
 
           {/* Booking Progress */}
