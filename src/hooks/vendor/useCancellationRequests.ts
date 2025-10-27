@@ -45,7 +45,7 @@ export const useVerifyCancellationRequestMutation = () => {
     mutationFn: verifyCancellationRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["cancellation-booking", "vendor-cancellation-requests"],
+        queryKey: ["cancellation-booking", "vendor-cancellation-requests","cancellation-booking"],
       });
     },
   });

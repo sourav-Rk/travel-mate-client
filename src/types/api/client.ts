@@ -1,6 +1,7 @@
 import type { BookingDetailsClientDto, BookingListDTO, ClientBookingDetailDto, PaymentResponseDto } from "../bookingType";
 import type { ChatMessage } from "../chat";
 import type { PaginatedResponse, PaginatedResponseData, ResponseWith, ResponseWithData } from "../common";
+import type { GroupChatDetailsDto, GroupChatDo } from "../group-chatType";
 import type { IGuideInstructionDto } from "../instructionType";
 import type { INotificationEntity } from "../notificationType";
 import type { PackageDetails, PackageListingUserSideDto } from "../packageType";
@@ -54,3 +55,5 @@ export type IGetWalletResponse =ResponseWithData<GetWalletDto>;
 export type IGetWalletTransactionsResponse = PaginatedResponseData<WalletTransactions>;
 export type IGetInstructionsClientResponse = ResponseWith<"data",IGuideInstructionDto>
 export type IGetVendorDetailsForClientResponse = ResponseWith<"data",VendorDetailsForClientDto>;
+export type IGetGroupsResponse = ResponseWithData<GroupChatDo[]>;
+export type IGetGroupDetailsResponse = ResponseWithData<GroupChatDetailsDto>;

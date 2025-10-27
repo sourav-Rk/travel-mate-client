@@ -139,15 +139,17 @@ export default function BookingDetailsView({
     if (!selectedBooking) return;
 
     try {
-      await cancelBookingMutation.mutateAsync({
+      const response =await cancelBookingMutation.mutateAsync({
         bookingId: selectedBooking.bookingId!,
         cancellationReason: additionalInfo
           ? `${reason}: ${additionalInfo}`
           : reason,
       });
+      toast.success(response.message)
       setIsCancellationModalOpen(false);
       setSelectedBooking(null);
-    } catch (error) {
+    } catch (error:any) {
+      toast.error(error?.data?.message)
       console.error("Failed to cancel booking:", error);
     }
   };

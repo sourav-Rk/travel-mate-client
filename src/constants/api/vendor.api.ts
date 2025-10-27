@@ -64,6 +64,11 @@ export const VENDOR_API = {
   //===============CLIENT DETAILS=============
   GET_CLIENT_DETAILS: (clientId: string) => `/vendor/client/${clientId}`,
 
+   //===================GROUP CHAT=================
+   GET_GROUPS : '/vendor/groups',
+   GET_GROUP_DETAILS : (groupId : string) => `/vendor/group-details/${groupId}`,
+
+
   // ================== IMAGES ==================
   UPLOAD_IMAGES: "/vendor/images/upload",
 };

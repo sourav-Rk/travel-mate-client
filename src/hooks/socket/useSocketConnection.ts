@@ -14,7 +14,7 @@ export function useSocketConnection() {
   useEffect(() => {
     const currentUserId = user?.clientInfo?.id || user.clientInfo?.role || null;
 
-    console.log("🔄 Socket connection hook triggered, user ID:", currentUserId);
+    console.log("Socket connection hook triggered, user ID:", currentUserId);
 
     if (currentUserId === userRef.current) {
       return;
@@ -31,13 +31,9 @@ export function useSocketConnection() {
       });
 
       return () => {
-        console.log("🧹 Cleaning up socket connection in hook...");
         unsubscribe();
-        // Don't disconnect immediately - let the socket service handle reconnection
-        // disconnectSocket();
       };
     } else {
-      console.log("No user, disconnecting socket from hook");
       disconnectSocket();
       setIsSocketConnected(false);
     }

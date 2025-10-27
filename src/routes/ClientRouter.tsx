@@ -27,6 +27,7 @@ import ClientGuideChatPage from "@/pages/user/ClientGuideChatPage";
 import ChatPage from "@/pages/chatSidebar/ChatSidebarPage";
 import ClientWalletPage from "@/pages/user/ClientWalletPage";
 import ClientVendorChatPage from "@/pages/user/ClientVendorChatPage";
+import GroupChatSidebarPage from "@/pages/group-chat/GroupChatSideBarPage";
 
 const ClientRouter = () => {
   return (
@@ -68,6 +69,7 @@ const ClientRouter = () => {
         <Route path="wallet" element={<ClientWalletPage/>}/>
        </Route>
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
+         <Route path="/groups" element={<ProtectedRoute allowedRoles={["client"]} element={<GroupChatSidebarPage/>}/>}/>
         
         <Route path="/cancel" element={<PaymentCancelledPage/>}/>
 

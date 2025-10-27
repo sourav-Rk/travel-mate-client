@@ -63,7 +63,7 @@ export const useCancelBookingMutation = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["bookings-client", "booking-details-client"],
+        queryKey: ["bookings-client", "booking-details-client","notifications-client"],
       });
     },
   });

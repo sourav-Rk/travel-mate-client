@@ -24,4 +24,9 @@ export const GUIDE_API = {
   GET_MESSAGES: "/guide/messages",
   GET_CHAT_HISTORY: "/guide/history",
   GET_CHATROOM: (chatroomId: string) => `/guide/chatroom/${chatroomId}`,
+
+   //===================GROUP CHAT=================
+   GET_GROUPS : '/guide/groups',
+   GET_GROUP_DETAILS : (groupId : string) => `/guide/group-details/${groupId}`,
+
 };

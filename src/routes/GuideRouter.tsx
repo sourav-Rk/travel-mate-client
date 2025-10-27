@@ -2,6 +2,7 @@
 import GuideDashboard from "@/components/guide/GuideDashboard";
 import GuideLayout from "@/components/layouts/GuideLayout";
 import NotFoundPage from "@/components/NotFound";
+import GroupChatPage from "@/pages/group-chat/GroupChatPage";
 import AssignedTripsPage from "@/pages/guide/AssignedTripsPage";
 import BookingDetailsGuidePage from "@/pages/guide/BookingDetailsGuidePage";
 import BookingListGuidePage from "@/pages/guide/BookingListPage";
@@ -45,6 +46,7 @@ const GuideRouter = () => {
         <Route path="bookings/:packageId" element={<BookingListGuidePage/>}/>   
         <Route path="chat/:clientId/:bookingId" element={<GuideClientChatPage/>}/>   
       </Route>
+      <Route path="/groups" element={<ProtectedRoute allowedRoles={["guide"]} element={<GroupChatPage/>}/>}/>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

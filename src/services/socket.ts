@@ -1,73 +1,3 @@
-
-// export const socket = io("http://localhost:5000",{
-//     transports: ["websocket"],
-//     withCredentials : true
-// })
-
-// socket.on("connect", () => {
-//   console.log("✅ Connected:", socket.id);
-// });
-
-// socket.on("connect_error", (err) => {
-//   console.log("❌ Connection error:", err.message);
-// // });
-
-// import {io, Socket} from "socket.io-client";
-
-// let socket : Socket | null = null;
-
-// export function connectSocket() {
-//   if (socket && socket.connected) {
-//     console.log('Reusing existing connected socket:', socket.id);
-//     return socket;
-//   }
-
-//   if (socket && !socket.connected) {
-//     console.log('Previous socket found but disconnected — removing it...');
-//     socket.off();
-//     socket.disconnect();
-//     socket = null;
-//   }
-
-//   console.log('Creating new socket instance...');
-//   socket = io('http://localhost:5000', {
-//     transports: ['websocket'],
-//     withCredentials: true,
-//     reconnection: true,
-//     reconnectionAttempts: 5,
-//     reconnectionDelay: 1000,
-//   });
-
-//   socket.on('connect', () => {
-//     console.log('✅ Connected to socket server:', socket!.id);
-//   });
-
-//   socket.on('disconnect', reason => {
-//     console.log('🔌 Disconnected from socket server:', reason);
-//   });
-
-//   socket.on('connect_error', err => {
-//     console.error('❌ Connection failed:', err.message);
-//   });
-
-//   return socket;
-// }
-
-// // Disconnect the socket and clean up listeners
-// export function disconnectSocket() {
-//   if (socket) {
-//     console.log('Disconnecting socket:', socket.id);
-//     socket.off();
-//     socket.disconnect();
-//     socket = null;
-//   }
-// }
-
-// // Get current socket instance 
-// export function getSocket() {
-//   return socket;
-// }
-
 import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;
@@ -76,7 +6,7 @@ let connectionInProgress = false;
 
 export function connectSocket(): Socket {
   if (connectionInProgress && socket) {
-    console.log('🔄 Connection already in progress, returning existing socket');
+    console.log('Connection already in progress, returning existing socket');
     return socket;
   }
 
@@ -86,7 +16,7 @@ export function connectSocket(): Socket {
   }
 
   if (socket && !socket.connected) {
-    console.log('🔄 Previous socket found but disconnected — cleaning up...');
+    console.log('Previous socket found but disconnected — cleaning up...');
     socket.removeAllListeners();
     socket.disconnect();
     socket = null;
@@ -106,7 +36,7 @@ export function connectSocket(): Socket {
   });
 
   socket.on('connect', () => {
-    console.log('✅ Connected to socket server:', socket!.id);
+    console.log('Connected to socket server:', socket!.id);
     connectionInProgress = false;
     notifyConnectionListeners(true);
   });
