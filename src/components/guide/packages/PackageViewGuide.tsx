@@ -119,15 +119,15 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
   }
 
   return (
-    <div className={cn("lg:ml-64 min-h-screen bg-gradient-to-br from-slate-100 to-blue-100/80", className)}>
-      <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+    <div className={cn("md:ml-64 lg:ml-64 min-h-screen bg-gradient-to-br from-slate-100 to-blue-100/80", className)}>
+      <div className="max-w-7xl mx-auto p-4 sm:p-5 md:p-6 lg:p-8 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <Button onClick={() => navigate("/vendor/packages")} variant="ghost" size="sm" className="hover:bg-white/80 border border-slate-300">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6">
+          <Button onClick={() => navigate("/guide/assigned-trips")} variant="ghost" size="sm" className="w-full sm:w-auto hover:bg-white/80 border border-slate-300">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Package Management
           </Button>
-          <div className="flex items-center gap-2 text-sm text-slate-600">
+          <div className="flex items-center gap-2 text-sm text-slate-600 w-full sm:w-auto justify-between sm:justify-end">
             <span>Package ID: {packageId}</span>
             <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300">
               {packageData?.status}
@@ -184,16 +184,16 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
 
 
         {/* Main Package Info */}
-        <Card className="border-0 shadow-xl bg-white border-slate-300/60">
+        <Card className="w-full border-0 shadow-xl bg-white border-slate-300/60">
           <CardHeader className="pb-4">
             <div className="flex flex-col lg:flex-row gap-6">
               {/* Image Gallery */}
-              <div className="lg:w-1/2">
+              <div className="lg:w-1/2 w-full">
                 <div className="relative rounded-xl overflow-hidden shadow-lg">
                   <img
                     src={packageData?.images[currentImageIndex] || "/placeholder.svg"}
                     alt={packageData?.title}
-                    className="w-full h-64 md:h-80 object-cover"
+                    className="w-full h-56 sm:h-64 md:h-80 object-cover"
                   />
                   <div className="absolute bottom-4 left-4 right-4 flex gap-2 justify-center">
                     {packageData?.images.map((_, index) => (
@@ -211,8 +211,8 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
               </div>
 
               {/* Package Info */}
-                <div className="lg:w-1/2 space-y-4">
-                <div className="flex items-start justify-between">
+                <div className="lg:w-1/2 w-full space-y-4">
+                <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-4">
                   <div className="flex-1">
                     <h1 className="text-2xl md:text-3xl font-bold text-[#1a5f6b] mb-2">{packageData?.packageName}</h1>
                     <p className="text-lg text-gray-600 mb-4">{packageData?.title}</p>
@@ -228,7 +228,7 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
                       ))}
                     </div>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap md:justify-end w-full md:w-auto">
                     <Button
                      onClick={handleViewBookings}
                       variant="outline"
@@ -257,7 +257,7 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
                   </div>
                 </div>
                 {/* Quick Info */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   <div className="bg-white border border-[#2CA4BC]/30 p-4 rounded-lg shadow-sm">
                     <Calendar className="h-5 w-5 text-[#2CA4BC] mb-2" />
                     <p className="text-sm font-semibold text-[#1a5f6b]">
@@ -285,7 +285,7 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
         </Card>
 
         {/* Tour Highlights */}
-        <Card className="border-[#2CA4BC]/30 shadow-xl bg-white">
+        <Card className="w-full border-[#2CA4BC]/30 shadow-xl bg-white">
           <CardHeader className="bg-gradient-to-r from-[#2CA4BC]/10 to-[#1a5f6b]/10">
             <CardTitle className="text-[#1a5f6b]">Tour Highlights</CardTitle>
           </CardHeader>
@@ -320,7 +320,7 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
         </Card>
 
         {/* About The Trip */}
-        <Card className="border-[#2CA4BC]/30 shadow-xl bg-white">
+        <Card className="w-full border-[#2CA4BC]/30 shadow-xl bg-white">
           <CardHeader className="bg-gradient-to-r from-[#2CA4BC]/10 to-[#1a5f6b]/10">
             <CardTitle className="text-[#1a5f6b]">About The Trip</CardTitle>
           </CardHeader>
@@ -330,7 +330,7 @@ export function PackageDetailsGuide({className }: PackageDetailsProps) {
         </Card>
 
         {/* Tabs Section */}
-        <Card className="border-[#2CA4BC]/30 shadow-xl bg-white">
+        <Card className="w-full border-[#2CA4BC]/30 shadow-xl bg-white">
           <CardContent className="p-0">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-slate-200 border border-slate-300">

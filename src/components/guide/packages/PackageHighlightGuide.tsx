@@ -14,7 +14,7 @@ export function PackageHighlights() {
   ]
 
   return (
-    <Card className="border-[#2CA4BC]/30 shadow-2xl bg-white/95 backdrop-blur-sm overflow-hidden">
+    <Card className="w-full border-[#2CA4BC]/30 shadow-2xl bg-white/95 backdrop-blur-sm overflow-hidden">
       <CardHeader className="bg-gradient-to-r from-[#2CA4BC]/10 via-[#2CA4BC]/5 to-[#1a5f6b]/10 border-b border-[#2CA4BC]/20">
         <CardTitle className="text-[#1a5f6b] flex items-center gap-2 text-xl">
           <Camera className="h-5 w-5 text-[#2CA4BC]" />
@@ -22,7 +22,7 @@ export function PackageHighlights() {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {highlights.map((highlight, index) => {
             const Icon = highlight.icon
             return (

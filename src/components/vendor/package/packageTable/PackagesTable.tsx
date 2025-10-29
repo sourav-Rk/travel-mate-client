@@ -111,6 +111,8 @@ export function PackagesTable() {
     switch (status) {
       case "active":
         return { label: "Active", className: "bg-green-100 text-green-800 border-green-200" }
+      case "completed":
+        return { label: "Completed", className: "bg-green-100 text-green-800 border-green-200" }
       case "inactive":
         return { label: "Inactive", className: "bg-red-100 text-red-800 border-red-200" }
       case "draft":

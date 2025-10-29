@@ -25,6 +25,7 @@ import type {
   IGetWalletResponse,
   IGetWalletTransactionsResponse,
 } from "@/types/api/client";
+import type { IReviewsResponse } from "@/types/reviewType";
 
 export interface Vendor {
   _id: string;
@@ -257,7 +258,7 @@ export const getNotificationsVendor = async () =>
 //----------------Mark a single notification as read----------------
 export const markNotificationReadVendor = async (notificationId: string) =>
   server.patch<IResponse>(VENDOR_API.MARK_NOTIFICATION_READ(notificationId));
-
+``
 //----------------Mark all notifications as read------------------
 export const markAllNotificationReadVendor = async () =>
   server.patch<IResponse>(VENDOR_API.MARK_ALL_NOTIFICATIONS_READ);
@@ -266,8 +267,12 @@ export const markAllNotificationReadVendor = async () =>
 export const updateVendorStatus = async (data: StatusPayload) =>
   server.patch<IResponse>(VENDOR_API.UPDATE_VENDOR_STATUS, data);
 
-// ================== Wallet ==================
+//=================Reviews====================
+export const getPackageReviewsVendor = async (packageId: string) =>
+  server.get<IReviewsResponse>(VENDOR_API.GET_PACKAGE_REVIEWS(packageId));
 
+
+// ================== Wallet ==================
 
 //------------get wallet transactions----------
 export const getWalletTransactionsVendor = async ({

@@ -68,7 +68,10 @@ export const VENDOR_API = {
    GET_GROUPS : '/vendor/groups',
    GET_GROUP_DETAILS : (groupId : string) => `/vendor/group-details/${groupId}`,
 
-
+   //=================REVIEWS====================
+   GET_PACKAGE_REVIEWS: (packageId: string) =>
+    `/vendor/reviews/packages/${packageId}`,
+   
   // ================== IMAGES ==================
   UPLOAD_IMAGES: "/vendor/images/upload",
 };

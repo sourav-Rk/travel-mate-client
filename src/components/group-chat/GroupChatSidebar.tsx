@@ -60,7 +60,7 @@ export function GroupChatSidebar({
   };
 
   const handleBackToProfile = () => {
-    navigate("/pvt/profile");
+    navigate(-1);
   };
 
   return (

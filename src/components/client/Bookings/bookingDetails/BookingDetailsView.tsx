@@ -69,6 +69,8 @@ export default function BookingDetailsView({
 }: BookingDetailsProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [averageReview,setAverageReview] = useState(0);
+  const [averageReviewGuide,setAverageReviewGuide] = useState(0);
   const [guideReviews, setGuideReviews] = useState<Review[]>([]);
   const [guide, setGuide] = useState<GuideDetailsForClientDto>();
   const [selectedBooking, setSelectedBooking] = useState<BookingDetailsProps['bookingDetails'] | null>(null);
@@ -90,18 +92,20 @@ export default function BookingDetailsView({
 
   useEffect(() => {
     if (reviewData) {
-      setReviews(reviewData?.reviews);
+      setReviews(reviewData?.data.reviews);
+      setAverageReview(reviewData?.data?.averageRating)
     }
   }, [reviewData]);
 
   useEffect(() => {
     if (guideReviewData) {
-      setGuideReviews(guideReviewData?.reviews);
+      setGuideReviews(guideReviewData?.data?.reviews);
+      setAverageReviewGuide(guideReviewData?.data?.averageRating)
+      console.log(guideReviews,"-->controle")
     }
   }, [guideReviewData]);
 
   useEffect(() => {
-    console.log("guide triggered");
     if (guideData) {
       setGuide(guideData.guide);
     }
@@ -213,12 +217,12 @@ export default function BookingDetailsView({
     );
   };
 
-  const hasReviewedPackage = reviews.some(
-    (x) => x.userId._id === bookingDetails.userId
-  );
-  const hasReviewedGuide = guideReviews.some(
-    (x) => x.userId._id === bookingDetails.userId
-  );
+  const hasReviewedPackage = bookingDetails?.userId 
+  ? reviews.some((x) => x.userId?._id === bookingDetails.userId)
+  : false;
+  const hasReviewedGuide = bookingDetails?.userId 
+  ? guideReviews.some((x) => x.userId?._id === bookingDetails.userId)
+  : false;
 
   // User can review only if they haven't already
   const canReviewPackage = !hasReviewedPackage;
@@ -415,6 +419,7 @@ export default function BookingDetailsView({
                   totalReviews={reviews.length}
                   isSubmitting={isSubmitting}
                   canReviewPackage={canReviewPackage}
+                  averageRating={averageReview}
                 />
               )}
 

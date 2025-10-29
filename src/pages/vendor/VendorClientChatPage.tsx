@@ -32,7 +32,7 @@ export default function VendorClientChatPage() {
     if (!socket) return;
 
     const handleChatJoined = (data: any) => {
-      console.log("✅ Chat joined successfully:", data);
+      console.log(" Chat joined successfully:", data);
     };
 
     const handleChatError = (err: any) => {

@@ -139,7 +139,6 @@ export const useUnreadInstructions = () => {
     if (!isLoggedIn || !clientInfo?.id) return;
     markAllInstructions(undefined, {
       onSuccess: () => {
-        // Mark all unread instructions as read in local state
         setAllInstructions(prev => 
           prev.map(instruction => 
             !instruction.readBy.includes(clientInfo.id)

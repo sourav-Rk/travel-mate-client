@@ -47,11 +47,11 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
   };
 
   return (
-    <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur-sm border-slate-300/60 overflow-hidden">
+    <Card className="w-full border-0 shadow-2xl bg-white/95 backdrop-blur-sm border-slate-300/60 overflow-hidden">
       <CardHeader className="pb-6">
         <div className="flex flex-col xl:flex-row gap-8">
           {/* Image Gallery */}
-          <div className="xl:w-1/2">
+          <div className="xl:w-1/2 w-full">
             <PackageImageGallery
               images={packageData.images}
               title={packageData.title}
@@ -59,8 +59,8 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
           </div>
 
           {/* Package Info */}
-          <div className="xl:w-1/2 space-y-6">
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+          <div className="xl:w-1/2 w-full space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 flex-wrap">
               <div className="flex-1 space-y-4">
                 <div>
                   <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a5f6b] mb-3 leading-tight">
@@ -84,16 +84,16 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex flex-col items-end gap-1">
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto sm:flex-wrap">
+                <div className="flex flex-col items-stretch sm:items-end gap-1 w-full sm:w-auto">
                   <Button
                     onClick={() => handleEditPackage(packageData.packageId!)}
                     disabled={!canEdit}
                     variant={canEdit ? "default" : "outline"}
                     className={
                       canEdit
-                        ? "bg-blue-600 hover:bg-blue-700 text-white"
-                        : "opacity-50 cursor-not-allowed"
+                        ? "w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white"
+                        : "w-full sm:w-auto opacity-50 cursor-not-allowed"
                     }
                   >
                     <Edit className="h-4 w-4 mr-2" />
@@ -108,7 +108,7 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                 <Button
                   onClick={() => handleViewBookings(packageData.packageId!)}
                   variant="outline"
-                  className="border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC] hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Users className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">View Bookings</span>
@@ -127,7 +127,7 @@ export function PackageMainInfo({ packageData }: PackageMainInfoProps) {
                       packageData.status
                     )
                   }
-                  className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
                   <span className="hidden sm:inline">Assign Guide</span>

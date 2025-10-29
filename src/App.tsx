@@ -7,8 +7,9 @@ import VendorRouter from "./routes/VendorRouter";
 import NotFoundPage from "./components/NotFound";
 import GuideRouter from "./routes/GuideRouter";
 import { SocketProvider } from "./context/SocketContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
-// Main app content
+
 function AppContent() {
   return (
     <div>
@@ -27,11 +28,12 @@ function AppContent() {
   );
 }
 
-// Main App component
 function App() {
   return (
     <SocketProvider>
-      <AppContent />
+      <NotificationProvider>
+        <AppContent />
+      </NotificationProvider>
     </SocketProvider>
   );
 }

@@ -41,6 +41,7 @@ export default function GuideReviewSection({
   isSubmitting = false,
   canReviewGuide = true
 }: GuideReviewSectionProps) {
+  console.log(existingReviews,"-->guide reviews")
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [userRating, setUserRating] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)

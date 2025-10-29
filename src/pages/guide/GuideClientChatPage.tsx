@@ -211,7 +211,7 @@ export default function GuideClientChatPage() {
   if (userLoading || !chatRoomId || (messageLoading && !initialLoadComplete)) {
     return (
       <div className="flex h-screen bg-[#f5f7fa] overflow-hidden">
-        <main className="flex-1 md:ml-80 flex flex-col h-full items-center justify-center">
+        <main className="flex-1 md:ml-64 lg:ml-64 flex flex-col h-full items-center justify-center">
           <div className="flex flex-col items-center gap-3">
             <div className="w-12 h-12 border-4 border-[#5aabba] border-t-transparent rounded-full animate-spin"></div>
             <p className="text-sm text-gray-600">
@@ -225,7 +225,7 @@ export default function GuideClientChatPage() {
 
   return (
     <div className="flex h-screen bg-[#f5f7fa] overflow-hidden">
-      <main className="flex-1 md:ml-80 flex flex-col h-full">
+      <main className="flex-1 md:ml-64 lg:ml-64 flex flex-col h-full">
         <ChatWindow
           self={currentUser}
           other={otherUser}

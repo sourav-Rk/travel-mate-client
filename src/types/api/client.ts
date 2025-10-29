@@ -40,6 +40,15 @@ export interface IGetGuideDetailsClient{
   guide : GuideDetailsForClientDto
 }
 
+export interface IReviewsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    reviews: ReviewListDto[];
+    averageRating: number;
+    totalReviews: number;
+  };
+}
 
 export type IGetAvailabalePackagesResponse = PaginatedResponse<"packages",PackageListingUserSideDto>;
 export type IGetPackageDetailsClient = ResponseWith<"packages",PackageDetails>;
@@ -49,7 +58,6 @@ export type IGetClientBookingDetailsResponse = ResponseWith<"bookingDetails",Boo
 export type IGetBookingsClientResponse = ResponseWith<"bookings",BookingListDTO[]>;
 export type IGetAllNotificationsClientResponse = ResponseWith<"notifications",INotificationEntity[]>;
 export type IPaymentResponse = ResponseWith<"data",PaymentResponseDto>;
-export type IReviewsResponse = ResponseWith<"reviews",ReviewListDto[]>;
 export type IGetMessagesResponse = PaginatedResponseData<ChatMessage>;
 export type IGetWalletResponse =ResponseWithData<GetWalletDto>;
 export type IGetWalletTransactionsResponse = PaginatedResponseData<WalletTransactions>;

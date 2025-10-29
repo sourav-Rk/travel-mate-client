@@ -27,6 +27,7 @@ import CancellationbookingView from "@/components/vendor/CancellationRequestView
 import CancellationBookingViewPage from "@/pages/vendor/CancellationBookingViewPages";
 import VendorClientChatPage from "@/pages/vendor/VendorClientChatPage";
 import GroupChatSidebarPage from "@/pages/group-chat/GroupChatSideBarPage";
+import ReviewsPage from "@/pages/vendor/ReviewlistPage";
 
 const VendorRouter = () => {
   return (
@@ -54,6 +55,7 @@ const VendorRouter = () => {
        <Route path="bookings/cancellations/:bookingId" element={<CancellationBookingViewPage/>}/>
        <Route path="bookings/users/:bookingId" element={<BookingDetailsVendorPage/>}/>
        <Route path="wallet" element={<VendorWalletPage/>}/>
+       <Route path="reviews" element={<ReviewsPage/>}/>
        </Route>
         <Route path="queries" element={<ProtectedRoute element={<VendorClientChatPage/>} allowedRoles={["vendor"]}/> }/>
         <Route path="/groups" element={<ProtectedRoute allowedRoles={["vendor"]} element={<GroupChatSidebarPage/>}/>}/>

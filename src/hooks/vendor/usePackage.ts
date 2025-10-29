@@ -8,7 +8,6 @@ import {
   updatePackageBasicDetails,
   updatePackageStatus,
 } from "@/services/vendor/vendorService";
-import type { IGetAllPackagesVendorResponse } from "@/types/api/vendor";
 import type { BasicDetails, DayDto } from "@/types/packageType";
 import type { IResponse } from "@/types/Response";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -46,11 +45,7 @@ interface FetchPackagesParams {
   userType: string;
 }
 
-// type PackagesResponse = {
-//   packages: PackageDetails[];
-//   totalPages: number;
-//   currentPage: number;
-// };
+
 
 //add package
 export const useAddPackageMutation = () => {

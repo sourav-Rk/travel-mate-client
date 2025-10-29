@@ -12,7 +12,6 @@ import GuidePackageDetailsPage from "@/pages/guide/GuidePackageDetailsPage";
 import { GuidePasswordChangePage } from "@/pages/guide/GuidePasswordChangePage";
 import GuideProfilePage from "@/pages/guide/GuideProfilePage";
 import PasswordResetPage from "@/pages/guide/PasswordResetPage";
-import ClientGuideChatPage from "@/pages/user/ClientGuideChatPage";
 import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import { NoAuthRoute } from "@/protected/PubliceRoute";
 import { Routes, Route } from "react-router-dom";
