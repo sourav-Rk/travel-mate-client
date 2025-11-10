@@ -12,6 +12,17 @@ export type Participant = {
   online?: boolean;
 };
 
+export type MediaAttachment = {
+  url: string;
+  publicId: string;
+  type: "image" | "video" | "file" | "voice";
+  fileName?: string;
+  fileSize?: number;
+  mimeType?: string;
+  thumbnailUrl?: string;
+  duration?: number;
+};
+
 export type ChatMessage = {
   _id: string;
   message: string;
@@ -22,6 +33,8 @@ export type ChatMessage = {
   readAt?: string;
   deliveredTo?: string[];
   chatRoomId?: string;
+  mediaAttachments?: MediaAttachment[];
+  messageType?: "text" | "media" | "mixed";
 };
 
 export type SendMessagePayload = {
@@ -31,6 +44,7 @@ export type SendMessagePayload = {
   receiverId: string;
   receiverType: ParticipantType;
   message: string;
+  mediaAttachments?: MediaAttachment[];
   contextType: ContextType;
   contextId: string;
 };

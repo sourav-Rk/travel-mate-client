@@ -1,7 +1,6 @@
 import React from 'react';
 import { NotificationProvider } from '@/context/NotificationContext';
 import { NotificationManager } from './NotificationManager';
-import { NotificationBell } from './NotificationBell';
 
 interface ResponsiveNotificationContainerProps {
   children: React.ReactNode;
@@ -30,28 +29,17 @@ export const ResponsiveNotificationContainer: React.FC<ResponsiveNotificationCon
         defaultDuration={defaultDuration}
         className="pointer-events-auto"
       />
-
-      {/* Notification Bell - Conditional rendering */}
-      {showBell && (
-        <>
-          {bellPosition === 'floating' ? (
-            <NotificationBell
-              variant="floating"
-              className="pointer-events-auto"
-            />
-          ) : (
-            <div className="fixed top-4 right-4 z-40 pointer-events-auto">
-              <NotificationBell
-                variant={bellVariant}
-                showPermissionHandler={true}
-              />
-            </div>
-          )}
-        </>
-      )}
     </NotificationProvider>
   );
 };
+
+
+
+
+
+
+
+
 
 
 

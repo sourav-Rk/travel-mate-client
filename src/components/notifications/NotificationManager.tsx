@@ -6,6 +6,7 @@ import type { RealTimeNotification } from './RealTimeNotificationToast';
 interface NotificationManagerProps {
   maxNotifications?: number;
   defaultDuration?: number;
+  className?: string;
 }
 
 export interface NotificationManagerRef {

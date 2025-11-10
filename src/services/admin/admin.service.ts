@@ -11,6 +11,11 @@ import type {
   IGetWalletResponse,
   IGetWalletTransactionsResponse,
 } from "@/types/api/client";
+import type {
+  IGetDashboardStatsResponse,
+  DashboardPeriod,
+} from "@/types/api/dashboard";
+import type { IGetSalesReportResponse } from "@/types/api/salesReport";
 
 // ================== ADMIN SERVICE ==================
 
@@ -114,3 +119,25 @@ export const getWalletTransactionsAdmin = async ({
 //-------------get wallet-------------------
 export const getWalletAdmin = async () =>
   server.get<IGetWalletResponse>(ADMIN_API.GET_WALLET);
+
+//-------------get dashboard stats-------------------
+export const getDashboardStats = async (params?: {
+  period?: DashboardPeriod;
+  startDate?: string;
+  endDate?: string;
+}) =>
+  server.get<IGetDashboardStatsResponse>(ADMIN_API.GET_DASHBOARD_STATS, {
+    params,
+  });
+
+//-------------get sales report-------------------
+export const getSalesReport = async (params?: {
+  period?: DashboardPeriod;
+  startDate?: string;
+  endDate?: string;
+  vendorId?: string;
+  packageId?: string;
+}) =>
+  server.get<IGetSalesReportResponse>(ADMIN_API.GET_SALES_REPORT, {
+    params,
+  });

@@ -16,4 +16,10 @@ export const ADMIN_API = {
   // ================== WALLET ==================
   GET_WALLET_TRANSACTIONS: "/admin/transactions",
   GET_WALLET: "/admin/wallet",
+
+  // ================== DASHBOARD ==================
+  GET_DASHBOARD_STATS: "/admin/dashboard/stats",
+
+  // ================== SALES REPORT ==================
+  GET_SALES_REPORT: "/admin/sales-report",
 };

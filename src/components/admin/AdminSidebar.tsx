@@ -55,10 +55,9 @@ const AdminSidebar: React.FC = () => {
     { id: "users", label: "User Management", icon: Users, path: "/admin/ad_pvt/users", color: "text-blue-400" },
     { id: "vendors", label: "Vendor Management", icon: Store, path: "/admin/ad_pvt/vendors", color: "text-orange-400" },
     { id: "trips", label: "Trips", icon: MapPin, path: "/admin/ad_pvt/packages", color: "text-red-400" },
-    { id: "reports", label: "Reports", icon: FileText, path: "/reports", color: "text-pink-400" },
+    { id: "reports", label: "Sales Report", icon: FileText, path: "/admin/ad_pvt/sales-report", color: "text-pink-400" },
     { id: "wallet", label: "Wallet", icon: Wallet, path: "/admin/ad_pvt/wallet", color: "text-green-400" },
     { id: "badges", label: "Badges", icon: Award, path: "/badges", color: "text-yellow-400" },
-    { id: "analytics", label: "Analytics", icon: BarChart3, path: "/analytics", color: "text-cyan-400" },
   ]
 
   const handleItemClick = (itemId: string, path: string): void => {

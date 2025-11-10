@@ -43,6 +43,12 @@ export const VENDOR_API = {
   VERIFY_CANCELLATION_REQUEST: (bookingId: string) =>
     `/vendor/bookings/verify-cancellation/${bookingId}`,
 
+  // ================== DASHBOARD ==================
+  GET_DASHBOARD_STATS: "/vendor/dashboard/stats",
+
+  // ================== SALES REPORT ==================
+  GET_SALES_REPORT: "/vendor/sales-report",
+
   // ================== NOTIFICATIONS ==================
   GET_NOTIFICATIONS: "/vendor/notifications",
   MARK_NOTIFICATION_READ: (notificationId: string) =>

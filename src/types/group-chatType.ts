@@ -12,6 +12,17 @@ export interface GroupChatDo {
   updatedAt: Date;
 }
 
+export interface MediaAttachment {
+  url: string;
+  publicId: string;
+  type: "image" | "video" | "file" | "voice";
+  fileName?: string;
+  fileSize?: number;
+  mimeType?: string;
+  thumbnailUrl?: string;
+  duration?: number;
+}
+
 export interface GroupMessage {
   _id: string;
   groupChatId: string;
@@ -19,6 +30,8 @@ export interface GroupMessage {
   senderType: "client" | "guide" | "vendor";
   senderName : string;
   message: string;
+  mediaAttachments?: MediaAttachment[];
+  messageType?: "text" | "media" | "mixed";
   createdAt: Date;
   updatedAt: Date;
 }

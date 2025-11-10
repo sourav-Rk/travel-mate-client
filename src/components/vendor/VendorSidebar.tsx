@@ -15,6 +15,8 @@ import {
   X,
   Bell,
   AlertCircle,
+  CoinsIcon,
+  Gauge
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLogout } from "@/hooks/auth/useLogout";
@@ -49,7 +51,7 @@ interface NavItem {
 
 const VendorSidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [activeItem, setActiveItem] = useState<string>("packages");
+  const [activeItem, setActiveItem] = useState<string>("analytics");
   const [notifications, setNotifications] = useState<INotificationEntity[]>([]);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const { firstname, email } = useSelector(
@@ -73,6 +75,12 @@ const VendorSidebar: React.FC = () => {
 
   const navItems: NavItem[] = [
     {
+      id: "analytics",
+      label: "Analytics",
+      icon: Gauge,
+      path: "/vendor/dashboard",
+    },
+    {
       id: "packages",
       label: "Packages",
       icon: Package,
@@ -94,6 +102,7 @@ const VendorSidebar: React.FC = () => {
     { id: "wallet", label: "Wallet", icon: DollarSign, path: "/vendor/wallet" },
     { id: "groups", label: "Groups", icon: Users2, path: "/vendor/groups" },
     { id: "guide", label: "Guide", icon: MapPin, path: "/vendor/guide" },
+    { id: "Sales-Report", label: "Sales Report", icon: CoinsIcon, path: "/vendor/sales-report" },
     { id: "profile", label: "Profile", icon: User, path: "/vendor/profile" },
   ];
 
@@ -104,8 +113,6 @@ const VendorSidebar: React.FC = () => {
   }, [notifData]);
 
   const unreadCount = notifications?.filter((n) => !n.isRead)?.length || 0;
-
-  console.log(unreadCount, "unreadcount");
 
   const handleMarkRead = async (id: string) => {
     markRead(id, {

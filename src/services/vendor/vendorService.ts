@@ -7,6 +7,8 @@ import { travelMateBackend } from "@/api/instance";
 import { server } from "../server";
 import type { IResponse } from "@/types/Response";
 import { VENDOR_API } from "@/constants/api/vendor.api";
+import type { IGetVendorDashboardStatsResponse, VendorDashboardPeriod } from "@/types/api/vendor-dashboard";
+import type { IGetVendorSalesReportResponse, GetVendorSalesReportParams } from "@/types/api/vendor-sales-report";
 import type {
   IBookingsVendorResponse,
   IGetAllGuidesVendorResponse,
@@ -311,6 +313,19 @@ export const getWalletVendor = async () =>
 
 //---------------------client deails--------------------- 
 export const getClientDetailsVendor = async (clientId : string) => server.get<IGetClientDetailsVendorResponse>(VENDOR_API.GET_CLIENT_DETAILS(clientId));
+
+// ================== DASHBOARD ==================
+export const getVendorDashboardStats = async (params?: {
+  period?: VendorDashboardPeriod;
+  startDate?: string;
+  endDate?: string;
+}) => server.get<IGetVendorDashboardStatsResponse>(VENDOR_API.GET_DASHBOARD_STATS, { params });
+
+// ================== SALES REPORT ==================
+export const getVendorSalesReport = async (params?: GetVendorSalesReportParams) =>
+  server.get<IGetVendorSalesReportResponse>(VENDOR_API.GET_SALES_REPORT, {
+    params,
+  });
 
 //--------- upload images -------------
 

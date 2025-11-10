@@ -3,7 +3,7 @@ import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 import ChatComposer from "./ChatComposer";
-import type { ChatMessage, Participant, ContextType } from "@/types/chat";
+import type { ChatMessage, Participant, ContextType, MediaAttachment } from "@/types/chat";
 import { useSocket } from "@/context/SocketContext";
 
 interface ChatWindowProps {
@@ -152,19 +152,64 @@ export default function ChatWindow({
 
     const handleNewMessage = (msg: any) => {
       setMessages((prev) => {
-        const exists = prev.some((m) => m._id === msg._id);
-        if (exists) return prev;
+        // Check if message already exists (by _id) or if it's an update to an optimistic message
+        const existingIndex = prev.findIndex((m) => m._id === msg._id);
+        
+        // If message exists, update it (in case of status changes or media updates)
+        if (existingIndex !== -1) {
+          const updatedMessages = [...prev];
+          updatedMessages[existingIndex] = {
+            ...updatedMessages[existingIndex],
+            ...msg,
+            mediaAttachments: msg.mediaAttachments || updatedMessages[existingIndex].mediaAttachments || [],
+            messageType: msg.messageType || updatedMessages[existingIndex].messageType || "text",
+          };
+          return updatedMessages;
+        }
 
+        // Check if this might be an update to an optimistic message (same sender, recent timestamp)
+        // This handles the case where socket broadcast arrives before ack callback
+        const optimisticMatch = prev.findIndex((m) => 
+          m._id.startsWith("temp-") && 
+          m.senderId === msg.senderId &&
+          Math.abs(new Date(m.createdAt).getTime() - new Date(msg.createdAt).getTime()) < 5000
+        );
+
+        if (optimisticMatch !== -1) {
+          // Replace optimistic message with server message
+          const updatedMessages = [...prev];
+          updatedMessages[optimisticMatch] = {
+            _id: msg._id,
+            message: msg.message || "",
+            senderId: msg.senderId,
+            senderType: msg.senderType,
+            status: msg.status || "sent",
+            createdAt: msg.createdAt,
+            readAt: msg.readAt,
+            deliveredTo: msg.deliveredTo || [],
+            mediaAttachments: msg.mediaAttachments || updatedMessages[optimisticMatch].mediaAttachments || [],
+            messageType: msg.messageType || updatedMessages[optimisticMatch].messageType || "text",
+          };
+          console.log("🔄 Updated optimistic message with server response:", updatedMessages[optimisticMatch]);
+          return updatedMessages;
+        }
+
+        // New message from another user
         const newMessage: ChatMessage = {
           _id: msg._id,
-          message: msg.message,
+          message: msg.message || "",
           senderId: msg.senderId,
           senderType: msg.senderType,
           status: msg.status || "sent",
           createdAt: msg.createdAt,
           readAt: msg.readAt,
           deliveredTo: msg.deliveredTo || [],
+          mediaAttachments: msg.mediaAttachments || [],
+          messageType: msg.messageType || "text",
         };
+
+        console.log("📨 New message received:", newMessage);
+        console.log("📎 Media attachments in new message:", newMessage.mediaAttachments);
 
         if (msg.senderId === other.id) {
           markMessagesAsDelivered();
@@ -296,8 +341,11 @@ export default function ChatWindow({
     };
   }, [handleScroll]);
 
-  const handleSend = (text: string) => {
-    if (!text.trim()) return;
+  const handleSend = (text: string, mediaAttachments?: MediaAttachment[]) => {
+    const hasText = text.trim().length > 0;
+    const hasMedia = mediaAttachments && mediaAttachments.length > 0;
+
+    if (!hasText && !hasMedia) return;
 
     if (!socket || !isConnected || !chatRoomId) {
       console.warn("⚠️ Missing data: socket/chatRoomId/userId");
@@ -307,13 +355,19 @@ export default function ChatWindow({
     // Create optimistic message
     const optimisticMessage: ChatMessage = {
       _id: `temp-${Date.now()}`,
-      message: text,
+      message: text || "",
       senderId: self.id,
       senderType: self.type,
       status: "sent",
       createdAt: new Date().toISOString(),
       deliveredTo: [],
+      mediaAttachments: mediaAttachments || [],
+      messageType: hasText && hasMedia ? "mixed" : hasMedia ? "media" : "text",
     };
+    
+    // Log for debugging
+    console.log("📤 Optimistic message:", optimisticMessage);
+    console.log("📎 Optimistic media attachments:", optimisticMessage.mediaAttachments);
 
     setMessages((prev) => [...prev, optimisticMessage]);
 
@@ -327,15 +381,44 @@ export default function ChatWindow({
         senderType: self.type,
         receiverId: other.id,
         receiverType: other.type,
-        message: text,
+        message: text || "",
+        mediaAttachments,
         contextType: contextType,
         contextId: contextId,
       },
       (response: any) => {
-        if (response?.success) {
+        if (response?.success && response?.message) {
+          const serverMediaAttachments = 
+            response.message.mediaAttachments && 
+            Array.isArray(response.message.mediaAttachments) && 
+            response.message.mediaAttachments.length > 0
+              ? response.message.mediaAttachments
+              : (optimisticMessage.mediaAttachments || []);
+          
+          const serverMessage: ChatMessage = {
+            _id: response.message._id,
+            message: response.message.message || "",
+            senderId: response.message.senderId,
+            senderType: response.message.senderType,
+            status: response.message.status || "sent",
+            createdAt: response.message.createdAt,
+            readAt: response.message.readAt,
+            deliveredTo: response.message.deliveredTo || [],
+            mediaAttachments: serverMediaAttachments,
+            messageType: response.message.messageType || 
+                        (serverMediaAttachments.length > 0 
+                          ? (response.message.message ? "mixed" : "media")
+                          : "text"),
+          };
+          
+          // Log for debugging
+          console.log("📤 Server response message:", serverMessage);
+          console.log("📎 Server media attachments:", response.message.mediaAttachments);
+          console.log("📎 Final media attachments:", serverMessage.mediaAttachments);
+          
           setMessages((prev) =>
             prev.map((msg) =>
-              msg._id === optimisticMessage._id ? response.message : msg
+              msg._id === optimisticMessage._id ? serverMessage : msg
             )
           );
         } else {
@@ -419,10 +502,12 @@ export default function ChatWindow({
                   <MessageBubble
                     key={msg._id}
                     message={{
-                      text: msg.message,
+                      text: msg.message || "",
                       timestamp: msg.createdAt,
                       status: msg.status,
                       readAt: msg.readAt,
+                      mediaAttachments: Array.isArray(msg.mediaAttachments) ? msg.mediaAttachments : [],
+                      messageType: msg.messageType || "text",
                     }}
                     sender={{
                       name: isOwn ? self.name : other.name,

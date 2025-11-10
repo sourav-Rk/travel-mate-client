@@ -29,4 +29,6 @@ export const GUIDE_API = {
    GET_GROUPS : '/guide/groups',
    GET_GROUP_DETAILS : (groupId : string) => `/guide/group-details/${groupId}`,
 
+   // ================== IMAGES ==================
+   UPLOAD_IMAGES: "/guide/images/upload",
 };

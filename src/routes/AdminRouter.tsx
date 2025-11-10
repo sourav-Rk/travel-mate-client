@@ -9,6 +9,7 @@ import DashboardPage from "@/pages/admin/DashboardPage"
 import { PackageDetailsPageAdmin } from "@/pages/admin/PackageDetailsPageAdmin"
 import UserManagementPage from "@/pages/admin/UserManagementPage"
 import VendorManagementPage from "@/pages/admin/VendorManagement"
+import SalesReportPage from "@/pages/admin/SalesReportPage"
 import { ProtectedRoute } from "@/protected/ProtectedRoute"
 import { NoAuthRoute } from "@/protected/PubliceRoute"
 import { Route, Routes } from "react-router-dom"
@@ -26,6 +27,7 @@ const AdminRouter = () => {
             <Route path="users" element={<UserManagementPage/>}/>
             <Route path="vendor/:userId" element={<VendorView/>}/>
             <Route path="wallet" element={<AdminWalletPage/>}/>
+            <Route path="sales-report" element={<SalesReportPage/>}/>
             </Route>
             <Route path="*" element={<NotFoundPage />} /> 
         </Routes>

@@ -110,15 +110,42 @@ export function GroupChatWindow({
               <p className="text-xs text-gray-500">Start the conversation by sending a message</p>
             </div>
           ) : (
-            messages.map((message, index) => (
-              <MessageBubble
-                key={message._id}
-                message={message}
-                isOwn={message.senderId === currentUserId}
-                previousMessage={index > 0 ? messages[index - 1] : undefined}
-                nextMessage={index < messages.length - 1 ? messages[index + 1] : undefined}
-              />
-            ))
+          
+            messages
+              .filter((message): message is GroupMessage => {
+                // Type guard: ensure message has required _id field
+                if (!message || typeof message._id !== 'string') {
+                  if (process.env.NODE_ENV === 'development') {
+                    console.warn("Filtered out invalid message:", message);
+                  }
+                  return false;
+                }
+                return true;
+              })
+              .map((message, index, validMessages) => {
+                // Normalize IDs to strings for comparison to handle ObjectId vs string mismatches
+                // This is CRITICAL for proper alignment - both must be normalized the same way
+                const messageSenderId = String(message.senderId || "").trim();
+                const normalizedCurrentUserId = currentUserId ? String(currentUserId).trim() : "";
+                
+                // Compare normalized IDs - this determines if message is from current user
+                const isOwn = normalizedCurrentUserId !== "" && messageSenderId === normalizedCurrentUserId;
+                
+                
+                // Get previous and next messages from the filtered valid messages array
+                const previousMessage = index > 0 ? validMessages[index - 1] : undefined;
+                const nextMessage = index < validMessages.length - 1 ? validMessages[index + 1] : undefined;
+                
+                return (
+                  <MessageBubble
+                    key={message._id}
+                    message={message}
+                    isOwn={isOwn}
+                    previousMessage={previousMessage}
+                    nextMessage={nextMessage}
+                  />
+                );
+              })
           )}
         </div>
 
@@ -133,6 +160,14 @@ export function GroupChatWindow({
     </div>
   );
 }
+
+
+
+
+
+
+
+
 
 
 

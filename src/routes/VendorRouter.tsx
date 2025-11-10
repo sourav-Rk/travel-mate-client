@@ -6,7 +6,6 @@ import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import VendorLockedPage from "@/components/vendor/VendorLockedPage";
 import VendorSignupFlow from "@/components/vendor/VendorSignupFlow";
 import VendorLayout from "@/components/layouts/VendorLayout";
-import DashboardPage from "@/pages/admin/DashboardPage";
 import NotFoundPage from "@/components/NotFound";
 import AddGuideForm from "@/components/vendor/addGuide/AddGuideForm";
 import VendorProfilePage from "@/pages/vendor/VendorProfilePage";
@@ -23,11 +22,12 @@ import BookingDetailsVendorPage from "@/pages/vendor/BookingDetailsVendorPage";
 import GuideAssignmentPage from "@/components/vendor/guideAssignment/GuideAssignment";
 import VendorWalletPage from "@/pages/vendor/VendorWalletPage";
 import CancellationRequestsPage from "@/pages/vendor/CancellationRequestsPage";
-import CancellationbookingView from "@/components/vendor/CancellationRequestView";
 import CancellationBookingViewPage from "@/pages/vendor/CancellationBookingViewPages";
 import VendorClientChatPage from "@/pages/vendor/VendorClientChatPage";
 import GroupChatSidebarPage from "@/pages/group-chat/GroupChatSideBarPage";
 import ReviewsPage from "@/pages/vendor/ReviewlistPage";
+import VendorDashboard from "@/components/vendor/Dashboard";
+import VendorSalesReportPage from "@/pages/vendor/VendorSalesReportPage";
 
 const VendorRouter = () => {
   return (
@@ -38,7 +38,7 @@ const VendorRouter = () => {
         <Route path="/signup/step/" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorSignupFlow />} /> } />
         <Route path="/locked" element={ <ProtectedRoute allowedRoles={["vendor"]} element={<VendorLockedPage />} />} />
        <Route path="/" element={<ProtectedRoute element={<VendorLayout/>} allowedRoles={["vendor"]}/> }>
-       <Route path="dashboard" element={<ProtectedRoute allowedRoles={["vendor"]} element={<DashboardPage />}/>}/>
+       <Route path="dashboard" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorDashboard />}/>}/>
        <Route path="profile" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorProfilePage/>}/>}/>
        <Route path="profile/edit" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorProfileEditPage/>}/>}/>
        <Route path="change-password" element={<ProtectedRoute allowedRoles={["vendor"]} element={<VendorPasswordChangePage/>}/>}/>
@@ -56,6 +56,7 @@ const VendorRouter = () => {
        <Route path="bookings/users/:bookingId" element={<BookingDetailsVendorPage/>}/>
        <Route path="wallet" element={<VendorWalletPage/>}/>
        <Route path="reviews" element={<ReviewsPage/>}/>
+       <Route path="sales-report" element={<VendorSalesReportPage/>}/>
        </Route>
         <Route path="queries" element={<ProtectedRoute element={<VendorClientChatPage/>} allowedRoles={["vendor"]}/> }/>
         <Route path="/groups" element={<ProtectedRoute allowedRoles={["vendor"]} element={<GroupChatSidebarPage/>}/>}/>
