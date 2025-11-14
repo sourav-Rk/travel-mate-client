@@ -28,6 +28,14 @@ import ChatPage from "@/pages/chatSidebar/ChatSidebarPage";
 import ClientWalletPage from "@/pages/user/ClientWalletPage";
 import ClientVendorChatPage from "@/pages/user/ClientVendorChatPage";
 import GroupChatSidebarPage from "@/pages/group-chat/GroupChatSideBarPage";
+import { LocalGuideVerificationForm } from "@/components/client/local-guide/LocalGuideVerificationForm";
+import VolunteerPostsPage from "@/pages/user/VolunteerPostsPage";
+import VolunteerPostDetailPage from "@/pages/user/VolunteerPostDetailPage";
+import CreateVolunteerPostPage from "@/pages/user/CreateVolunteerPostPage";
+import MyVolunteerPostsPage from "@/pages/user/MyVolunteerPostsPage";
+import LocalGuideProfilePage from "@/pages/user/LocalGuideProfilePage";
+import { VolunteeringLayout } from "@/components/client/volunteer-post/layout/VolunteeringLayout";
+import { VerificationCheck } from "@/components/client/local-guide/VerificationCheck";
 
 const ClientRouter = () => {
   return (
@@ -39,7 +47,13 @@ const ClientRouter = () => {
           <Route path="/" element={<TravelHomePage />} />
           <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
           <Route path="packages" element={<PackagesListingPage/>} />
-          <Route path="volunteering" element={<VolunteeringLanding/>}/>
+        </Route>
+
+        {/* Volunteering routes with VolunteeringLayout */}
+        <Route path="/" element={<VolunteeringLayout />}>
+          <Route path="volunteering" element={ <VerificationCheck><VolunteeringLanding /></VerificationCheck>}/>
+          <Route path="volunteer-posts" element={<VolunteerPostsPage/>}/>
+          <Route path="volunteer-posts/:postId" element={<VolunteerPostDetailPage/>}/>
         </Route>
         
         {/* authentication routes */}
@@ -67,11 +81,20 @@ const ClientRouter = () => {
         <Route path="guide-chat/:guideId/:bookingId" element={<ProtectedRoute allowedRoles={["client"]} element={<ClientGuideChatPage/>}/> }/>
         <Route path="vendor-chat/:vendorId/:packageId" element={<ProtectedRoute allowedRoles={["client"]} element={<ClientVendorChatPage/>}/> }/>
         <Route path="wallet" element={<ClientWalletPage/>}/>
+        <Route path="local-guide/verification" element={<ProtectedRoute allowedRoles={["client"]} element={<LocalGuideVerificationForm/>}/>}/>
        </Route>
+
+        {/* Protected volunteering routes with VolunteeringLayout */}
+        <Route path="/pvt" element={<ProtectedRoute allowedRoles={["client"]} element={<VolunteeringLayout />}/>}>
+          <Route path="local-guide/profile" element={<LocalGuideProfilePage/>}/>
+          <Route path="posts/create" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
+          <Route path="posts/edit/:postId" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
+          <Route path="my-posts" element={<VerificationCheck><MyVolunteerPostsPage/></VerificationCheck>}/>
+        </Route>
+
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
          <Route path="/groups" element={<ProtectedRoute allowedRoles={["client"]} element={<GroupChatSidebarPage/>}/>}/>
-        
-        <Route path="/cancel" element={<PaymentCancelledPage/>}/>
+         <Route path="/cancel" element={<PaymentCancelledPage/>}/>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

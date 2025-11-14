@@ -16,7 +16,14 @@ import {
   Wallet,
   Clock,
   Award,
+ 
 } from "lucide-react"
+import { useClientAuth } from "@/hooks/auth/useAuth"
+import { useLocalGuideProfileQuery } from "@/hooks/local-guide/useLocalGuideVerification"
+import { Spinner } from "@/components/Spinner"
+import { useNavigate } from "react-router-dom"
+import { useMyPosts } from "@/hooks/volunteer-post/useVolunteerPost"
+import { VolunteeringDashboard } from "./local-guide/VolunteeringDashboard"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -60,6 +67,37 @@ const pulseAnimation = {
 }
 
 export default function VolunteeringLanding() {
+  const { isLoggedIn } = useClientAuth()
+  const navigate = useNavigate()
+  const {
+    data: profile,
+    isLoading: isLoadingProfile,
+    isError: isProfileError,
+  } = useLocalGuideProfileQuery(isLoggedIn)
+
+  /**
+   * Fetch user's posts if logged in and has profile
+   */
+  const { data: myPostsData, isLoading: isLoadingMyPosts } = useMyPosts(
+    profile?._id || "",
+    { limit: 3, sortBy: "newest" },
+    isLoggedIn && !!profile?._id
+  )
+
+  if (isLoggedIn && isLoadingProfile) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    )
+  }
+
+  // If user is logged in and has a profile, show the dashboard view
+  if (isLoggedIn && profile && !isProfileError) {
+    return <VolunteeringDashboard profile={profile} myPosts={myPostsData?.posts || []} isLoadingMyPosts={isLoadingMyPosts} />
+  }
+
+  // Landing page content for non-logged-in users or users without profile
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
       {/* Hero Section with Background Image */}
@@ -82,7 +120,7 @@ export default function VolunteeringLanding() {
         >
           <motion.div variants={fadeInUp}>
             <Badge className="mb-6 bg-[#2CA4BC]/10 text-[#2CA4BC] border-[#2CA4BC]/20 px-6 py-3 text-base font-semibold">
-              💰 Earn $50-200 Per Day as a Local Guide
+              💰 Earn ₹50-200 Per Day as a Local Guide
             </Badge>
           </motion.div>
 
@@ -119,7 +157,7 @@ export default function VolunteeringLanding() {
           >
             <div className="flex items-center justify-center gap-8 text-center">
               <div>
-                <div className="text-3xl font-bold text-[#2CA4BC]">$150</div>
+                <div className="text-3xl font-bold text-[#2CA4BC]">₹150</div>
                 <div className="text-sm text-gray-600">Average Daily Earning</div>
               </div>
               <div className="w-px h-12 bg-gray-300"></div>
@@ -140,21 +178,31 @@ export default function VolunteeringLanding() {
               <Button
                 size="lg"
                 className="bg-[#2CA4BC] hover:bg-[#2CA4BC]/90 text-white px-12 py-6 text-xl font-bold rounded-full shadow-2xl"
+                onClick={() => {
+                  if (isLoggedIn) {
+                    navigate("/pvt/local-guide/verification")
+                  } else {
+                    navigate("/signup")
+                  }
+                }}
               >
-                Start Earning Today
+                {isLoggedIn ? "Create Guide Profile" : "Start Earning Today"}
                 <Wallet className="ml-3 h-6 w-6" />
               </Button>
             </motion.div>
-            <motion.div {...scaleOnHover}>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC]/10 px-10 py-6 text-xl bg-white/80 backdrop-blur-sm rounded-full"
-              >
-                See Success Stories
-                <Star className="ml-3 h-6 w-6" />
-              </Button>
-            </motion.div>
+            {!isLoggedIn && (
+              <motion.div {...scaleOnHover}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-[#2CA4BC] text-[#2CA4BC] hover:bg-[#2CA4BC]/10 px-10 py-6 text-xl bg-white/80 backdrop-blur-sm rounded-full"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign In
+                  <ArrowRight className="ml-3 h-6 w-6" />
+                </Button>
+              </motion.div>
+            )}
           </motion.div>
         </motion.div>
 
@@ -420,54 +468,141 @@ export default function VolunteeringLanding() {
         </motion.div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#2CA4BC] to-[#2CA4BC]/80 relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/placeholder-422vt.png"
-            alt="Successful guides"
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
-
-        <motion.div
-          className="max-w-4xl mx-auto text-center relative z-10"
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <h2 className="text-4xl sm:text-6xl font-serif font-bold text-white mb-8">
-            Your City. Your Knowledge.
-            <br />
-            <span className="text-[#F5F1E8]">Your Income.</span>
-          </h2>
-          <p className="text-xl text-white/90 mb-10 font-sans max-w-3xl mx-auto leading-relaxed">
-            Join 10,000+ local guides who've already earned over $2M helping travelers discover authentic city
-            experiences. Your first tour could be tomorrow.
-          </p>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-10 max-w-2xl mx-auto">
-            <div className="text-3xl font-bold text-white mb-2">Average Guide Earnings</div>
-            <div className="text-5xl font-black text-[#F5F1E8] mb-2">$1,200 - $3,500</div>
-            <div className="text-white/80">per month (part-time)</div>
+      {/* Sign Up / Login CTA Section for Guests */}
+      {!isLoggedIn && (
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#2CA4BC] via-[#2CA4BC]/90 to-[#1a5f6b] relative overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src="/placeholder-422vt.png"
+              alt="Successful guides"
+              className="w-full h-full object-cover opacity-10"
+            />
           </div>
 
-          <motion.div {...{scaleOnHover}} {...{pulseAnimation}}>
-            <Button
-              size="lg"
-              className="bg-[#F5F1E8] hover:bg-white text-[#2CA4BC] px-16 py-8 text-2xl font-black rounded-full shadow-2xl"
-            >
-              Start Your Guide Journey
-              <ArrowRight className="ml-4 h-8 w-8" />
-            </Button>
-          </motion.div>
+          <motion.div
+            className="max-w-4xl mx-auto text-center relative z-10"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <motion.div variants={fadeInUp}>
+              <Badge className="mb-6 bg-white/20 text-white border-white/30 px-6 py-2 text-base font-semibold">
+                🔒 Sign Up to Explore
+              </Badge>
+            </motion.div>
 
-          <p className="text-white/70 mt-6 text-sm">
-            ✓ No upfront costs ✓ Flexible schedule ✓ Keep 85% of earnings ✓ 24/7 support
-          </p>
-        </motion.div>
-      </section>
+            <h2 className="text-4xl sm:text-6xl font-serif font-bold text-white mb-6">
+              Ready to Explore Volunteer Posts?
+            </h2>
+            <p className="text-xl text-white/90 mb-8 font-sans max-w-3xl mx-auto leading-relaxed">
+              Sign up or log in to discover amazing local insights, hidden gems, and authentic experiences shared by our community of local guides.
+            </p>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-10 max-w-2xl mx-auto border border-white/20">
+              <div className="text-lg font-semibold text-white mb-4">What you'll get:</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                <div className="flex items-center gap-3 text-white/90">
+                  <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
+                  <span>Browse volunteer posts from local guides</span>
+                </div>
+                <div className="flex items-center gap-3 text-white/90">
+                  <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
+                  <span>Discover hidden gems in your city</span>
+                </div>
+                <div className="flex items-center gap-3 text-white/90">
+                  <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
+                  <span>Connect with local experts</span>
+                </div>
+                <div className="flex items-center gap-3 text-white/90">
+                  <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
+                  <span>Create your own guide profile</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <motion.div {...{scaleOnHover}} {...{pulseAnimation}}>
+                <Button
+                  size="lg"
+                  className="bg-white hover:bg-white/90 text-[#2CA4BC] px-12 py-6 text-xl font-bold rounded-full shadow-2xl"
+                  onClick={() => navigate("/signup")}
+                >
+                  Create Free Account
+                  <ArrowRight className="ml-3 h-6 w-6" />
+                </Button>
+              </motion.div>
+              <motion.div {...scaleOnHover}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white hover:bg-white/10 px-10 py-6 text-xl bg-transparent backdrop-blur-sm rounded-full"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign In
+                  <ArrowRight className="ml-3 h-6 w-6" />
+                </Button>
+              </motion.div>
+            </div>
+
+            <p className="text-white/70 mt-6 text-sm">
+              ✓ Free to join ✓ No credit card required ✓ Start exploring immediately
+            </p>
+          </motion.div>
+        </section>
+      )}
+
+      {/* CTA Section for Logged-in Users */}
+      {isLoggedIn && (
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#2CA4BC] to-[#2CA4BC]/80 relative overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src="/placeholder-422vt.png"
+              alt="Successful guides"
+              className="w-full h-full object-cover opacity-20"
+            />
+          </div>
+
+          <motion.div
+            className="max-w-4xl mx-auto text-center relative z-10"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            <h2 className="text-4xl sm:text-6xl font-serif font-bold text-white mb-8">
+              Your City. Your Knowledge.
+              <br />
+              <span className="text-[#F5F1E8]">Your Income.</span>
+            </h2>
+            <p className="text-xl text-white/90 mb-10 font-sans max-w-3xl mx-auto leading-relaxed">
+              Join 10,000+ local guides who've already earned over $2M helping travelers discover authentic city
+              experiences. Your first tour could be tomorrow.
+            </p>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-10 max-w-2xl mx-auto">
+              <div className="text-3xl font-bold text-white mb-2">Average Guide Earnings</div>
+              <div className="text-5xl font-black text-[#F5F1E8] mb-2">₹1,200 - ₹3,500</div>
+              <div className="text-white/80">per month (part-time)</div>
+            </div>
+
+            <motion.div {...{scaleOnHover}} {...{pulseAnimation}}>
+              <Button
+                size="lg"
+                className="bg-[#F5F1E8] hover:bg-white text-[#2CA4BC] px-16 py-8 text-2xl font-black rounded-full shadow-2xl"
+                onClick={() => navigate("/pvt/local-guide/verification")}
+              >
+                Create Guide Profile
+                <ArrowRight className="ml-4 h-8 w-8" />
+              </Button>
+            </motion.div>
+
+            <p className="text-white/70 mt-6 text-sm">
+              ✓ No upfront costs ✓ Flexible schedule ✓ Keep 85% of earnings ✓ 24/7 support
+            </p>
+          </motion.div>
+        </section>
+      )}
     </div>
   )
 }

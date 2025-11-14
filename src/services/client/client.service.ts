@@ -37,6 +37,8 @@ export type Client = {
   googleId?: string;
   isBlocked?: string;
   gender?: string;
+  isLocalGuide?: boolean;
+  localGuideProfileId?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

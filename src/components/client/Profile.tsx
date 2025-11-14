@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Mail, Phone, Users, FileText, Edit3, KeyRound, CheckCircle, AlertCircle, Camera } from 'lucide-react'
+import { User, Mail, Phone, Users, FileText, Edit3, KeyRound, CheckCircle, AlertCircle, Camera, MapPin } from 'lucide-react'
 import { useEffect, useState } from "react"
 import type { Client } from "@/services/client/client.service"
 import { useClientProfileQuery } from "@/hooks/client/useClientProfile"
@@ -50,6 +50,10 @@ export function ProfilePage() {
 
   const handleResetPassword = () => {
     navigate("/change-password")
+  }
+
+  const handleBecomeLocalGuide = () => {
+    navigate("/pvt/local-guide/verification")
   }
 
   return (
@@ -216,6 +220,35 @@ export function ProfilePage() {
                 Reset Password
               </Button>
             </div>
+
+            {/* Local Guide Section */}
+            {!client?.isLocalGuide && (
+              <>
+                <Separator className="bg-slate-200/60" />
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-6 border border-amber-200/60">
+                  <div className="flex flex-col md:flex-row items-center gap-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-amber-900 mb-2 flex items-center gap-2">
+                        <MapPin className="h-5 w-5 text-amber-600" />
+                        Become a Local Guide
+                      </h3>
+                      <p className="text-amber-800 text-sm">
+                        Share your local knowledge and help travelers discover authentic experiences in your city. 
+                        Earn money by offering guide services and creating informative posts.
+                      </p>
+                    </div>
+                    <Button
+                      onClick={handleBecomeLocalGuide}
+                      className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                      size="lg"
+                    >
+                      <MapPin className="h-4 w-4 mr-2" />
+                      Enable Guide Mode
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
 
