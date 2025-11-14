@@ -382,19 +382,6 @@ export default function VendorSalesReportPage() {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="paymentMode">Payment Mode (Optional)</Label>
-                  <Select value={paymentMode || "all"} onValueChange={(value) => setPaymentMode(value === "all" ? "" : value)}>
-                    <SelectTrigger id="paymentMode">
-                      <SelectValue placeholder="All modes" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Modes</SelectItem>
-                      <SelectItem value="credit">Credit</SelectItem>
-                      <SelectItem value="debit">Debit</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
             </CardContent>
           </Card>
