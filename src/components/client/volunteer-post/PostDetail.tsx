@@ -1,5 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useVolunteerPost, useLikeVolunteerPost, useUnlikeVolunteerPost } from "@/hooks/volunteer-post/useVolunteerPost";
+import {
+  useVolunteerPost,
+  useLikeVolunteerPost,
+  useUnlikeVolunteerPost,
+} from "@/hooks/volunteer-post/useVolunteerPost";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,15 +22,74 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useClientAuth } from "@/hooks/auth/useAuth";
+import { useCreateGuideChatRoom } from "@/hooks/guide-chat/useGuideChat";
 import toast from "react-hot-toast";
+import { BadgeDisplay } from "@/components/local-guide-badges/BadgeDisplay";
+import { useGuideBadges } from "@/hooks/badge/useBadge";
+import { useMemo } from "react";
 
 export function PostDetail() {
   const { postId } = useParams<{ postId: string }>();
   const navigate = useNavigate();
-  const { isLoggedIn } = useClientAuth();
+  const { isLoggedIn, clientInfo } = useClientAuth();
   const { data, isLoading, error } = useVolunteerPost(postId || "", true);
   const { mutateAsync: likePost, isPending: isLiking } = useLikeVolunteerPost();
-  const { mutateAsync: unlikePost, isPending: isUnliking } = useUnlikeVolunteerPost();
+  const { mutateAsync: unlikePost, isPending: isUnliking } =
+    useUnlikeVolunteerPost();
+  const { mutateAsync: openGuideChat, isPending: isOpeningChat } =
+    useCreateGuideChatRoom();
+
+  // Always call hooks before any conditional returns
+  const guideProfileId = data?.post?.localGuideProfileId || "";
+  const { data: badgesData } = useGuideBadges(guideProfileId, !!guideProfileId);
+
+  // Fallback: If API fails, we can't show badges (no profile data in post)
+  const displayBadges = useMemo(() => {
+    if (badgesData && badgesData.allBadges && badgesData.allBadges.length > 0) {
+      return badgesData.allBadges;
+    }
+    return [];
+  }, [badgesData]);
+
+  const earnedBadgeIds = useMemo(() => {
+    if (badgesData && badgesData.earnedBadges) {
+      return badgesData.earnedBadges;
+    }
+    return [];
+  }, [badgesData]);
+  const handleContactGuide = async () => {
+    if (!isLoggedIn || !clientInfo?.id) {
+      toast.error("Login to chat with local guides");
+      navigate("/login");
+      return;
+    }
+
+    if (!guide?._id || !guide.userId) {
+      toast.error("Guide details are missing");
+      return;
+    }
+
+    if (guide.userId === clientInfo.id) {
+      toast.error("You cannot chat with yourself as the guide.");
+      return;
+    }
+
+    try {
+      const response = await openGuideChat({
+        travellerId: clientInfo.id,
+        guideId: guide.userId,
+        guideProfileId: guide._id,
+        postId: post._id,
+      });
+      navigate("/volunteering/guide-chat", {
+        state: { guideChatRoomId: response.room._id },
+      });
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || "Unable to start chat right now"
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -135,7 +198,9 @@ export function PostDetail() {
                         </Badge>
                       )}
                     </div>
-                    <CardTitle className="text-3xl mb-3">{post.title}</CardTitle>
+                    <CardTitle className="text-3xl mb-3">
+                      {post.title}
+                    </CardTitle>
                     <p className="text-slate-600 text-lg">{post.description}</p>
                   </div>
                 </div>
@@ -145,7 +210,8 @@ export function PostDetail() {
                 <div className="flex items-center gap-2 text-slate-600 mb-4">
                   <MapPin className="w-5 h-5 text-[#2CA4BC]" />
                   <span className="font-medium">
-                    {post.location.city}, {post.location.state}, {post.location.country}
+                    {post.location.city}, {post.location.state},{" "}
+                    {post.location.country}
                   </span>
                   {post.distance && (
                     <span className="text-slate-400">
@@ -168,7 +234,9 @@ export function PostDetail() {
                       disabled={isPending || !isLoggedIn}
                       title={isLiked ? "Click to unlike" : "Click to like"}
                       className={`h-auto p-2 hover:bg-red-50 transition-colors cursor-pointer ${
-                        isLiked ? "text-red-500 hover:text-red-600" : "text-slate-600 hover:text-red-500"
+                        isLiked
+                          ? "text-red-500 hover:text-red-600"
+                          : "text-slate-600 hover:text-red-500"
                       }`}
                     >
                       <Heart
@@ -207,7 +275,10 @@ export function PostDetail() {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {post.images.map((image, idx) => (
-                      <div key={idx} className="relative overflow-hidden rounded-lg">
+                      <div
+                        key={idx}
+                        className="relative overflow-hidden rounded-lg"
+                      >
                         <img
                           src={image}
                           alt={`${post.title} - Image ${idx + 1}`}
@@ -330,17 +401,39 @@ export function PostDetail() {
                     )}
                   </div>
 
+                  {/* Badges Section */}
+                  {displayBadges.length > 0 && earnedBadgeIds.length > 0 && (
+                    <>
+                      <Separator className="my-4" />
+                      <div>
+                        <p className="text-sm font-medium text-slate-700 mb-3">
+                          Badges ({earnedBadgeIds.length})
+                        </p>
+                        <BadgeDisplay
+                          badges={displayBadges}
+                          maxDisplay={4}
+                          size="sm"
+                          compact={true}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   {post.offersGuideService && (
                     <>
                       <Separator className="my-4" />
                       <Button
-                        className="w-full bg-gradient-to-r from-[#2CA4BC] to-[#1a5f6b] text-white hover:from-[#2CA4BC]/90 hover:to-[#1a5f6b]/90"
-                        onClick={() => {
-                          // Navigate to guide profile or contact
-                          toast.success("Guide service contact feature coming soon!");
-                        }}
+                        className="w-full bg-gradient-to-r from-[#F5F1E8] via-[#F5F1E8]/80 to-transparent text-[#8C6A3B] border border-[#E3D5C5] hover:bg-[#F5F1E8]"
+                        onClick={handleContactGuide}
+                        disabled={
+                          isOpeningChat || guide?.userId === clientInfo?.id
+                        }
                       >
-                        Contact Guide
+                        {guide?.userId === clientInfo?.id
+                          ? "You are the guide"
+                          : isOpeningChat
+                          ? "Starting chat..."
+                          : "Chat with this guide"}
                       </Button>
                     </>
                   )}
@@ -353,5 +446,3 @@ export function PostDetail() {
     </div>
   );
 }
-
-

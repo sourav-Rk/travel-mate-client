@@ -14,6 +14,8 @@ import {
 import { useLocalGuideProfileQuery } from "@/hooks/local-guide/useLocalGuideVerification";
 import { useClientAuth } from "@/hooks/auth/useAuth";
 import { useMyPosts } from "@/hooks/volunteer-post/useVolunteerPost";
+import { BadgeDisplay } from "@/components/local-guide-badges/BadgeDisplay";
+import { useGuideBadges } from "@/hooks/badge/useBadge";
 
 export function VolunteerPostProfileCard() {
   const navigate = useNavigate();
@@ -24,13 +26,18 @@ export function VolunteerPostProfileCard() {
     { page: 1, limit: 1 },
     !!profile?._id && isLoggedIn
   );
+  const { data: badgesData } = useGuideBadges(
+    profile?._id || "",
+    !!profile?._id && isLoggedIn && profile?.verificationStatus === "verified"
+  );
 
   if (!isLoggedIn || !profile) {
     return null;
   }
 
   const totalPosts = postsData?.total || 0;
-  const publishedPosts = postsData?.posts?.filter((p) => p.status === "published").length || 0;
+  const publishedPosts =
+    postsData?.posts?.filter((p) => p.status === "published").length || 0;
 
   const getStatusBadge = () => {
     switch (profile.verificationStatus) {
@@ -67,7 +74,9 @@ export function VolunteerPostProfileCard() {
           <Avatar className="h-20 w-20 border-4 border-[#F5F1E8] mb-3">
             <AvatarImage
               src={profile.profileImage || profile.userDetails?.profileImage}
-              alt={`${profile.userDetails?.firstName || ""} ${profile.userDetails?.lastName || ""}`}
+              alt={`${profile.userDetails?.firstName || ""} ${
+                profile.userDetails?.lastName || ""
+              }`}
             />
             <AvatarFallback className="bg-gradient-to-br from-[#2CA4BC] to-[#1a5f6b] text-white text-2xl font-semibold">
               {profile.userDetails?.firstName?.[0] || "G"}
@@ -77,7 +86,9 @@ export function VolunteerPostProfileCard() {
           <h3 className="text-xl font-bold text-slate-900 mb-1">
             {profile.userDetails?.firstName && profile.userDetails?.lastName
               ? `${profile.userDetails.firstName} ${profile.userDetails.lastName}`
-              : profile.userDetails?.firstName || profile.userDetails?.lastName || "Local Guide"}
+              : profile.userDetails?.firstName ||
+                profile.userDetails?.lastName ||
+                "Local Guide"}
           </h3>
           {getStatusBadge()}
         </div>
@@ -89,7 +100,9 @@ export function VolunteerPostProfileCard() {
             <p className="text-xs text-slate-600">Total Posts</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-[#2CA4BC]">{publishedPosts}</p>
+            <p className="text-2xl font-bold text-[#2CA4BC]">
+              {publishedPosts}
+            </p>
             <p className="text-xs text-slate-600">Published</p>
           </div>
         </div>
@@ -109,16 +122,35 @@ export function VolunteerPostProfileCard() {
           {profile.hourlyRate > 0 && (
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-600">Hourly Rate</span>
-              <span className="font-semibold text-[#1a5f6b]">₹{profile.hourlyRate}</span>
+              <span className="font-semibold text-[#1a5f6b]">
+                ₹{profile.hourlyRate}
+              </span>
             </div>
           )}
           {profile.languages && profile.languages.length > 0 && (
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-600">Languages</span>
-              <span className="font-semibold text-[#1a5f6b]">{profile.languages.length}</span>
+              <span className="font-semibold text-[#1a5f6b]">
+                {profile.languages.length}
+              </span>
             </div>
           )}
         </div>
+
+        {/* Badges Section */}
+        {badgesData && badgesData.earnedBadges.length > 0 && (
+          <div className="mb-4 pt-4 border-t border-slate-200">
+            <p className="text-sm font-medium text-slate-700 mb-3 text-center">
+              Badges ({badgesData.totalEarned})
+            </p>
+            <BadgeDisplay
+              badges={badgesData.allBadges}
+              maxDisplay={4}
+              size="sm"
+              compact={true}
+            />
+          </div>
+        )}
 
         {/* View Profile Button */}
         <Button
@@ -133,5 +165,3 @@ export function VolunteerPostProfileCard() {
     </Card>
   );
 }
-
-

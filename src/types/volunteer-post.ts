@@ -22,6 +22,7 @@ export interface PostLocation {
 
 export interface GuideDetails {
   _id: string;
+  userId?:string;
   firstName: string;
   lastName: string;
   email: string;

@@ -5,9 +5,15 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useClientAuth } from "@/hooks/auth/useAuth";
-import { useLikeVolunteerPost, useUnlikeVolunteerPost } from "@/hooks/volunteer-post/useVolunteerPost";
+import {
+  useLikeVolunteerPost,
+  useUnlikeVolunteerPost,
+} from "@/hooks/volunteer-post/useVolunteerPost";
 import toast from "react-hot-toast";
 import type { VolunteerPost } from "@/types/volunteer-post";
+import { BadgeDisplay } from "@/components/local-guide-badges/BadgeDisplay";
+import { useGuideBadges } from "@/hooks/badge/useBadge";
+import { useMemo } from "react";
 
 interface PostCardProps {
   post: VolunteerPost;
@@ -27,7 +33,28 @@ export function PostCard({
   const navigate = useNavigate();
   const { isLoggedIn } = useClientAuth();
   const { mutateAsync: likePost, isPending: isLiking } = useLikeVolunteerPost();
-  const { mutateAsync: unlikePost, isPending: isUnliking } = useUnlikeVolunteerPost();
+  const { mutateAsync: unlikePost, isPending: isUnliking } =
+    useUnlikeVolunteerPost();
+  const guideProfileId = post.localGuideProfileId;
+  const { data: badgesData, isLoading: isLoadingBadges } = useGuideBadges(
+    guideProfileId,
+    !!guideProfileId
+  );
+
+  // Fallback: If API fails, we can't show badges (no profile data in post)
+  const displayBadges = useMemo(() => {
+    if (badgesData && badgesData.allBadges && badgesData.allBadges.length > 0) {
+      return badgesData.allBadges;
+    }
+    return [];
+  }, [badgesData]);
+
+  const earnedBadgeIds = useMemo(() => {
+    if (badgesData && badgesData.earnedBadges) {
+      return badgesData.earnedBadges;
+    }
+    return [];
+  }, [badgesData]);
 
   const isLiked = post.isLiked || false;
   const isPending = isLiking || isUnliking;
@@ -122,7 +149,9 @@ export function PostCard({
 
             {/* Category Badge */}
             <Badge
-              className={`absolute top-3 left-3 ${getCategoryColor(post.category)}`}
+              className={`absolute top-3 left-3 ${getCategoryColor(
+                post.category
+              )}`}
             >
               {post.category.replace("-", " ")}
             </Badge>
@@ -130,7 +159,9 @@ export function PostCard({
             {/* Status Badge */}
             {showActions && (
               <Badge
-                className={`absolute top-3 right-3 ${getStatusColor(post.status)}`}
+                className={`absolute top-3 right-3 ${getStatusColor(
+                  post.status
+                )}`}
               >
                 {post.status.charAt(0).toUpperCase() + post.status.slice(1)}
               </Badge>
@@ -209,7 +240,9 @@ export function PostCard({
                     disabled={isPending || !isLoggedIn}
                     title={isLiked ? "Click to unlike" : "Click to like"}
                     className={`h-auto p-1 hover:bg-red-50 transition-colors cursor-pointer ${
-                      isLiked ? "text-red-500 hover:text-red-600" : "text-slate-500 hover:text-red-500"
+                      isLiked
+                        ? "text-red-500 hover:text-red-600"
+                        : "text-slate-500 hover:text-red-500"
                     }`}
                   >
                     <Heart
@@ -227,6 +260,18 @@ export function PostCard({
                   </div>
                 )}
               </div>
+
+              {/* Guide Badges */}
+              {displayBadges.length > 0 && earnedBadgeIds.length > 0 && (
+                <div className="mb-4 pt-2 border-t border-slate-200">
+                  <BadgeDisplay
+                    badges={displayBadges}
+                    maxDisplay={3}
+                    size="sm"
+                    compact={true}
+                  />
+                </div>
+              )}
 
               {/* Actions */}
               <div className="flex gap-3 mt-auto">
@@ -261,4 +306,3 @@ export function PostCard({
     </motion.div>
   );
 }
-

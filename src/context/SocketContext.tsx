@@ -1,5 +1,6 @@
 // context/SocketContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import type { Socket } from 'socket.io-client';
 import { 
   connectSocket, 
   disconnectSocket, 
@@ -9,7 +10,7 @@ import {
 import { useClientAuth } from '../hooks/auth/useAuth';
 
 interface SocketContextType {
-  socket: any | null;
+  socket: Socket | null;
   isConnected: boolean;
 }
 
@@ -29,7 +30,7 @@ export const useSocket = () => {
 export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const user = useClientAuth();
   const [isConnected, setIsConnected] = useState(false);
-  const [socket, setSocket] = useState(getSocket());
+  const [socket, setSocket] = useState<Socket | null>(getSocket());
 
   useEffect(() => {
     const currentUserId = user?.clientInfo?.id || user?.clientInfo?.role|| null;

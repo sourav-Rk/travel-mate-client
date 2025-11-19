@@ -41,9 +41,9 @@ const GuideRouter = () => {
         <Route path="change-password" element={<GuidePasswordChangePage />} />
         <Route path="assigned-trips" element={<AssignedTripsPage />} />
         <Route path="package/:packageId" element={<GuidePackageDetailsPage />} />
-        <Route path="bookings/users/:bookingId" element={<BookingDetailsGuidePage/>}/>
+        <Route path="bookings/users/:bookingId" element={<BookingDetailsGuidePage/>}/>   
         <Route path="bookings/:packageId" element={<BookingListGuidePage/>}/>   
-        <Route path="chat/:clientId/:bookingId" element={<GuideClientChatPage/>}/>   
+        <Route path="chat/:clientId/:bookingId" element={<GuideClientChatPage/>}/>
       </Route>
       <Route path="/groups" element={<ProtectedRoute allowedRoles={["guide"]} element={<GroupChatPage/>}/>}/>
       <Route path="*" element={<NotFoundPage />} />

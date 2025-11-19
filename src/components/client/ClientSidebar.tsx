@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   X,
+  Compass,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";

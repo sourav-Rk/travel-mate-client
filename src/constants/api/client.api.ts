@@ -74,5 +74,10 @@ export const CLIENT_API = {
 
   // ================== IMAGES ==================
   UPLOAD_IMAGES: "/client/images/upload",
+
+  // ================== BADGES ==================
+  GET_ALL_BADGES: "/client/local-guide/badges",
+  GET_GUIDE_BADGES: "/client/local-guide/my-badges",
+  EVALUATE_BADGES: "/client/local-guide/evaluate-badges",
   
 };

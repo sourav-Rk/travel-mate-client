@@ -23,6 +23,7 @@ import CheckoutPage from "@/pages/user/CheckoutPage";
 import PaymentCancelledPage from "@/pages/user/PaymentCancelledPage";
 import WishlistPageClient from "@/pages/user/WishlistPage";
 import GuideDetailsPage from "@/pages/user/GuideDetailsPage";
+import GuideServiceChatPage from "@/pages/user/GuideServiceChatPage";
 import ClientGuideChatPage from "@/pages/user/ClientGuideChatPage";
 import ChatPage from "@/pages/chatSidebar/ChatSidebarPage";
 import ClientWalletPage from "@/pages/user/ClientWalletPage";
@@ -36,6 +37,9 @@ import MyVolunteerPostsPage from "@/pages/user/MyVolunteerPostsPage";
 import LocalGuideProfilePage from "@/pages/user/LocalGuideProfilePage";
 import { VolunteeringLayout } from "@/components/client/volunteer-post/layout/VolunteeringLayout";
 import { VerificationCheck } from "@/components/client/local-guide/VerificationCheck";
+import LocalGuideBookingsPage from "@/pages/user/LocalGuideBookingsPage";
+import LocalGuideBookingDetailsPage from "@/pages/user/LocalGuideBookingDetailsPage";
+import GuideLocalGuideBookingsPage from "@/pages/user/GuideLocalGuideBookingsPage";
 
 const ClientRouter = () => {
   return (
@@ -90,7 +94,12 @@ const ClientRouter = () => {
           <Route path="posts/create" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
           <Route path="posts/edit/:postId" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
           <Route path="my-posts" element={<VerificationCheck><MyVolunteerPostsPage/></VerificationCheck>}/>
+          <Route path="local-guide/bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<LocalGuideBookingsPage/>}/>}/>
+          <Route path="local-guide/bookings/:bookingId" element={<ProtectedRoute allowedRoles={["client"]} element={<LocalGuideBookingDetailsPage/>}/>}/>
+          <Route path="local-guide/my-service-bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<GuideLocalGuideBookingsPage/>}/>}/>
+    
         </Route>
+         <Route path="/volunteering/guide-chat" element={<GuideServiceChatPage />} />
 
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
          <Route path="/groups" element={<ProtectedRoute allowedRoles={["client"]} element={<GroupChatSidebarPage/>}/>}/>

@@ -1,3 +1,4 @@
+import type { Badge } from "../badge";
 import type { BookingDetailsClientDto, BookingListDTO, ClientBookingDetailDto, PaymentResponseDto } from "../bookingType";
 import type { ChatMessage } from "../chat";
 import type { PaginatedResponse, PaginatedResponseData, ResponseWith, ResponseWithData } from "../common";
@@ -65,3 +66,4 @@ export type IGetInstructionsClientResponse = ResponseWith<"data",IGuideInstructi
 export type IGetVendorDetailsForClientResponse = ResponseWith<"data",VendorDetailsForClientDto>;
 export type IGetGroupsResponse = ResponseWithData<GroupChatDo[]>;
 export type IGetGroupDetailsResponse = ResponseWithData<GroupChatDetailsDto>;
+export type IGetLocalGuideBadgesResponse = ResponseWithData<{earnedBadges:string[];allBadges:Badge[]}>
