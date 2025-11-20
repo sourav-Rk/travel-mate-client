@@ -19,3 +19,4 @@ export const getGuideBadges = async (
     totalAvailable: data.allBadges.length,
   };
 };
+

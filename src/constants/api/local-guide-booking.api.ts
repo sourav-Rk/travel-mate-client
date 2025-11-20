@@ -25,3 +25,4 @@ export const LOCAL_GUIDE_BOOKING_API = {
   GET_GUIDE_BOOKINGS: "/client/local-guide/my-service-bookings",
 };
 
+
