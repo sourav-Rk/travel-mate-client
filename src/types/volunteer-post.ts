@@ -31,6 +31,8 @@ export interface GuideDetails {
   specialties: string[];
   languages: string[];
   hourlyRate: number;
+  gender ?: string;
+  isAvailable?:boolean;
 }
 
 export interface VolunteerPost {

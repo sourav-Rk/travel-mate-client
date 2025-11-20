@@ -1,5 +1,7 @@
+import { CLIENT_API } from "@/constants/api/client.api";
 import { server } from "../server";
 import { LOCAL_GUIDE_API } from "@/constants/api/local-guide.api";
+import type { IGetLocalGuidePublicProfileResponse } from "@/types/api/client";
 import type {
   RequestVerificationRequest,
   RequestVerificationResponse,
@@ -12,7 +14,6 @@ import type {
   UpdateProfileResponse,
 } from "@/types/local-guide";
 
-
 // ================== CLIENT ROUTES ==================
 
 export const requestLocalGuideVerification = async (
@@ -24,20 +25,26 @@ export const requestLocalGuideVerification = async (
   );
 };
 
-export const getLocalGuideProfile = async (): Promise<{ success: boolean; profile?: LocalGuideProfile; message?: string }> => {
-  return server.get<{ success: boolean; profile?: LocalGuideProfile; message?: string }>(
-    LOCAL_GUIDE_API.GET_PROFILE
-  );
+export const getLocalGuideProfile = async (): Promise<{
+  success: boolean;
+  profile?: LocalGuideProfile;
+  message?: string;
+}> => {
+  return server.get<{
+    success: boolean;
+    profile?: LocalGuideProfile;
+    message?: string;
+  }>(LOCAL_GUIDE_API.GET_PROFILE);
 };
 
 export const updateLocalGuideAvailability = async (data: {
   isAvailable: boolean;
   availabilityNote?: string;
 }): Promise<{ success: boolean; message?: string }> => {
-  return server.patch<{ success: boolean; message?: string }, { isAvailable: boolean; availabilityNote?: string }>(
-    LOCAL_GUIDE_API.UPDATE_AVAILABILITY,
-    data
-  );
+  return server.patch<
+    { success: boolean; message?: string },
+    { isAvailable: boolean; availabilityNote?: string }
+  >(LOCAL_GUIDE_API.UPDATE_AVAILABILITY, data);
 };
 
 export const updateLocalGuideProfile = async (
@@ -46,6 +53,14 @@ export const updateLocalGuideProfile = async (
   return server.patch<UpdateProfileResponse, UpdateProfileRequest>(
     LOCAL_GUIDE_API.UPDATE_PROFILE,
     data
+  );
+};
+
+export const getLocalGuidePublicProfile = async (
+  profileId: string
+): Promise<IGetLocalGuidePublicProfileResponse> => {
+  return server.get<IGetLocalGuidePublicProfileResponse>(
+    CLIENT_API.GET_PUBLIC_LOCAL_GUIDE_PROFILE(profileId)
   );
 };
 
@@ -93,4 +108,3 @@ export const rejectLocalGuide = async (
     data
   );
 };
-

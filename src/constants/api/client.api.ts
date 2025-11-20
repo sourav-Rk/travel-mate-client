@@ -79,5 +79,9 @@ export const CLIENT_API = {
   GET_ALL_BADGES: "/client/local-guide/badges",
   GET_GUIDE_BADGES: "/client/local-guide/my-badges",
   EVALUATE_BADGES: "/client/local-guide/evaluate-badges",
+  GET_PUBLIC_LOCAL_GUIDE_PROFILE: (profileId: string) =>
+    `/client/local-guide/public-profile/${profileId}`,
+  LOCAL_GUIDE_SEARCH_BY_LOCATION: "/client/local-guide/search-by-location",
+  VOLUNTEER_POSTS_SEARCH_BY_LOCATION: "/client/volunteer-post/search-by-location",
   
 };

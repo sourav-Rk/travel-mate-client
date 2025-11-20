@@ -8,6 +8,8 @@ import type { INotificationEntity } from "../notificationType";
 import type { PackageDetails, PackageListingUserSideDto } from "../packageType";
 import type { ReviewListDto } from "../reviewType";
 import type { GetWalletDto, WalletTransactions } from "../wallet";
+import type { GuideLocation, VolunteerPostLocation } from "../map";
+import type { LocalGuidePublicProfileDto } from "../local-guide";
 
 export interface GuideDetailsForClientDto{
   _id : string;
@@ -67,3 +69,6 @@ export type IGetVendorDetailsForClientResponse = ResponseWith<"data",VendorDetai
 export type IGetGroupsResponse = ResponseWithData<GroupChatDo[]>;
 export type IGetGroupDetailsResponse = ResponseWithData<GroupChatDetailsDto>;
 export type IGetLocalGuideBadgesResponse = ResponseWithData<{earnedBadges:string[];allBadges:Badge[]}>
+export type IGetGuidesByLocationResponse = PaginatedResponse<"guides", GuideLocation>;
+export type IGetVolunteerPostsByLocationResponse = PaginatedResponse<"posts", VolunteerPostLocation>;
+export type IGetLocalGuidePublicProfileResponse = ResponseWith<"profile",LocalGuidePublicProfileDto>;

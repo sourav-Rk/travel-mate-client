@@ -12,19 +12,19 @@ export interface QuoteLocation {
 export interface Quote {
   quoteId: string;
   guideChatRoomId: string;
-  sessionDate: string; // ISO date string
-  sessionTime: string; // HH:mm format
+  sessionDate: string; 
+  sessionTime: string; 
   hours: number;
   hourlyRate: number;
   totalAmount: number;
   location?: QuoteLocation;
   notes?: string;
   status: QuoteStatus;
-  expiresAt: string; // ISO date string
-  createdAt: string; // ISO date string
-  createdBy: string; // guideId
-  guideName?: string; // Guide's name (for display)
-  guideProfileImage?: string; // Guide's profile image (for display)
+  expiresAt: string; 
+  createdAt: string; 
+  createdBy: string;
+  guideName?: string;
+  guideProfileImage?: string; 
 }
 
 export interface CreateQuoteRequest {
@@ -94,7 +94,7 @@ export interface LocalGuideBooking {
   };
   serviceCompletedAt?: string;
   completionNotes?: string;
-  completionRating?: number; // 1-5 rating
+  completionRating?: number; 
   cancelledAt?: string;
   cancellationRequest?: {
     requestedAt: string;

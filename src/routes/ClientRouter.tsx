@@ -40,6 +40,8 @@ import { VerificationCheck } from "@/components/client/local-guide/VerificationC
 import LocalGuideBookingsPage from "@/pages/user/LocalGuideBookingsPage";
 import LocalGuideBookingDetailsPage from "@/pages/user/LocalGuideBookingDetailsPage";
 import GuideLocalGuideBookingsPage from "@/pages/user/GuideLocalGuideBookingsPage";
+import { LocalGuideDetails } from "@/components/client/local-guide/LocalGuideDetails";
+import { VolunteeringMapPage } from "@/pages/user/VolunteeringMapPage";
 
 const ClientRouter = () => {
   return (
@@ -58,6 +60,7 @@ const ClientRouter = () => {
           <Route path="volunteering" element={ <VerificationCheck><VolunteeringLanding /></VerificationCheck>}/>
           <Route path="volunteer-posts" element={<VolunteerPostsPage/>}/>
           <Route path="volunteer-posts/:postId" element={<VolunteerPostDetailPage/>}/>
+          <Route path="local-guide/details/:profileId" element={<LocalGuideDetails/>}/>
         </Route>
         
         {/* authentication routes */}
@@ -100,6 +103,7 @@ const ClientRouter = () => {
     
         </Route>
          <Route path="/volunteering/guide-chat" element={<GuideServiceChatPage />} />
+         <Route path="/volunteering/map" element={<VolunteeringMapPage/>}/>
 
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
          <Route path="/groups" element={<ProtectedRoute allowedRoles={["client"]} element={<GroupChatSidebarPage/>}/>}/>

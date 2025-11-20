@@ -1,4 +1,8 @@
-export type VerificationStatus = "pending" | "reviewing" | "verified" | "rejected";
+export type VerificationStatus =
+  | "pending"
+  | "reviewing"
+  | "verified"
+  | "rejected";
 
 export interface Location {
   coordinates: [number, number]; // [longitude, latitude]
@@ -32,6 +36,8 @@ export interface LocalGuideProfile {
     firstName: string;
     lastName: string;
     email: string;
+    phone?: string;
+    gender?: string;
     profileImage?: string;
   };
   verificationStatus: VerificationStatus;
@@ -115,3 +121,38 @@ export interface UpdateProfileResponse {
   message: string;
 }
 
+export interface LocalGuidePublicProfileDto {
+  _id: string;
+  userId: string;
+  userDetails?: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string;
+    gender?: string;
+    profileImage?: string;
+  };
+  location: Location;
+  hourlyRate: number;
+  languages: string[];
+  specialties: string[];
+  bio?: string;
+  profileImage?: string;
+  isAvailable: boolean;
+  availabilityNote?: string;
+  stats: {
+    totalSessions: number;
+    completedSessions: number;
+    averageRating: number;
+    totalRatings: number;
+    totalPosts: number;
+    totalEarnings: number;
+    completionRate: number;
+    maxPostLikes: number;
+    maxPostViews: number;
+    totalLikes: number;
+    totalViews: number;
+  };
+  badges: string[];
+}
