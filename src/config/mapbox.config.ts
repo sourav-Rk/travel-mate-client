@@ -23,3 +23,4 @@ export const mapboxConfig = {
 export type MapboxConfig = typeof mapboxConfig;
 
 
+

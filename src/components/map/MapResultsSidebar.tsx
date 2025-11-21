@@ -554,3 +554,4 @@ export const MapResultsSidebar = ({
     </aside>
   );
 };
+
