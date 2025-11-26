@@ -24,8 +24,10 @@ export function connectSocket(): Socket {
 
   console.log('🆕 Creating new socket instance...');
   connectionInProgress = true;
+
+  const SOCKET_URL=import.meta.env.VITE_SOCKET_URL
   
-  socket = io('http://localhost:5000', {
+  socket = io(SOCKET_URL, {
     transports: ['websocket', 'polling'],
     withCredentials: true,
     reconnection: true,
