@@ -12,6 +12,8 @@ import VendorManagementPage from "@/pages/admin/VendorManagement"
 import SalesReportPage from "@/pages/admin/SalesReportPage"
 import LocalGuideVerificationPage from "@/pages/admin/LocalGuideVerificationPage"
 import LocalGuideVerificationDetailPage from "@/pages/admin/LocalGuideVerificationDetailPage"
+import BadgeManagementPage from "@/pages/admin/BadgeManagementPage"
+import { BadgeForm } from "@/components/admin/badge/BadgeForm"
 import { ProtectedRoute } from "@/protected/ProtectedRoute"
 import { NoAuthRoute } from "@/protected/PubliceRoute"
 import { Route, Routes } from "react-router-dom"
@@ -32,6 +34,9 @@ const AdminRouter = () => {
             <Route path="sales-report" element={<SalesReportPage/>}/>
             <Route path="local-guides" element={<LocalGuideVerificationPage/>}/>
             <Route path="local-guides/:profileId" element={<LocalGuideVerificationDetailPage/>}/>
+            <Route path="badges" element={<BadgeManagementPage/>}/>
+            <Route path="badges/create" element={<BadgeForm/>}/>
+            <Route path="badges/:badgeId/edit" element={<BadgeForm/>}/>
             </Route>
             <Route path="*" element={<NotFoundPage />} /> 
         </Routes>

@@ -17,6 +17,67 @@ export interface GuideBadgesResponse {
 }
 
 
+//----------------ADMIN BADGE DTO----------------
+
+export interface BadgeCriteria {
+  type: string;
+  value: number;
+  additionalCondition?: {
+    type: string;
+    value: number;
+  };
+}
+
+export interface BadgeDto {
+  id: string;
+  badgeId: string;
+  name: string;
+  description: string;
+  category: "service" | "content" | "engagement" | "achievement";
+  icon?: string;
+  criteria: BadgeCriteria[];
+  priority?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateBadgePayload {
+  badgeId: string;
+  name: string;
+  description: string;
+  category: "service" | "content" | "engagement" | "achievement";
+  icon?: string;
+  criteria: BadgeCriteria[];
+  priority?: number;
+}
+
+export interface UpdateBadgePayload {
+  name?: string;
+  description?: string;
+  category?: "service" | "content" | "engagement" | "achievement";
+  icon?: string;
+  criteria?: BadgeCriteria[];
+  priority?: number;
+  isActive?: boolean;
+}
+
+export interface GetBadgesFilters {
+  isActive?: boolean;
+  category?: "service" | "content" | "engagement" | "achievement";
+  search?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface PaginatedBadgesResponse {
+  success: boolean;
+  badges: BadgeDto[];
+  currentPage: number;
+  totalPages: number;
+  message?: string;
+}
+
 
 
 

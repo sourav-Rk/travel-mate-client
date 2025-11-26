@@ -22,4 +22,11 @@ export const ADMIN_API = {
 
   // ================== SALES REPORT ==================
   GET_SALES_REPORT: "/admin/sales-report",
+
+  // ================== BADGES ==================
+  GET_ALL_BADGES: "/admin/badges",
+  GET_BADGE_BY_ID: (badgeId: string) => `/admin/badges/${badgeId}`,
+  CREATE_BADGE: "/admin/badges",
+  UPDATE_BADGE: (badgeId: string) => `/admin/badges/${badgeId}`,
+  DELETE_BADGE: (badgeId: string) => `/admin/badges/${badgeId}`,
 };
