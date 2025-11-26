@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useSignupMutation } from "@/hooks/auth/useSignup"
 import { useResendOtpMutation } from "@/hooks/auth/useResendOtp"
+import type { ApiError } from "@/types/api/api"
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState("")
@@ -35,14 +36,14 @@ export default function OtpVerification() {
                 const signupResponse = await signup(email);
                 toast.success(`${signupResponse.message}`);
                 navigate("/");
-            }catch(signupError : any){
-                toast.error(signupError || "failed")
+            }catch(signupError : unknown){
+                toast.error(signupError as string || "failed")
             }finally{
                 setIsVerifying(false)
             }
         }, 
-        onError :(error : any) =>{
-            toast.error(error?.response?.data.message);
+        onError :(error : ApiError) =>{
+            toast.error(error?.response?.data?.message || "failed");
             console.log(error)
             setIsVerifying(false);
         }
@@ -58,8 +59,8 @@ const handleResend = async () => {
       toast.success(`${response.message}`);
       setIsResending(false);
     },
-    onError: (error: any) => {
-      toast.error(error);
+    onError: (error: unknown) => {
+      toast.error(error as string);
       setIsResending(false);
     },
   });

@@ -9,8 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Search, Filter } from "lucide-react"
 
+interface PackageFilters {
+  search: string
+  categories: string[]
+  priceRange: number[]
+  duration: string
+  sortBy: string
+}
+
 interface PackageFiltersProps {
-  onFiltersChange?: (filters: any) => void
+  onFiltersChange?: (filters: PackageFilters) => void
 }
 
 export default function PackageFilters({ onFiltersChange }: PackageFiltersProps) {

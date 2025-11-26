@@ -5,6 +5,7 @@ import TypingIndicator from "./TypingIndicator";
 import ChatComposer from "./ChatComposer";
 import type { ChatMessage, Participant, ContextType, MediaAttachment } from "@/types/chat";
 import { useSocket } from "@/context/SocketContext";
+import type { DeliveryEventData, ReadEventData, SocketResponse, TypingEventData } from "@/types/socketType";
 
 interface ChatWindowProps {
   self: Participant;
@@ -18,6 +19,8 @@ interface ChatWindowProps {
   className?: string;
   showHeader?: boolean;
 }
+
+
 
 export default function ChatWindow({
   self,
@@ -54,7 +57,7 @@ export default function ChatWindow({
         chatRoomId,
         userId: self.id,
       },
-      (response: any) => {
+      (response: {success : boolean}) => {
         if (response?.success) {
           hasMarkedDeliveredRef.current = true;
         }
@@ -72,7 +75,7 @@ export default function ChatWindow({
         chatRoomId,
         userId: self.id,
       },
-      (response: any) => {
+      (response: {success : boolean}) => {
         if (response?.success) {
           console.log("✅ Messages marked as read");
           hasMarkedReadRef.current = true;
@@ -138,13 +141,13 @@ export default function ChatWindow({
   useEffect(() => {
     if (!socket) return;
 
-    const handleUserTyping = (data: any) => {
+    const handleUserTyping = (data: TypingEventData) => {
       if (data.userId === other.id) {
         setIsTyping(true);
       }
     };
 
-    const handleUserStoppedTyping = (data: any) => {
+    const handleUserStoppedTyping = (data: TypingEventData) => {
       if (data.userId === other.id) {
         setIsTyping(false);
       }
@@ -223,7 +226,7 @@ export default function ChatWindow({
       setTimeout(() => scrollToBottom(), 100);
     };
 
-    const handleMessagesDelivered = (data: any) => {
+    const handleMessagesDelivered = (data: DeliveryEventData) => {
       console.log("📨 Messages delivered event:", data);
       if (data.userId === other.id) {
         setMessages((prev) =>
@@ -238,7 +241,7 @@ export default function ChatWindow({
       }
     };
 
-    const handleMessagesRead = (data: any) => {
+    const handleMessagesRead = (data: ReadEventData) => {
       console.log("👀 Messages read event:", data);
       if (data.userId === other.id) {
         setMessages((prev) =>
@@ -386,7 +389,7 @@ export default function ChatWindow({
         contextType: contextType,
         contextId: contextId,
       },
-      (response: any) => {
+      (response: SocketResponse) => {
         if (response?.success && response?.message) {
           const serverMediaAttachments = 
             response.message.mediaAttachments && 
@@ -425,7 +428,7 @@ export default function ChatWindow({
           setMessages((prev) =>
             prev.map((msg) =>
               msg._id === optimisticMessage._id
-                ? { ...msg, status: "failed" as any }
+                ? { ...msg, status: "failed" }
                 : msg
             )
           );

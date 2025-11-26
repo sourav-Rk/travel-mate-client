@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { GroupChatDo } from "@/types/group-chatType";
@@ -28,7 +28,7 @@ function getMemberCountText(members: GroupChatDo["members"]): string {
   return `${count} members`;
 }
 
-function getOnlineStatusText(onlineMembers: string[], totalMembers: number): string {
+function getOnlineStatusText(onlineMembers: string[]): string {
   const onlineCount = onlineMembers.length;
   if (onlineCount === 0) return "No one online";
   if (onlineCount === 1) return "1 online";
@@ -59,7 +59,7 @@ export function GroupChatHeader({
   }
 
   const memberCount = getMemberCountText(groupChat.members);
-  const onlineStatus = getOnlineStatusText(onlineMembers, groupChat.members.length);
+  const onlineStatus = getOnlineStatusText(onlineMembers);
 
   return (
     <div className={cn(

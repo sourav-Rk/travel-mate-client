@@ -9,6 +9,7 @@ import { Lock, CheckCircle, AlertCircle, ArrowLeft, Shield } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useChangePasswordMutation } from "@/hooks/auth/useChangePassword"
 import toast from "react-hot-toast"
+import type { ApiError } from "@/types/api/api"
 
 // Password validation schema
 const passwordSchema = Yup.object().shape({
@@ -43,8 +44,8 @@ export function ChangePasswordForm({ role }: Props) {
             toast.success(data.message)
             navigate(-1)
           },
-          onError: (error: any) => {
-            toast.error(error?.response?.data.message || "Failed to update the password")
+          onError: (error:ApiError) => {
+            toast.error(error?.response?.data?.message || "Failed to update the password")
           },
         },
       )

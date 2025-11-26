@@ -36,7 +36,7 @@ export function PostCard({
   const { mutateAsync: unlikePost, isPending: isUnliking } =
     useUnlikeVolunteerPost();
   const guideProfileId = post.localGuideProfileId;
-  const { data: badgesData, isLoading: isLoadingBadges } = useGuideBadges(
+  const { data: badgesData } = useGuideBadges(
     guideProfileId,
     !!guideProfileId
   );

@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import { Spinner } from "@/components/Spinner";
 import CircularGallery from "@/components/CircularGallery";
 import { useNavigate } from "react-router-dom";
-import TravelPackageGallery from "./TravelPackageGallery";
 import type { UnifiedPackage } from "@/types/packageType";
 export default function TravelHome() {
   const navigate = useNavigate();

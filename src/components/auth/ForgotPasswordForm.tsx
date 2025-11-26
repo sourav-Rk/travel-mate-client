@@ -10,6 +10,7 @@ import { Mail, ArrowRight, CheckCircle, AlertCircle } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useForgotPasswordSendMailMutation } from "@/hooks/auth/useForgotPassword"
 import toast from "react-hot-toast"
+import type { ApiError } from "@/types/api/api"
 
 export function ForgotPasswordForm() {
   const navigate = useNavigate();
@@ -44,8 +45,8 @@ export function ForgotPasswordForm() {
             toast.success(data.message);
             navigate("/")
         },
-        onError :(error : any) =>{
-            toast.error(error?.response?.data.message || "unable to send the mail");
+        onError :(error : ApiError) =>{
+            toast.error(error?.response?.data?.message || "unable to send the mail");
         }
     })
 

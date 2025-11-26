@@ -13,9 +13,6 @@ interface ResponsiveNotificationContainerProps {
 
 export const ResponsiveNotificationContainer: React.FC<ResponsiveNotificationContainerProps> = ({
   children,
-  showBell = true,
-  bellVariant = 'default',
-  bellPosition = 'header',
   maxNotifications = 5,
   defaultDuration = 5000
 }) => {

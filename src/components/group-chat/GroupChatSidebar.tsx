@@ -20,7 +20,6 @@ export interface GroupChatSidebarProps {
 }
 
 export function GroupChatSidebar({
-  role,
   selectedGroupId,
   onSelectGroup,
   className,

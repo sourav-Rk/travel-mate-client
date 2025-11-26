@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import { useSendOTPMutation } from "@/hooks/auth/useSendOtp";
 import type { SignupFormValues } from "@/types/authTypes";
+import type { ApiError } from "@/types/api/api";
 
 type UserType = "client" | "admin" | "vendor";
 
@@ -39,9 +40,9 @@ export default function SignupForm({userType} : SignupProps) {
         toast.success(`${data.message}`);
         navigate('/otp/verify',{state : {email : values.email}})
       },
-      onError : (error : any)=>{
-        toast.error(error?.response?.data.message || "Signup failed")
-        setServerError(error?.response?.data.message || "Registration failed");
+      onError : (error : ApiError)=>{
+        toast.error(error?.response?.data?.message || "Signup failed")
+        setServerError(error?.response?.data?.message || "Registration failed");
       }
     })
 

@@ -36,8 +36,7 @@ export function BookingPaymentCard({ booking, isTraveller }: BookingPaymentCardP
   if (!isTraveller) {
     return null;
   }
-
-  const sessionDate = new Date(booking.sessionDate);
+  
   const formattedDate = formatLocalDate(booking.sessionDate);
   const formattedTime = formatLocalTime(booking.sessionDate);
 

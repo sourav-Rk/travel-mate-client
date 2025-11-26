@@ -174,7 +174,6 @@ const PaymentCard: React.FC<{
 };
 
 export const BookingDetailsView: React.FC<BookingDetailsProps> = ({
-  _id,
   bookingId,
   packageId,
   userId,

@@ -17,7 +17,7 @@ export default function RelatedPackages({ packageId, className = "" }: MoreOptio
   const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: string]: number }>({});
   const [relatedPackages,setRelatedPackages] = useState<UnifiedPackage[]>([]);
 
-  const {data,isLoading} = useGetRelatedPackagesQuery(packageId || "");
+  const {data} = useGetRelatedPackagesQuery(packageId || "");
 
   useEffect(() => {
     if(!data) return;

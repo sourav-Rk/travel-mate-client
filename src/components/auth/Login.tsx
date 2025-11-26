@@ -22,6 +22,7 @@ import type { LoginType } from "@/types/authTypes";
 import { dispatchUserByRole } from "@/utils/roleDispatcher";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/store/slices/userSlice";
+import type { ApiError } from "@/types/api/api";
 
 interface LoginProps {
   userType: "client" | "vendor" | "admin" | "guide";
@@ -104,9 +105,9 @@ export default function LoginForm({ userType }: LoginProps) {
           navigate,
         });
       },
-      onError: (error: any) => {
-        toast.error(error.response.data.message);
-        setServerError(error?.response?.data.message || "Login failed");
+      onError: (error: ApiError) => {
+        toast.error(error?.response?.data?.message || "Login failed");
+        setServerError(error?.response?.data?.message || "Login failed");
         formik.setSubmitting(false);
       },
     });

@@ -103,7 +103,7 @@ export default function OTPVerification() {
       setCanResend(false);
       setMessage("OTP sent successfully!");
       setTimeout(() => setMessage(""), 3000);
-    } catch (error) {
+    } catch {
       setMessage("Failed to resend OTP. Please try again.");
     } finally {
       setIsResending(false);

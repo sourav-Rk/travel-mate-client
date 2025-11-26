@@ -2,7 +2,6 @@
 
 
 import { CancellationRequestsTable } from "@/components/vendor/CancellationRequestsTable";
-import { GuideDetails } from "@/components/vendor/GuideDetails";
 import { motion } from "framer-motion";
 export default function CancellationRequestsPage() {
   return (

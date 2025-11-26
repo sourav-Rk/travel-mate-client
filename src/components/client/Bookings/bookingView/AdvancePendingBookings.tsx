@@ -26,7 +26,7 @@ interface AdvancePendingBookingsProps {
   searchQuery: string;
 }
 
-const Advance_Pending_Booking: React.FC<AdvancePendingBookingsProps> = ({ bookings = [], searchQuery = '' }:{bookings : BookingListDTO[];searchQuery : string}) => {
+const Advance_Pending_Booking: React.FC<AdvancePendingBookingsProps> = ({ bookings = [] }:{bookings : BookingListDTO[];searchQuery : string}) => {
   const navigate = useNavigate();
   const [refreshing, setRefreshing] = useState<Record<string, boolean>>({});
   const [timeLeft, setTimeLeft] = useState<Record<string, TimeLeft>>({});

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { TrendingUp, User, AlertCircle } from "lucide-react"
+import { TrendingUp, AlertCircle } from "lucide-react"
 
 interface BookingProgressProps {
   paidAmount: number

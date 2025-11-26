@@ -22,7 +22,6 @@ export default function ChatComposer({
   const [message, setMessage] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -100,7 +99,7 @@ export default function ChatComposer({
         setSelectedFiles([]);
       } catch (error: any) {
         console.error("Error uploading media:", error);
-        alert(error.message || "Failed to upload files");
+        alert(error?.message || "Failed to upload files");
         setUploading(false);
         return;
       }

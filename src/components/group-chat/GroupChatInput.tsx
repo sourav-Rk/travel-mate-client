@@ -8,7 +8,6 @@ import { Paperclip, X, Image as ImageIcon, Video, File, Mic, Loader2, Send } fro
 import type { MediaAttachment } from "@/types/group-chatType";
 import { uploadChatMedia } from "@/services/chat/media.service";
 import { getMediaType, formatFileSize } from "@/utils/mediaUtils";
-import { useClientAuth } from "@/hooks/auth/useAuth";
 import toast from "react-hot-toast";
 
 interface GroupChatInputProps {
@@ -35,7 +34,6 @@ export function GroupChatInput({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const { clientInfo } = useClientAuth();
 
   // Determine user role for media upload
   const userRole = "client"; // Group chat is primarily for clients, but can be extended

@@ -44,7 +44,6 @@ const ACCEPTED_AUDIO_TYPES = [
 
 export function GuideChatFilePicker({
   onFilesSelected,
-  onAttachmentsReady,
   disabled = false,
   maxFiles = 5,
 }: GuideChatFilePickerProps) {

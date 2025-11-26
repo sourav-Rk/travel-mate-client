@@ -2,7 +2,26 @@ import { Users } from "lucide-react";
 import type { Vendor } from "./VendorManagement";
 import { cn } from "@/lib/utils";
 
-export const VendorTable = ({ vendors, page, limit, isUpdating, setUserToBlock, setIsConfirmationModalOpen, handleView }: any) => {
+
+type UserType = "vendor" | "admin" | "user"; // Add other user types as needed
+
+interface UserToBlock {
+  type: UserType;
+  id: string;
+}
+
+interface VendorTableProps {
+  vendors: Vendor[] | undefined;
+  page: number;
+  limit: number;
+  isUpdating: string | null;
+  setUserToBlock: (user: UserToBlock) => void;
+  setIsConfirmationModalOpen: (isOpen: boolean) => void;
+  handleView: (userId: string) => void;
+}
+
+
+export const VendorTable = ({ vendors, page, limit, isUpdating, setUserToBlock, setIsConfirmationModalOpen, handleView }: VendorTableProps) => {
   const statusColors = {
     unblocked: "bg-emerald-50 text-emerald-700 border-emerald-200",
     blocked: "bg-red-50 text-red-700 border-red-200",
@@ -80,7 +99,7 @@ export const VendorTable = ({ vendors, page, limit, isUpdating, setUserToBlock, 
               <td className="px-4 py-3 text-center">
                 <button
                   onClick={() => {
-                    setUserToBlock(() => ({ type: "vendor", id: vendor._id }));
+                    setUserToBlock({ type: "vendor", id: vendor._id });
                     setIsConfirmationModalOpen(true);
                   }}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 ${

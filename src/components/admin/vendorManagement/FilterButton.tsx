@@ -1,4 +1,11 @@
-export const FilterButtons = ({ activeFilter, setActiveFilter, getStatusCount }: any) => (
+
+interface FilterButtonsProps {
+  activeFilter: string;
+  setActiveFilter: (filter: string) => void;
+  getStatusCount: (filter: string) => number;
+}
+
+export const FilterButtons = ({ activeFilter, setActiveFilter, getStatusCount }: FilterButtonsProps) => (
   <div className="flex flex-wrap gap-2 lg:flex-1">
     {[
       { key: "all", label: "All", color: "bg-blue-600 hover:bg-blue-700" },

@@ -26,6 +26,7 @@ import CancellationDetails from "./CancellationDetails";
 import { AlertTriangle, XCircle } from "lucide-react";
 import { useCancelBookingMutation } from "@/hooks/client/useBooking";
 import { CancellationModal } from "@/components/CancellationModal";
+import type { ApiError } from "@/types/api/api";
 
 export interface PackageDetails {
   _id: string;
@@ -70,7 +71,6 @@ export default function BookingDetailsView({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [averageReview,setAverageReview] = useState(0);
-  const [averageReviewGuide,setAverageReviewGuide] = useState(0);
   const [guideReviews, setGuideReviews] = useState<Review[]>([]);
   const [guide, setGuide] = useState<GuideDetailsForClientDto>();
   const [selectedBooking, setSelectedBooking] = useState<BookingDetailsProps['bookingDetails'] | null>(null);
@@ -100,7 +100,6 @@ export default function BookingDetailsView({
   useEffect(() => {
     if (guideReviewData) {
       setGuideReviews(guideReviewData?.data?.reviews);
-      setAverageReviewGuide(guideReviewData?.data?.averageRating)
       console.log(guideReviews,"-->controle")
     }
   }, [guideReviewData]);
@@ -153,7 +152,7 @@ export default function BookingDetailsView({
       setIsCancellationModalOpen(false);
       setSelectedBooking(null);
     } catch (error:any) {
-      toast.error(error?.data?.message)
+      toast.error(error?.data?.message )
       console.error("Failed to cancel booking:", error);
     }
   };

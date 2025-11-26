@@ -13,7 +13,6 @@ interface PendingQuotesSectionProps {
 export function PendingQuotesSection({
   quotes,
   onSelectQuote,
-  currentUserId,
 }: PendingQuotesSectionProps) {
   const [timeRemaining, setTimeRemaining] = useState<Record<string, string>>({});
 

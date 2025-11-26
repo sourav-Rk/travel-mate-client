@@ -25,7 +25,7 @@ interface ProfileHeaderProps {
 }
 
 export function ProfileHeader({ profile, onEditProfile }: ProfileHeaderProps) {
-  const { data: badgesData, isLoading: isLoadingBadges } = useGuideBadges(
+  const { data: badgesData} = useGuideBadges(
     profile._id,
     profile.verificationStatus === "verified"
   );

@@ -16,7 +16,6 @@ import {
   Award,
   Users,
 } from "lucide-react"
-import { useState } from "react"
 
 interface CompletedTrip {
   id: string
@@ -45,7 +44,6 @@ interface CompletedTripsProps {
 }
 
 export default function CompletedTrips({ trips = [], searchQuery = "" }: CompletedTripsProps) {
-  const [selectedTrip, setSelectedTrip] = useState<string | null>(null)
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString)

@@ -32,9 +32,9 @@ export default function VendorWalletPage() {
   const [currentPage, setCurrentPage] = useState(1);
 
 
-  const { data, isLoading } = useGetWallet(getWalletVendor);
+  const { data } = useGetWallet(getWalletVendor);
 
-  const { data: transactionsData, isLoading: transactionsLoading } =
+  const { data: transactionsData } =
     useGetWalletTransactions(
       getWalletTransactionsVendor,
       wallet?._id!,

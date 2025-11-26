@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import toast from "react-hot-toast"
 import { useForgotPasswordResetMutaion } from "@/hooks/auth/useForgotPassword"
+import type { ApiError } from "@/types/api/api"
 
 // Password schema using Yup
 const passwordSchema = Yup.object().shape({
@@ -42,8 +43,8 @@ export default function PasswordResetForm() {
           toast.success(response.message);
           navigate("/");
         },
-        onError :(error : any)=>{
-          toast.error(error?.response?.data.message);
+        onError :(error : ApiError)=>{
+          toast.error(error?.response?.data?.message || "Password Reset failed");
           navigate("/")
         }
       })

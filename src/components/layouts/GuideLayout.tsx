@@ -5,8 +5,8 @@ import type { RootState } from "@/store/store";
 
 function GuideLayout(){
     const {firstName,lastName} = useSelector((state : RootState) => state.user.user);
-    let name = firstName[0].toUpperCase() + firstName.slice(1) + " " + lastName[0];
-    let initials : string = (firstName[0] + lastName[0]).toUpperCase();
+    const name = firstName[0].toUpperCase() + firstName.slice(1) + " " + lastName[0];
+    const initials : string = (firstName[0] + lastName[0]).toUpperCase();
     const guide = {name ,initials}
     return(
         <div>

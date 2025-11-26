@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { GroupMessage, MediaAttachment } from "@/types/group-chatType";
 import { Image as ImageIcon, Video, File, Mic, Play, Download, X } from "lucide-react";
@@ -33,7 +33,7 @@ function formatMessageTime(date: Date): string {
   return messageDate.toLocaleDateString();
 }
 
-function getSenderInitials(senderName: string, senderType: string): string {
+function getSenderInitials(senderName: string): string {
   const typeInitial = senderName?.charAt(0).toUpperCase();
   const idInitial = senderName?.charAt(0).toUpperCase();
   return `${typeInitial}${idInitial}`;
@@ -54,8 +54,6 @@ const shouldGroupWithPrevious = (message: GroupMessage, prev?: GroupMessage): bo
 export function MessageBubble({
   message,
   isOwn,
-  showAvatar = false,
-  showSenderName = false,
   previousMessage,
   nextMessage,
 }: MessageBubbleProps) {
@@ -242,7 +240,7 @@ export function MessageBubble({
             <div className="flex-shrink-0 self-end">
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="text-xs font-medium bg-gradient-to-br from-[#5aabba] to-[#4a9aaa] text-white">
-                  {getSenderInitials(message?.senderName || "?", message?.senderType || "client")}
+                  {getSenderInitials(message?.senderName || "?")}
                 </AvatarFallback>
               </Avatar>
             </div>

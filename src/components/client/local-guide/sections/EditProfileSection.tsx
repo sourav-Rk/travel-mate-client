@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { useFormik } from "formik"
 import toast from "react-hot-toast"
 import {
@@ -36,7 +36,7 @@ import { Switch } from "@/components/ui/switch"
 import { useUpdateLocalGuideProfile } from "@/hooks/local-guide/useLocalGuideVerification"
 import { uploadImages } from "@/services/client/client.service"
 import { GUIDE_SPECIALTIES } from "@/constants/local-guide.constants"
-import type { LocalGuideProfile, UpdateProfileRequest, Location } from "@/types/local-guide"
+import type { LocalGuideProfile, UpdateProfileRequest } from "@/types/local-guide"
 
 interface EditProfileSectionProps {
   profile: LocalGuideProfile

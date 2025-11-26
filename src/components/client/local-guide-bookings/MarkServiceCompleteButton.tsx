@@ -27,10 +27,7 @@ export function MarkServiceCompleteButton({
   // Only show button if booking is CONFIRMED or IN_PROGRESS and advance is paid
   const canComplete =
     (bookingStatus === "CONFIRMED" || bookingStatus === "IN_PROGRESS") &&
-    advancePaymentPaid &&
-    bookingStatus !== "COMPLETED" &&
-    bookingStatus !== "FULLY_PAID" &&
-    bookingStatus !== "CANCELLED";
+    advancePaymentPaid;
 
   if (!canComplete) {
     return null;
@@ -52,7 +49,7 @@ export function MarkServiceCompleteButton({
       setNotes("");
       setRating(undefined);
       onComplete?.();
-    } catch (error) {
+    } catch  {
       // Error is handled by the hook
     }
   };
@@ -147,15 +144,3 @@ export function MarkServiceCompleteButton({
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

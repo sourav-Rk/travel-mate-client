@@ -17,7 +17,6 @@ interface GuideDetailsComponentProps {
 const GuideDetailsComponent: React.FC<GuideDetailsComponentProps> = ({
   guide,
   bookingId,
-  onMessageGuide,
   onCallGuide,
   className = "",
 }) => {

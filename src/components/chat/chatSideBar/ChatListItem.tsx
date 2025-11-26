@@ -25,16 +25,6 @@ function formatTimeAgo(iso?: string) {
   return `${day}d`
 }
 
-function StatusDot({ status }: { status?: "sent" | "delivered" | "read" }) {
-  // bg-primary: unread/new, bg-muted-foreground for delivered, ring for read
-  const color =
-    status === "read"
-      ? "bg-transparent ring-2 ring-primary"
-      : status === "delivered"
-        ? "bg-muted-foreground"
-        : "bg-primary"
-  return <span className={cn("inline-block h-2.5 w-2.5 rounded-full", color)} aria-hidden />
-}
 
 export function ChatListItem({
   item,
@@ -79,29 +69,7 @@ export function ChatListItem({
             <p className={cn("truncate text-sm", active ? "opacity-90" : "text-[var(--color-chat-text-secondary)]")}>
               {item.lastMessage || ""}
             </p>
-            {/* <div className="flex items-center gap-2">
-              {typeof item.unreadCount === "number" && item.unreadCount > 0 ? (
-                <span
-                  className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-medium text-primary-foreground"
-                  aria-label={`${item.unreadCount} unread messages`}
-                >
-                  {item.unreadCount}
-                </span>
-              ) : (
-                <>
-                  {item.lastMessageStatus === "read" && item.lastMessageReadAt ? (
-                    <span
-                      className={cn("text-xs", active ? "opacity-90" : "text-[var(--color-chat-text-secondary)]")}
-                      aria-label={`Read ${formatTimeAgo(item.lastMessageReadAt)} ago`}
-                    >
-                      {"Read "}
-                      {formatTimeAgo(item.lastMessageReadAt)}
-                    </span>
-                  ) : null}
-                  <StatusDot status={item.lastMessageStatus} />
-                </>
-              )}
-            </div> */}
+            
           </div>
         </div>
       </div>

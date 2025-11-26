@@ -41,10 +41,18 @@ export function AvailabilitySection({ profile, onUpdate }: AvailabilitySectionPr
       toast.success(response.message!)
       setIsEditing(false)
       onUpdate?.()
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const axiosError = error as {
+            response?: {
+              data?: {
+                message?: string
+              }
+            }
+            message?: string
+          }
       const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
+        axiosError?.response?.data?.message ||
+        axiosError?.message ||
         "Failed to update availability"
       toast.error(errorMessage)
       console.error(error)
@@ -65,12 +73,20 @@ export function AvailabilitySection({ profile, onUpdate }: AvailabilitySectionPr
           : "You are now unavailable for bookings"
       )
       onUpdate?.()
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string
+            }
+          }
+          message?: string
+        }
       // Revert the toggle on error
       setIsAvailable(!checked)
       const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
+        axiosError?.response?.data?.message ||
+        axiosError?.message ||
         "Failed to update availability"
       toast.error(errorMessage)
       console.error(error)

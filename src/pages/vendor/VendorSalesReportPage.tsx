@@ -44,7 +44,6 @@ export default function VendorSalesReportPage() {
   const [packageId, setPackageId] = useState<string>("");
   const [debouncedPackageId, setDebouncedPackageId] = useState<string>("");
   const [bookingStatus, setBookingStatus] = useState<string>("");
-  const [paymentMode, setPaymentMode] = useState<string>("");
 
 
   useEffect(() => {
@@ -82,10 +81,9 @@ export default function VendorSalesReportPage() {
 
     if (debouncedPackageId) result.packageId = debouncedPackageId;
     if (bookingStatus && bookingStatus !== "all") result.bookingStatus = bookingStatus;
-    if (paymentMode && paymentMode !== "all") result.paymentMode = paymentMode;
 
     return result;
-  }, [period, startDate, endDate, debouncedPackageId, bookingStatus, paymentMode]);
+  }, [period, startDate, endDate, debouncedPackageId, bookingStatus]);
 
   const { data, isLoading, error, refetch } = useVendorSalesReport(params, {
     enabled: shouldFetch,

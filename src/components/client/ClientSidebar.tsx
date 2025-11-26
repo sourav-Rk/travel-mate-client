@@ -11,7 +11,6 @@ import {
   LogOut,
   Menu,
   X,
-  Compass,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
@@ -43,8 +42,8 @@ const ClientSidebar = ({
         setIsOpen(false);
         navigate("/");
       },
-      onError: (error: any) => {
-        toast.error(error);
+      onError: (error: unknown) => {
+        toast.error(error as string);
       },
     });
   };
@@ -63,7 +62,7 @@ const ClientSidebar = ({
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  const handleNavClick = (href: any) => {
+  const handleNavClick = (href: string) => {
     setActiveItem(href);
     setIsOpen(false);
     navigate(href)

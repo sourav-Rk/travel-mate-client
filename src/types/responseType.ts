@@ -1,5 +1,5 @@
 export type ApiResponseType<T>= {
-    success : Boolean;
-    message : String;
+    success : boolean;
+    message : string;
     data ?: T
 }

@@ -89,7 +89,7 @@ const getStatusColor = (status: string) => {
       return "bg-gray-100 text-gray-700 border-gray-200";
   }
 };
-  const BookingCard = ({ booking, index }: { booking: BookingListDTO; index: any }) => (
+  const BookingCard = ({ booking, index }: { booking: BookingListDTO; index: number }) => (
     
     <motion.div
       initial={{ opacity: 0, y: 20 }}

@@ -47,7 +47,6 @@ export const exportToPDF = ({ report, period, startDate, endDate }: ExportOption
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  const margin = 20;
   const tableWidth = 170; // Fixed width for all tables
   const tableStartX = (pageWidth - tableWidth) / 2; // Center alignment
   let yPosition = 20;

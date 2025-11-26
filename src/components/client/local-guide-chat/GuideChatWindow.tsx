@@ -241,16 +241,15 @@ export function GuideChatWindow({
                 try {
                   await acceptQuote(quoteId);
                   // Messages will be refreshed via query invalidation in the hook
-                } catch (error) {
-                  // Error is handled by the hook
+                } catch  {
                 }
               }}
               onDeclineQuote={async (quoteId) => {
                 try {
                   await declineQuote({ quoteId });
                   // Messages will be refreshed via query invalidation in the hook
-                } catch (error) {
-                  // Error is handled by the hook
+                } catch {
+                  
                 }
               }}
             />

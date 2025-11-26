@@ -251,7 +251,7 @@ export function QuoteMessageBubble({
             // Close modal after successful acceptance
             setIsProcessing(false);
             setShowAcceptModal(false);
-          } catch (error) {
+          } catch {
             // Error is handled by the hook
             // Keep modal open on error so user can retry
             setIsProcessing(false);
@@ -277,7 +277,7 @@ export function QuoteMessageBubble({
             // Close modal after successful decline
             setIsProcessing(false);
             setShowDeclineModal(false);
-          } catch (error) {
+          } catch  {
             // Error is handled by the hook
             // Keep modal open on error so user can retry
             setIsProcessing(false);

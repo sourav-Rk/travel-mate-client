@@ -400,7 +400,7 @@ const ConfirmedBookings: React.FC<ConfirmedBookingsProps> = ({ bookings = [], se
               <div>
                 <h3 className="font-semibold text-green-800">All Set for Your Adventures!</h3>
                 <p className="text-sm text-green-700">
-                  {filteredBookings.length} confirmed booking{filteredBookings.length !== 1 ? 's' : ''} • Total value: ₹{filteredBookings.reduce((sum, booking) => sum + 1, 0).toLocaleString()}
+                  {filteredBookings.length} confirmed booking{filteredBookings.length !== 1 ? 's' : ''} • Total value: ₹{filteredBookings.reduce((sum) => sum + 1, 0).toLocaleString()}
                 </p>
               </div>
             </div>

@@ -6,7 +6,6 @@ import {
   DollarSign,
   MapPin,
   FileText,
-  Search,
   Navigation,
   Loader2,
 } from "lucide-react";

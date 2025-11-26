@@ -17,6 +17,7 @@ import ConfirmationModal from "@/components/modals/ConfirmationModal"
 import { VendorTable } from "./VendorTable"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import type { ApiError } from "@/types/api/api"
 
 type VendorStatus = "pending" | "verified" | "rejected" | "reviewing"
 
@@ -80,8 +81,8 @@ export default function VendorManagement() {
           toast.success(`${response.message}`)
           setIsUpdating(null)
         },
-        onError: (error: any) => {
-          toast.error(error?.response?.data.message || "failed to block")
+        onError: (error: ApiError) => {
+          toast.error(error?.response?.data?.message ?? "failed to block")
           setIsUpdating(null)
         },
       },

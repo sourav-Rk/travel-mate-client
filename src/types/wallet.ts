@@ -21,7 +21,7 @@ export interface WalletTransactions {
   amount: number;
   description?: string;
   referenceId?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string>;
   createdAt?: Date;
 }
  
