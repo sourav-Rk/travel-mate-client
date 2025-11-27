@@ -61,7 +61,6 @@ const ClientRouter = () => {
           <Route path="volunteer-posts" element={<VolunteerPostsPage/>}/>
           <Route path="volunteer-posts/:postId" element={<VolunteerPostDetailPage/>}/>
           <Route path="local-guide/details/:profileId" element={<VerificationCheck><LocalGuideDetails/></VerificationCheck>}/>
-          <Route path="volunteering/guide-chat" element={<VerificationCheck><GuideServiceChatPage /></VerificationCheck>} />
         </Route>
         
         {/* authentication routes */}
@@ -103,7 +102,7 @@ const ClientRouter = () => {
           <Route path="local-guide/my-service-bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<VerificationCheck><GuideLocalGuideBookingsPage/></VerificationCheck>}/>}/>
     
         </Route>
-         
+          <Route path="/volunteering/guide-chat" element={<VerificationCheck><GuideServiceChatPage /></VerificationCheck>} />
          <Route path="/volunteering/map" element={<VolunteeringMapPage/>}/>
 
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
