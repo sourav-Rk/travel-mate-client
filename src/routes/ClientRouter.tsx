@@ -60,7 +60,8 @@ const ClientRouter = () => {
           <Route path="volunteering" element={ <VerificationCheck><VolunteeringLanding /></VerificationCheck>}/>
           <Route path="volunteer-posts" element={<VolunteerPostsPage/>}/>
           <Route path="volunteer-posts/:postId" element={<VolunteerPostDetailPage/>}/>
-          <Route path="local-guide/details/:profileId" element={<LocalGuideDetails/>}/>
+          <Route path="local-guide/details/:profileId" element={<VerificationCheck><LocalGuideDetails/></VerificationCheck>}/>
+          <Route path="volunteering/guide-chat" element={<VerificationCheck><GuideServiceChatPage /></VerificationCheck>} />
         </Route>
         
         {/* authentication routes */}
@@ -97,12 +98,12 @@ const ClientRouter = () => {
           <Route path="posts/create" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
           <Route path="posts/edit/:postId" element={<VerificationCheck><CreateVolunteerPostPage/></VerificationCheck>}/>
           <Route path="my-posts" element={<VerificationCheck><MyVolunteerPostsPage/></VerificationCheck>}/>
-          <Route path="local-guide/bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<LocalGuideBookingsPage/>}/>}/>
+          <Route path="local-guide/bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<VerificationCheck><LocalGuideBookingsPage/></VerificationCheck>}/>}/>
           <Route path="local-guide/bookings/:bookingId" element={<ProtectedRoute allowedRoles={["client"]} element={<LocalGuideBookingDetailsPage/>}/>}/>
-          <Route path="local-guide/my-service-bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<GuideLocalGuideBookingsPage/>}/>}/>
+          <Route path="local-guide/my-service-bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<VerificationCheck><GuideLocalGuideBookingsPage/></VerificationCheck>}/>}/>
     
         </Route>
-         <Route path="/volunteering/guide-chat" element={<GuideServiceChatPage />} />
+         
          <Route path="/volunteering/map" element={<VolunteeringMapPage/>}/>
 
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
