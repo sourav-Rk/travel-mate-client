@@ -102,7 +102,7 @@ const ClientRouter = () => {
           <Route path="local-guide/my-service-bookings" element={<ProtectedRoute allowedRoles={["client"]} element={<VerificationCheck><GuideLocalGuideBookingsPage/></VerificationCheck>}/>}/>
     
         </Route>
-          <Route path="/volunteering/guide-chat" element={<VerificationCheck><GuideServiceChatPage /></VerificationCheck>} />
+          <Route path="volunteering/guide-chat" element={<VerificationCheck><GuideServiceChatPage /></VerificationCheck>} />
          <Route path="/volunteering/map" element={<VolunteeringMapPage/>}/>
 
          <Route path="/chat" element={<ProtectedRoute allowedRoles={["client"]} element={<ChatPage/>}/>}/>
