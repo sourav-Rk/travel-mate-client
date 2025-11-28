@@ -1,8 +1,9 @@
 export const GUIDE_API = {
-  // ================== PROFILE ==================
+   // ================== PROFILE ==================
   GET_PROFILE: "/guide/details",
   UPDATE_PASSWORD: "/guide/update-password",
   RESET_PASSWORD: "/guide/reset-password",
+  UPDATE_PROFILE: "/guide/profile",
 
   // ================== PACKAGES ==================
   GET_ASSIGNED_PACKAGES: "/guide/assigned-packages",
@@ -31,4 +32,12 @@ export const GUIDE_API = {
 
    // ================== IMAGES ==================
    UPLOAD_IMAGES: "/guide/images/upload",
+
+   // ================== REVIEWS ==================
+   GET_MY_REVIEWS: "/guide/reviews",
+
+   // ================== NOTIFICATIONS ==================
+   GET_NOTIFICATIONS: "/guide/notifications",
+   MARK_NOTIFICATION_READ: (notificationId: string) => `/guide/notifications/${notificationId}`,
+   MARK_ALL_NOTIFICATIONS_READ: "/guide/notifications",
 };

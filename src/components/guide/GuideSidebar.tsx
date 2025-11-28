@@ -43,11 +43,6 @@ const navigationItems = [
     icon: Bell,
   },
   {
-    title: "Messages",
-    href: "/guide/messages",
-    icon: MessageCircle,
-  },
-  {
     title: "Profile",
     href: "/guide/profile",
     icon: User,

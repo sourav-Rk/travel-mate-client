@@ -217,7 +217,7 @@ export function GuideProfile() {
                     <CalendarDays className="h-4 w-4 text-[#2CA4BC]" />
                     <div>
                       <p className="text-xs text-slate-500 uppercase tracking-wide font-medium">Date of Birth</p>
-                      <p className="text-[#1a5f6b] font-medium">{guide.dob}</p>
+                      <p className="text-[#1a5f6b] font-medium">{new Date(guide.dob).toLocaleDateString()}</p>
                     </div>
                   </div>
                 </div>

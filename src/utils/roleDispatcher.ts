@@ -21,7 +21,7 @@ export function dispatchUserByRole({
       navigate("/vendor/locked");
       break;
     case "guide":
-       navigate("/guide/profile");
+       navigate("/guide/assigned-trips");
        break;  
     default:
       toast.error("unknown user type");

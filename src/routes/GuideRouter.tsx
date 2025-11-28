@@ -11,6 +11,9 @@ import GuideLogin from "@/pages/guide/GuideLogin";
 import GuidePackageDetailsPage from "@/pages/guide/GuidePackageDetailsPage";
 import { GuidePasswordChangePage } from "@/pages/guide/GuidePasswordChangePage";
 import GuideProfilePage from "@/pages/guide/GuideProfilePage";
+import GuideProfileEditPage from "@/pages/guide/GuideProfileEditPage";
+import GuideReviewsPage from "@/pages/guide/GuideReviewsPage";
+import GuideNotificationsPage from "@/pages/guide/GuideNotificationsPage";
 import PasswordResetPage from "@/pages/guide/PasswordResetPage";
 import { ProtectedRoute } from "@/protected/ProtectedRoute";
 import { NoAuthRoute } from "@/protected/PubliceRoute";
@@ -33,16 +36,19 @@ const GuideRouter = () => {
           element={
             <ProtectedRoute
               allowedRoles={["guide"]}
-              element={<GuideDashboard />}
+              element={<GuideProfilePage />}
             />
           }
         />
         <Route path="profile" element={<GuideProfilePage />} />
+        <Route path="profile/edit" element={<GuideProfileEditPage />} />
         <Route path="change-password" element={<GuidePasswordChangePage />} />
         <Route path="assigned-trips" element={<AssignedTripsPage />} />
         <Route path="package/:packageId" element={<GuidePackageDetailsPage />} />
         <Route path="bookings/users/:bookingId" element={<BookingDetailsGuidePage/>}/>   
         <Route path="bookings/:packageId" element={<BookingListGuidePage/>}/>   
+        <Route path="reviews" element={<GuideReviewsPage />} />
+        <Route path="notifications" element={<GuideNotificationsPage />} />
         <Route path="chat/:clientId/:bookingId" element={<GuideClientChatPage/>}/>
       </Route>
       <Route path="/groups" element={<ProtectedRoute allowedRoles={["guide"]} element={<GroupChatPage/>}/>}/>
