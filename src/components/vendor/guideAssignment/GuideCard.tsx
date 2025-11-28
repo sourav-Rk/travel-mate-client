@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Phone, PhoneCall, Users, Clock, Languages, MapPin, UserCheck } from "lucide-react"
+import { Phone, PhoneCall, Users, Clock, Languages, MapPin, UserCheck,Mail } from "lucide-react"
 import type { GuideListDto } from "@/types/api/guide"
 
 interface GuideCardProps {
@@ -170,6 +170,27 @@ export function GuideCard({ guide, onAssign, isAssigning = false }: GuideCardPro
                     `}
                   >
                     {guide.phone}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className={`h-4 w-4 ${isAvailable ? "text-blue-600" : "text-red-500"}`} />
+                <div>
+                  <p 
+                    className={`
+                      text-xs font-medium
+                      ${isAvailable ? "text-blue-600" : "text-red-500"}
+                    `}
+                  >
+                    Email
+                  </p>
+                  <p 
+                    className={`
+                      text-sm font-semibold
+                      ${isAvailable ? "text-gray-900" : "text-red-700"}
+                    `}
+                  >
+                    {guide.email}
                   </p>
                 </div>
               </div>
