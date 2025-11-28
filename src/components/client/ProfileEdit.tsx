@@ -95,8 +95,14 @@ export function ProfileEditPage() {
     let profileImageUrl = values.profileImage;
 
     if (selectedFile) {
-      const result = await uploadImages([selectedFile]);
-      profileImageUrl = result[0].url;
+      try{
+        const result = await uploadImages([selectedFile]);
+        profileImageUrl = result[0].url;
+      }catch(error){
+        toast.error(error?.response?.data?.message || "failed to upload image");
+        setIsPending(false);
+      }
+      
     }
 
     const updatedValues = { ...values, profileImage: profileImageUrl };

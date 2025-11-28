@@ -317,6 +317,5 @@ export const uploadImages = async (
     return response.data.data as { url: string; public_id: string }[];
   } catch (error: any) {
     console.log(error);
-    throw error;
   }
 };
