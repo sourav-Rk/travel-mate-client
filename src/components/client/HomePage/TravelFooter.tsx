@@ -1,5 +1,3 @@
-import { MapPin } from "lucide-react"
-
 export default function TravelFooter() {
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -8,7 +6,11 @@ export default function TravelFooter() {
           <div>
             <div className="flex items-center mb-4">
               <div className="w-8 h-8 bg-[#2CA4BC] rounded-full flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-white" />
+                <img 
+                src="/Travel_Mate_Logo.png" 
+                alt="TravelMate Logo" 
+                className="h-12 w-12 object-contain md:h-16 md:w-16 lg:h-20 lg:w-20"
+              />
               </div>
               <span className="ml-3 text-xl font-bold">TravelMate</span>
             </div>
@@ -24,17 +26,17 @@ export default function TravelFooter() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#2CA4BC] transition-colors">
+                <a href="/packages" className="hover:text-[#2CA4BC] transition-colors">
                   Destinations
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#2CA4BC] transition-colors">
+                <a href="/packages" className="hover:text-[#2CA4BC] transition-colors">
                   Tours
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#2CA4BC] transition-colors">
+                <a href="/about" className="hover:text-[#2CA4BC] transition-colors">
                   About Us
                 </a>
               </li>
@@ -70,15 +72,15 @@ export default function TravelFooter() {
           <div>
             <h3 className="font-semibold mb-4">Contact Info</h3>
             <div className="space-y-2 text-gray-400">
-              <p>📧 info@travelco.com</p>
-              <p>📞 +1 (555) 123-4567</p>
+              <p>📧 travelmate@gmail.com</p>
+              <p>📞 7736903640</p>
               <p>📍 123 Travel Street, City, Country</p>
             </div>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 TravelCo. All rights reserved.</p>
+          <p>&copy; 2025 Travelmate All rights reserved.</p>
         </div>
       </div>
     </footer>

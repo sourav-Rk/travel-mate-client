@@ -42,6 +42,7 @@ import LocalGuideBookingDetailsPage from "@/pages/user/LocalGuideBookingDetailsP
 import GuideLocalGuideBookingsPage from "@/pages/user/GuideLocalGuideBookingsPage";
 import { LocalGuideDetails } from "@/components/client/local-guide/LocalGuideDetails";
 import { VolunteeringMapPage } from "@/pages/user/VolunteeringMapPage";
+import AboutPage from "@/components/about/About";
 
 const ClientRouter = () => {
   return (
@@ -51,6 +52,7 @@ const ClientRouter = () => {
        {/* No auth needed - landing */}
         <Route path="/" element={<ClientLayout />} >
           <Route path="/" element={<TravelHomePage />} />
+          <Route path="/about" element={<AboutPage/>}/>
           <Route path="/packages/:packageId" element={<PackageDetailsPage/>}/>
           <Route path="packages" element={<PackagesListingPage/>} />
         </Route>

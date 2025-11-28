@@ -12,7 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import type { INotificationEntity, NotificationResponse } from "@/types/notificationType"
 import { useEffect } from "react"
-import { Menu, Bell, LogOut, User, Home, Compass, HelpCircle, BarChart3, UserCircle, MessageSquare } from "lucide-react"
+import { Menu, Bell, LogOut, User, Home, Compass,InfoIcon, UserCircle, MessageSquare } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { motion } from "framer-motion"
 import { useState } from "react"
@@ -32,8 +32,7 @@ import { GuideInstructionModal } from "../client/GuideInstructionsModal"
 const navItems = [
   { name: "Holidays", href: "/packages", icon: Home },
   { name: "Volunteering", href: "/volunteering", icon: Compass },
-  { name: "Blogs", href: "#", icon: HelpCircle },
-  { name: "About", href: "#", icon: BarChart3 },
+  { name: "About", href: "/about", icon: InfoIcon },
 ]
 
 const loginRoles = [
@@ -75,7 +74,6 @@ export function ClientHeader({ client }: ClientHeaderProps) {
     closeModal: closeInstructionModal,
     markAsRead: markInstructionAsRead,
     markAllAsRead: markAllInstructionsAsRead,
-    isLoading: instructionsLoading
   } = useUnreadInstructions()
 
   const { data: notifData, isLoading: notifLoading } = useGetNotifications<NotificationResponse>(
