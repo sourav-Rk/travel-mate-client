@@ -15,7 +15,6 @@ import { Spinner } from "@/components/Spinner";
 import { useSalesReport } from "@/hooks/admin/useSalesReport";
 import {
   DollarSign,
-  Users,
   Store,
   Package,
   TrendingUp,
@@ -41,9 +40,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import {
   Table,
@@ -54,7 +50,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
 const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat("en-IN", {

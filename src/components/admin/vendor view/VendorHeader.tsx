@@ -8,7 +8,7 @@ interface VendorHeaderProps {
   vendorStatus?: string
   vendorId?: string
   vendorName ?: string;
-  onStatusUpdate: (vendorId: any, status: "verified" | "rejected", reason ?: string) => void
+  onStatusUpdate: (vendorId: string, status: "verified" | "rejected", reason ?: string) => void
   onReject: () => void
 }
 

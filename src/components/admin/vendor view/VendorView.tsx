@@ -53,7 +53,7 @@ export default function VendorView() {
   if (isLoading) return <Spinner />;
 
   const handleStatusUpdate = async (
-    vendorId: any,
+    vendorId: string,
     newStatus: "verified" | "rejected",
     reason?: string
   ) => {
@@ -65,8 +65,8 @@ export default function VendorView() {
           toast.success(`${response.message}`);
           setVendor((prev) => (prev ? { ...prev, status: newStatus } : prev));
         },
-        onError: (error: any) => {
-          toast.error(error);
+        onError: (error: unknown) => {
+          toast.error(error as string);
         },
       }
     );

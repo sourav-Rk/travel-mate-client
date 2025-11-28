@@ -28,6 +28,7 @@ import { Spinner } from "../Spinner";
 import { clientProfileSchema } from "@/utils/clientProfile.validator";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ApiError } from "@/types/api/api";
 
 interface ClientEditProfile {
   firstName: string;
@@ -113,7 +114,7 @@ export function ProfileEditPage() {
         setIsPending(false);
         navigate("/pvt/profile");
       },
-      onError: (error: any) => {
+      onError: (error: ApiError) => {
         toast.error(error?.response?.data.message);
         setIsPending(false);
       },
@@ -161,9 +162,7 @@ export function ProfileEditPage() {
                     <AvatarImage
                       src={
                         imagePreview ||
-                        client?.profileImage ||
-                        "/placeholder.svg"
-                       || "/placeholder.svg"}
+                        client?.profileImage}
                       alt="Profile"
                     />
                     <AvatarFallback className="bg-gradient-to-br from-[#1396b0] to-[#5aabba] text-white text-xl md:text-2xl font-bold">

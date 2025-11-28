@@ -21,9 +21,6 @@ import {
   Eye,
   Download,
   Mail,
-  Phone,
-  Globe,
-  Calendar,
   AlertTriangle,
   Loader2,
 } from "lucide-react";
@@ -38,6 +35,7 @@ import { LocalGuideRejectModal } from "./LocalGuideRejectModal";
 import { DocumentModal } from "../vendor view/DocumentModal";
 import type { LocalGuideProfile } from "@/types/local-guide";
 import { cn } from "@/lib/utils";
+import { ApiError } from "@/types/api/api";
 
 export function LocalGuideVerificationDetail() {
   const { profileId } = useParams<{ profileId: string }>();
@@ -86,13 +84,6 @@ export function LocalGuideVerificationDetail() {
     rejectedQuery.data,
   ]);
 
-  const refetch = () => {
-    pendingQuery.refetch();
-    reviewingQuery.refetch();
-    verifiedQuery.refetch();
-    rejectedQuery.refetch();
-  };
-
   const handleVerify = () => {
     if (!profileId) return;
     setIsVerifying(true);
@@ -102,7 +93,7 @@ export function LocalGuideVerificationDetail() {
         setIsVerifying(false);
         navigate("/admin/ad_pvt/local-guides");
       },
-      onError: (error: any) => {
+      onError: (error: ApiError) => {
         toast.error(
           error?.response?.data?.message || "Failed to verify local guide"
         );
@@ -124,7 +115,7 @@ export function LocalGuideVerificationDetail() {
           setIsRejectModalOpen(false);
           navigate("/admin/ad_pvt/local-guides");
         },
-        onError: (error: any) => {
+        onError: (error: ApiError) => {
           toast.error(
             error?.response?.data?.message || "Failed to reject local guide"
           );

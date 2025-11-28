@@ -66,18 +66,6 @@ export function BadgeList({ badges }: BadgeListProps) {
     }
   };
 
-  const formatCriteria = (criteria: BadgeDto["criteria"]) => {
-    if (criteria.length === 0) return "No criteria";
-    if (criteria.length === 1) {
-      const criterion = criteria[0];
-      let text = `${criterion.type?.replace(/_/g, " ") || "Unknown"}: ${criterion.value}`;
-      if (criterion.additionalCondition?.type) {
-        text += ` + ${criterion.additionalCondition.type.replace(/_/g, " ")}: ${criterion.additionalCondition.value}`;
-      }
-      return text;
-    }
-    return `${criteria.length} criteria`;
-  };
 
   return (
     <>

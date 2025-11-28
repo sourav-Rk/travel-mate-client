@@ -12,9 +12,10 @@ import { VerificationSection } from "./sections/VerificationSection"
 import { AvailabilitySection } from "./sections/AvailabilitySection"
 import { EarningsSection } from "./sections/EarningsSection"
 import { EditProfileSection } from "./sections/EditProfileSection"
+import { LocalGuideProfile } from "@/types/local-guide"
 
 interface ProfileTabsProps {
-  profile: any
+  profile: LocalGuideProfile
   onUpdate?: () => void
 }
 

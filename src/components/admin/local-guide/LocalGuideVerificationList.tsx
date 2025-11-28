@@ -269,7 +269,7 @@ export function LocalGuideVerificationList() {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    profiles.map((profile: LocalGuideProfile, idx: number) => (
+                    profiles.map((profile: LocalGuideProfile) => (
                       <TableRow
                         key={profile._id}
                         className="hover:bg-gray-50 cursor-pointer border-b border-gray-100"

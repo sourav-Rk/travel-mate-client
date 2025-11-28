@@ -181,8 +181,12 @@ export function BadgeForm() {
         priority: formData.priority,
         isActive: formData.isActive,
       };
+      
       // Ensure badgeId is not accidentally included
-      delete (updatePayload as any).badgeId;
+      if ("badgeId" in updatePayload) {
+        delete updatePayload.badgeId;
+      }
+
       updateBadge.mutate({ badgeId: badgeId!, payload: updatePayload });
     } else {
       const createPayload: CreateBadgePayload = {

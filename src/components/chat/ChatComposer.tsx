@@ -4,6 +4,7 @@ import { useSocket } from "@/context/SocketContext";
 import type { Participant, MediaAttachment } from "@/types/chat";
 import { uploadChatMedia } from "@/services/chat/media.service";
 import { getMediaType, formatFileSize } from "@/utils/mediaUtils";
+import toast from "react-hot-toast";
 
 interface ChatComposerProps {
   onSend: (message: string, mediaAttachments?: MediaAttachment[]) => void;
@@ -97,13 +98,16 @@ export default function ChatComposer({
       try {
         mediaAttachments = await uploadChatMedia(selectedFiles, self.type);
         setSelectedFiles([]);
-      } catch (error: any) {
-        console.error("Error uploading media:", error);
-        alert(error?.message || "Failed to upload files");
-        setUploading(false);
-        return;
-      }
+      } catch (error: unknown) {
+      const message =
+        error instanceof Error && error.message
+          ? error.message
+          : "Failed to upload files";
+      console.error("Error uploading media:", error);
+      toast.error(message);
+    }finally{
       setUploading(false);
+     }
     }
 
     onSend(trimmedMessage || "", mediaAttachments);

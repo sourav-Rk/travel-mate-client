@@ -186,7 +186,7 @@ export default function BookingDetailsView({
           setIsSubmitting(false);
           toast.success(response.message);
         },
-        onError: (error: any) => {
+        onError: (error: ApiError) => {
           setIsSubmitting(false);
           toast.error(error?.response?.data.message);
         },
@@ -208,9 +208,9 @@ export default function BookingDetailsView({
           setIsSubmitting(false);
           toast.success(response.message);
         },
-        onError: (error: any) => {
+        onError: (error: ApiError) => {
           setIsSubmitting(false);
-          toast.error(error?.response?.data.message);
+          toast.error(error?.response?.data?.message);
         },
       }
     );

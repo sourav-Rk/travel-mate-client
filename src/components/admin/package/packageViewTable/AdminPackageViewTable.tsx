@@ -33,6 +33,7 @@ import { useUpdatePackageBlockMutation } from "@/hooks/admin/usePackage"
 import toast from "react-hot-toast"
 import ConfirmationModal from "@/components/modals/ConfirmationModal"
 import type { IGetAllPackagesListAdminResponse } from "@/types/api/admin"
+import { ApiError } from "@/types/api/api"
 
 
 type PackageStatus = "all" | "active" | "inactive" | "draft" | "ongoing"
@@ -95,7 +96,7 @@ export function AdminPackagesView() {
           toast.success(response?.message);
           setIsUpdating(null)
         },
-        onError : (error : any) => {
+        onError : (error : ApiError) => {
           toast.error(error?.response?.data.message);
           setIsUpdating(null)
         }

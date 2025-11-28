@@ -26,6 +26,7 @@ import Pagination from "../Pagination";
 import { useUpdateUserStatusMutation } from "@/hooks/admin/useUpdateUserStatus";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../modals/ConfirmationModal";
+import { ApiError } from "@/types/api/api";
 
 interface User {
   _id: string;
@@ -86,7 +87,7 @@ export default function UserManagement() {
     debouncedSearch(e.target.value);
   };
 
-  const handleBlockUser = (userType: string, userId: any) => {
+  const handleBlockUser = (userType: string, userId: string) => {
     setIsUpdating(userId);
     updateStatus(
       { userType, userId },
@@ -95,8 +96,8 @@ export default function UserManagement() {
           toast.success(`${response.message}`);
           setIsUpdating(null);
         },
-        onError: (error: any) => {
-          toast.error(error?.response.data.message || "Failed to block");
+        onError: (error: ApiError) => {
+          toast.error(error?.response?.data.message || "Failed to block");
           setIsUpdating(null);
         },
       }

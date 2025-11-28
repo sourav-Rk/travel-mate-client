@@ -68,6 +68,7 @@ export interface BasePackage {
 
 //Vendor-side / simplified details
 export interface PackageDetails extends BasePackage {
+  agencyId?:string;
   isBlocked: boolean;
   guideId?: string;
 }

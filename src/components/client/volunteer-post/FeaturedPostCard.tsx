@@ -8,6 +8,8 @@ import { useClientAuth } from "@/hooks/auth/useAuth";
 import { useLikeVolunteerPost, useUnlikeVolunteerPost } from "@/hooks/volunteer-post/useVolunteerPost";
 import toast from "react-hot-toast";
 import type { VolunteerPost } from "@/types/volunteer-post";
+import { ApiError } from "@/types/api/api";
+import { AxiosError } from "axios";
 
 interface FeaturedPostCardProps {
   post: VolunteerPost;
@@ -72,8 +74,9 @@ export function FeaturedPostCard({
         const response = await likePost(post._id);
         toast.success(response.message);
       }
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to update like");
+    } catch (error: unknown) {
+       const err = error as AxiosError<{ message: string }>;
+       toast.error(err.response?.data?.message || "Failed to update like");
     }
   };
 

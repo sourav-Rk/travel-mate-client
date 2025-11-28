@@ -42,6 +42,8 @@ import { POST_CATEGORIES } from "@/utils/volunteer-post.validator";
 import { useClientAuth } from "@/hooks/auth/useAuth";
 import { useLocalGuideProfileQuery } from "@/hooks/local-guide/useLocalGuideVerification";
 import { Spinner } from "@/components/Spinner";
+import { ApiError } from "@/types/api/api";
+import { AxiosError } from "axios";
 
 interface ImageFile {
   file: File;
@@ -393,8 +395,9 @@ export function CreatePostForm() {
         const uploaded = await uploadImages(imageFiles.map((img) => img.file));
         imageUrls = uploaded.map((item) => item.url);
         setImageUploading(false);
-      } catch (error: any) {
-        toast.error(error?.response?.data?.message || "Failed to upload images");
+      } catch (error: unknown) {
+        const err = error as AxiosError<{ message: string }>;
+       toast.error(err.response?.data?.message || "Failed to upload images");
         setImageUploading(false);
         return;
       }
@@ -417,8 +420,9 @@ export function CreatePostForm() {
       const response = await createPost(postData);
       toast.success(response.message);
       navigate("/pvt/my-posts");
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to create post");
+    } catch (error:unknown) {
+        const err = error as AxiosError<{ message: string }>;
+        toast.error(err.response?.data?.message || "Failed to create post");
     }
   };
 

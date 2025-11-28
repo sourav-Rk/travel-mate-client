@@ -245,8 +245,7 @@ export function QuoteBuilder({
       await createQuote(payload);
       onSuccess?.();
       onClose();
-    } catch (error) {
-      // Error is handled by the hook
+    } catch {
     }
   };
 
