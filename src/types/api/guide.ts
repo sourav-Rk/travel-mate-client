@@ -1,7 +1,8 @@
 import type { BookingDetailsDto } from "../bookingType";
-import type { ResponseWith } from "../common";
+import type { ResponseWith, ResponseWithData } from "../common";
 import type { GuideProfileDto } from "../guide";
 import type { TravelPackage } from "../packageType";
+import type { INotificationEntity } from "../notificationType";
 
 
 export interface GuideListDto {
@@ -73,3 +74,31 @@ export type IGetAllAssignedPackagesResponse =  {
   totalPages: number;
   currentPage: number;
 }
+
+export interface GuideReviewWithPackageDto {
+  _id: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  userDetails: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profileImage?: string;
+  };
+  packageDetails: {
+    _id: string;
+    packageName: string;
+    packageId: string;
+  };
+}
+
+export interface GuideReviewsData {
+  reviews: GuideReviewWithPackageDto[];
+  averageRating: number;
+  totalReviews: number;
+}
+
+export type IGetMyGuideReviewsResponse = ResponseWithData<GuideReviewsData>;
+
+export type IGetAllNotificationsGuideResponse = ResponseWith<"notifications", INotificationEntity[]>;
